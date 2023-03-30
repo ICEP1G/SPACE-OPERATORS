@@ -1,15 +1,8 @@
 import styled from "styled-components/native";
 
-export const IndexScrollView = styled.ScrollView`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-`;
-
-export const IndexSafeAreaView = styled.SafeAreaView`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+export const sp_button = styled.TouchableOpacity`
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
 `;

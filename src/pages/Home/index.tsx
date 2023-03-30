@@ -1,7 +1,8 @@
 import * as React from "react";
 import { NativeRouter, Routes, Route, Link, useNavigate } from "react-router-native"
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
-import { HomeView } from "./styles";
+import {  HomeMainCtn, AppLogo, BackgroundImageCtn } from "./styles";
+import space_operators_db from "../../database/space_operators_db";
 
 
 const Home: React.FC = () => {
@@ -9,27 +10,23 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <HomeView style={styles.home_view}>
-                <Image 
-                    source={require('../../images/MainMenu_Background.png')}
-                    // resizeMode="cover"
-                    style={styles.background_image}
-                />
-            </HomeView>
+        <BackgroundImageCtn 
+            source={require('../../images/MainMenu_Background.png')}
+            resizeMode="cover"
+        />
+        <HomeMainCtn>
+            <AppLogo
+                source={require('../../images/SPACEOPERATORS_logo_bold.png')}
+                resizeMode="contain"
+            />
+            
+        </HomeMainCtn>
+            
         </>
     )
 };
 
 
 
-
-const styles = StyleSheet.create({
-    home_view: {
-    },
-    background_image: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
-    }
-})
 
 export default Home
