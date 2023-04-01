@@ -5,11 +5,47 @@ import { Provider } from 'react-redux';
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
 import { initializeDatabase } from "./database/space_operators_db";
 import Home from "./pages/Home/index";
+import { useFonts } from "expo-font";
+// import AppLoading from "expo-app-loading/build/AppLoading";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect, useState, useCallback } from 'react';
+import fontAwesomeIcon from '@expo/vector-icons/FontAwesome';
+
 
 
 initializeDatabase();
 
+
 const App = () => {
+  SplashScreen.preventAutoHideAsync();
+
+  // Load the fonts for the entire app when launching the app
+  const [fontsLoaded] = useFonts({
+    'protomolecule': require('../assets/fonts/Protomolecule.ttf'),
+    'roboto-light': require('../assets/fonts/Roboto/Roboto-Light.ttf'),
+    'roboto-regular': require('../assets/fonts/Roboto/Roboto-Regular.ttf'),
+    'roboto-medium': require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
+    'roboto-bold': require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
+    'roboto-bold-italic': require('../assets/fonts/Roboto/Roboto-BoldItalic.ttf')
+  });
+
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+  else
+  {
+    SplashScreen.hideAsync();
+  }
+  
+
+
   return (
     // <Provider store={store}>
       <View style={styles.indexView}>
@@ -25,6 +61,7 @@ const App = () => {
     // </Provider>
   );
 };
+
 
 
 // Get the real size of the phone screen and apply it to the former View
