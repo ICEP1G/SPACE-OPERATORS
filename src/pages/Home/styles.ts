@@ -112,3 +112,11 @@ export const EditPlayerNameCtn = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
 `;
+
+export const EditLogo = styled.Image`
+    position: relative;
+    width: 48px;
+    height: 48px;
+    top: 2px;
+    left: 2px;
+`;
