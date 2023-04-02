@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { Colors } from "../../styles_general";
+import { useFonts } from "expo-font";
 
 
 export const BackgroundImageCtn = styled.Image`
@@ -34,7 +35,7 @@ export const AppLogo = styled.Image`
 `;
 
 
-
+//----------------------------------------------------------//
 export const HomeMainCtn = styled.ScrollView`
     position: absolute;
     width: 100%;
@@ -61,27 +62,9 @@ export const AestheticLineMini = styled.View`
     margin-right: 6px;
 `;
 
-export const IdLabelCtn = styled.View`
-    width: 48px;
-    background-color: #33383B;
-    border-radius: 2px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-right: 6px;
-`;
-
-export const IdInfoCtn = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: #7B7B7B;
-    opacity: 0.8;
-    border-radius: 4px;
-`;
 
 
+//------------------------------------------------------------//
 export const PlayerNameCtn = styled.View`
     position: relative;
     height: 84px;

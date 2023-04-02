@@ -6,10 +6,8 @@ import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, Te
 import { initializeDatabase } from "./database/space_operators_db";
 import Home from "./pages/Home/index";
 import { useFonts } from "expo-font";
-// import AppLoading from "expo-app-loading/build/AppLoading";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState, useCallback } from 'react';
-import fontAwesomeIcon from '@expo/vector-icons/FontAwesome';
 
 
 
@@ -30,11 +28,11 @@ const App = () => {
   });
 
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (fontsLoaded) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;

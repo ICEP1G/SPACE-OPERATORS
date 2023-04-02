@@ -1,10 +1,10 @@
 import * as React from "react";
 import { NativeRouter, Routes, Route, Link, useNavigate } from "react-router-native"
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipImage, ShipCtn, IdCtnView, AestheticLineMini, IdLabelCtn, IdInfoCtn, PlayerNameCtn, AestheticLineNormal, InputPlayerName, EditPlayerNameCtn, EditLogo } from "./styles";
+import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipImage, ShipCtn, IdCtnView, AestheticLineMini, IdLabelCtn, PlayerNameCtn, AestheticLineNormal, InputPlayerName, EditPlayerNameCtn, EditLogo, Ohoh } from "./styles";
 import space_operators_db from "../../database/space_operators_db";
 import styled from "styled-components/native";
-import { Colors } from "../../styles_general";
+import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView } from "../../styles_general";
 
 
 const Home: React.FC = () => {
@@ -30,12 +30,12 @@ const Home: React.FC = () => {
         <HomeMainCtn>
             <IdCtnView>
                 <AestheticLineMini/>
-                <IdLabelCtn>
+                <SP_LabelView mini style={{width: 48, marginRight: 6}}>
                     <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-bold'}}>ID</Text>
-                </IdLabelCtn>
-                <IdInfoCtn>
+                </SP_LabelView>
+                <SP_InfoView mini transparent>
                     <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'protomolecule'}}>123e4567-e89b-12d3-a456-426614174000</Text>
-                </IdInfoCtn>
+                </SP_InfoView>
             </IdCtnView>
             <PlayerNameCtn>
                 <AestheticLineNormal style={{backgroundColor: Colors.primary}} />
@@ -44,13 +44,15 @@ const Home: React.FC = () => {
                     value="ICEP1G"
                     >
                 </InputPlayerName>
-                <EditPlayerNameCtn style={{ backgroundColor: Colors.secondary}}>
+                <SP_Button >
                     <EditLogo
                         source={require('../../../assets/icons/user-edit.png')}
                         resizeMode="contain"
                     />
-                </EditPlayerNameCtn>
+                </SP_Button>
             </PlayerNameCtn>
+
+            <SP_Button primary></SP_Button>
         </HomeMainCtn>
             
         </>
@@ -74,4 +76,4 @@ const Home: React.FC = () => {
 
 
 
-export default Home
+export default Home;
