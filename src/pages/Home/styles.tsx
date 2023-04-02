@@ -51,18 +51,18 @@ export const IdCtnView = styled.View`
     height: 48px;
     display: flex;
     flex-direction: row;
-    margin-top: 45%;
+    margin-top: 40%;
     
 `;
 
-export const AestheticLineMini = styled.View`
-    width: 6px;
-    background-color: #DE583A;
-    border-radius: 4px;
-    margin-right: 6px;
+
+//------------------------------------------------------------//
+
+export const BottomCtn = styled.View`
+    position: relative;
+    display: flex;
+    flex-direction: column;
 `;
-
-
 
 //------------------------------------------------------------//
 export const PlayerNameCtn = styled.View`
@@ -70,14 +70,9 @@ export const PlayerNameCtn = styled.View`
     height: 84px;
     flex: 1;
     flex-direction: row;
-    margin-top: 104%;
+    margin-top: 110%;
 `;
 
-export const AestheticLineNormal = styled.View`
-    width: 10px;
-    border-radius: 5px;
-    margin-right: 12px;
-`;
 
 export const InputPlayerName = styled.TextInput`
     flex: 1;
@@ -102,4 +97,31 @@ export const EditLogo = styled.Image`
     height: 48px;
     top: 2px;
     left: 2px;
+`;
+
+
+export const ButtonsContainer = styled.View`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+`;
+
+
+export const LeaveButton = styled.TouchableOpacity`
+    height: 84px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    border: solid 3px #DE583A;
+    border-left-width: 16px;
+    border-right-width: 16px;
+    margin-top: 24px;
+`;
+export const TextLeaveButton = styled.Text`
+    font-size: 32px;
+    font-family: 'roboto-bold';
+    color: #DE583A;
 `;

@@ -16,7 +16,7 @@ interface SP_ButtonProps {
     mini?: boolean,
 }
 export const SP_Button = styled.TouchableOpacity<SP_ButtonProps>`
-    width: ${props => props.mini ? "64px" : "80px"}
+    height: ${props => props.mini ? "64px" : "84px"}
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -24,24 +24,39 @@ export const SP_Button = styled.TouchableOpacity<SP_ButtonProps>`
     border-radius: 4px;
     background-color: ${props => props.primary ? "#DE583A" : "#33383B"};
 `;
+
 // Text container for Buttons
 interface SP_TextButtonProps {
-    italic?: boolean
+    italic?: boolean,
     mini?: boolean
 }
 export const SP_TextButton = styled.Text<SP_TextButtonProps>`
-    color: #fff;
+    color: #F3F3F3;
     font-family: 'roboto-bold';
-    font-size: ${props => props.mini ? "11px" : "16px"};
+    font-size: ${props => props.mini ? "22px" : "32px"};
 `;
 
 
+
+// Aesthetic line at the start of some container
+interface SP_AestheticLineProps {
+    maxi?: boolean,
+    secondary?: boolean 
+}
+export const SP_AestheticLine = styled.View<SP_AestheticLineProps>`
+    width: ${(props) => props.maxi ? "10px" : "6px"};
+    height: 100%;
+    background-color: ${props => props.secondary ? "#8FA69B" : "#DE583A"};
+    border-radius: ${(props) => props.maxi ? "5px" : "3px"};
+    margin-right: ${(props) => props.maxi ? "12px" : "6px"};
+`;
+
 // Label container
 interface SP_LabelViewProps {
-    mini?: boolean,
+    mini?: boolean
 }
 export const SP_LabelView = styled.View<SP_LabelViewProps>`
-    height: ${props => props.mini ? "48px" : "64px"};
+    width: ${props => props.mini ? "48px" : "64px"};
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -50,14 +65,11 @@ export const SP_LabelView = styled.View<SP_LabelViewProps>`
     border-radius: 4px;
 `;
 
-
 // Information container
 interface SP_InfoViewProps {
-    mini?: boolean,
     transparent?: boolean
 }
 export const SP_InfoView = styled.View<SP_InfoViewProps>`
-    height: ${props => props.mini ? "48px" : "64px"};
     flex: 1;
     flex-direction: row;
     justify-content: center;
