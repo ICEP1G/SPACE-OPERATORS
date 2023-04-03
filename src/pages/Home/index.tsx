@@ -6,11 +6,14 @@ import space_operators_db from "../../database/space_operators_db";
 import styled from "styled-components/native";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState } from "react";
+import { randomUserName } from "../../services/RandomNameGenerator";
 
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
     const [editableName, setEditableName] = useState(false);
+
+    
 
     // Lock or unlock the input Name
     const toggleEditableName = () => {
@@ -52,7 +55,7 @@ const Home: React.FC = () => {
                     <SP_AestheticLine maxi/>
                     <InputPlayerName 
                         style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 40 }}
-                        defaultValue="ICEP1G"
+                        defaultValue={randomUserName()}
                         editable={editableName}
                         >
                     </InputPlayerName>
