@@ -8,6 +8,9 @@ import Home from "./pages/Home/index";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState, useCallback } from 'react';
+import Lobby from "./pages/Lobby";
+import InGame from "./pages/InGame";
+import Historic from "./pages/Historic";
 
 
 
@@ -49,10 +52,10 @@ const App = () => {
       <View style={styles.indexView}>
         <NativeRouter>
           <Routes>
-            <Route path="/" element={<Home/>}/>
-            {/* <Route path="/Lobby" element={<Historic/>}
-            <Route path="/InGame" element={<InGame/>}
-            <Route path="/Historic" element={<Historic/>} */}
+            <Route path="/" element={<Home/>} />
+            <Route path="/Lobby" element={<Lobby/>} />
+            <Route path="/InGame" element={<InGame/>} />
+            <Route path="/Historic" element={<Historic/>} />
           </Routes>
         </NativeRouter>
       </View>
