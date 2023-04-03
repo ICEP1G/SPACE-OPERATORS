@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { User } from '../../models/User';
 import { setMainUserAction } from './action';
 import { actualUser } from '../../databaseObjects/UsersDAO';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface MainUserState {
     MainUser: User

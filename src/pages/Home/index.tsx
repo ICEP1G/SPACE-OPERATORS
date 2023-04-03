@@ -7,13 +7,13 @@ import styled from "styled-components/native";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState } from "react";
 import { randomUserName } from "../../services/RandomNameGenerator";
+// import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-native-uuid';
 
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
     const [editableName, setEditableName] = useState(false);
-
-    
 
     // Lock or unlock the input Name
     const toggleEditableName = () => {
@@ -46,7 +46,7 @@ const Home: React.FC = () => {
                     <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-bold'}}>ID</Text>
                 </SP_LabelView>
                 <SP_InfoView transparent>
-                    <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-regular'}}>123e4567-e89b-12d3-a456-426614174000</Text>
+                    <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-regular'}}>{uuid.v4()}</Text>
                 </SP_InfoView>
             </IdCtnView>
 
