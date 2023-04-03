@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/images/SPACEOPERATORS_logo_bold_strech.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
