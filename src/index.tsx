@@ -1,7 +1,6 @@
 import * as React from "react";
 import { NativeRouter, Route, Routes } from 'react-router-native';
 import { Provider } from 'react-redux';
-// import store from './store';
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
 import { initializeDatabase } from "./database/space_operators_db";
 import Home from "./pages/Home/index";
@@ -11,11 +10,10 @@ import { useEffect, useState, useCallback } from 'react';
 import Lobby from "./pages/Lobby";
 import InGame from "./pages/InGame";
 import Historic from "./pages/Historic";
-
+import store from "./store";
 
 
 initializeDatabase();
-
 
 const App = () => {
   SplashScreen.preventAutoHideAsync();
@@ -29,7 +27,6 @@ const App = () => {
     'roboto-bold': require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
     'roboto-bold-italic': require('../assets/fonts/Roboto/Roboto-BoldItalic.ttf')
   });
-
 
   // const onLayoutRootView = useCallback(async () => {
   //   if (fontsLoaded) {
@@ -46,9 +43,8 @@ const App = () => {
   }
   
 
-
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
       <View style={styles.indexView}>
         <NativeRouter>
           <Routes>
@@ -59,10 +55,9 @@ const App = () => {
           </Routes>
         </NativeRouter>
       </View>
-    // </Provider>
+    </Provider>
   );
 };
-
 
 
 // Get the real size of the phone screen and apply it to the former View

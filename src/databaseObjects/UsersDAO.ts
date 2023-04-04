@@ -9,17 +9,20 @@ export const actualUser = (): Promise<User[]> => {
         [],
         (rows) => rows.map((row) =>
             User(
-                row['uuid'],
-                row['name']
+                row['Id'],
+                row['Uuid'],
+                row['Name']
             ))
     );
 };
+
+
 
 // Create a new user in database
 export const createUser = (user: User): Promise<number> => {
     return executeSQL(
         `INSERT INTO Users(Uuid, Name)
-        VALUE (?, ?)`,
+        VALUES (?, ?)`,
         [user.uuid, user.name]
     );
 };
