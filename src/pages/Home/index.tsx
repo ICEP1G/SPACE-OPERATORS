@@ -1,42 +1,63 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler } from "react-native"
+import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput } from "react-native"
 import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipImage, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState } from "react";
-import { GetMainUser, MainUserState } from "../../reducers/mainUser/reducer";
+import { User } from "../../models/User";
+import { GetMainUser, MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 
 const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    
+    const [mainUserId, setMainUserId] = useState(0);
+    const [mainUserUuid, setMainUserUuid] = useState('');
+    const [mainUserName, setMainUserName] = useState('');
     const [editableName, setEditableName] = useState(false);
+    const [inputNameValue, setInputNameValue] = useState('');
 
-    const mainUserState: MainUserState =
+    const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
 
     useEffect(() => {
-        // Get the User Information when this page is loaded
-        dispatch(GetMainUser());
+        dispatch(GetMainUser())
+        .then(() => {
+            // Load the values in the states to update them when the response is returned
+            setMainUserId(mainUserState.MainUser[0].id);
+            setMainUserUuid(mainUserState.MainUser[0].uuid);
+            setMainUserName(mainUserState.MainUser[0].name);
+        });
     }, []);
     
+
     // Lock or unlock the input Name
-    const toggleEditableName = () => {
+    const toggleButtonEditableName = () => {
         setEditableName(!editableName);
       };
+    // Update the userName in Redux and in the Database
+    const saveUserName = () => {
+        const userToUpdate =
+            User(
+                mainUserId,
+                mainUserUuid,
+                mainUserName
+            );
+        dispatch(updateMainUser(userToUpdate));
+        toggleButtonEditableName;
+    };
 
-
-
+    
 
     if (!mainUserState.MainUser[0]) {
         return (
             <BackgroundImageCtn 
             source={require('../../images/MainMenu_Background_Left_Planet.png')}
             resizeMode="cover"
-        />
+            />
         );
     }
-
     return (
         <>
         <BackgroundImageCtn 
@@ -60,7 +81,7 @@ const Home: React.FC = () => {
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>ID</Text>
             </SP_LabelView>
             <SP_InfoView transparent>
-                <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-regular'}}>{mainUserState.MainUser[0].uuid}</Text>
+                <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-regular'}}>{mainUserUuid}</Text>
             </SP_InfoView>
         </IdCtnView>
         
@@ -69,12 +90,15 @@ const Home: React.FC = () => {
                 <SP_AestheticLine maxi/>
                 <InputPlayerName 
                     style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }}
-                    defaultValue={mainUserState.MainUser[0].name}
                     editable={editableName}
-                     >
+                    defaultValue=''
+                    onChangeText={setMainUserName}
+                    onBlur={saveUserName}
+                    value={mainUserName}
+                    >
                 </InputPlayerName>
                 <SP_Button style={{width: 48}}
-                    onPress={toggleEditableName}
+                    onPress={toggleButtonEditableName}
                 >
                     <EditLogo
                         source={require('../../../assets/icons/user-edit.png')}
@@ -89,7 +113,7 @@ const Home: React.FC = () => {
                     <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}>
-                    <SP_TextButton >CREER UNE PARTIE</SP_TextButton>
+                    <SP_TextButton onPress={ saveUserName} >CREER UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button 
                     style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
@@ -98,7 +122,7 @@ const Home: React.FC = () => {
                     <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
                 </SP_Button>
                 <LeaveButton onPress={() => BackHandler.exitApp()}>
-                    <TextLeaveButton>LEAVE</TextLeaveButton>
+                    <TextLeaveButton>QUITTER</TextLeaveButton>
                 </LeaveButton>
             </ButtonsContainer>
         </HomeMainCtn>

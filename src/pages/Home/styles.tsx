@@ -97,8 +97,8 @@ export const EditPlayerNameCtn = styled.TouchableOpacity`
 
 export const EditLogo = styled.Image`
     position: relative;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     top: 1px;
     left: 1px;
 `;

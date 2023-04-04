@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { User } from '../../models/User';
-import { setMainUserAction } from './action';
+import { setMainUserAction, updateMainUserAction } from './action';
 import { actualUser, createUser, updateUserName } from '../../databaseObjects/UsersDAO';
 import uuid from 'react-native-uuid';
 import { randomUserName } from "../../services/RandomNameGenerator";
@@ -8,10 +8,12 @@ import space_operators_db from '../../database/space_operators_db';
 
 export interface MainUserState {
     MainUser: User[],
+    isFetchingUsers: boolean
 }
 
 const initialState: MainUserState = {
     MainUser: [],
+    isFetchingUsers: false
 };
 
 
@@ -39,9 +41,18 @@ const reducer = createSlice({
     name: "mainUser",
     initialState: initialState,
     reducers: {
-        setMainUser: setMainUserAction
+        setMainUser: setMainUserAction,
+        updateMainUser: updateMainUserAction
     },
     extraReducers: (builder) => {
+        // Is used to inform that the request is pending
+        builder.addCase(
+            GetMainUser.pending,
+            (state) => ({
+                ...state,
+                isFetchingUsers: true
+            })
+        );
         builder.addCase(
             GetMainUser.fulfilled,
             setMainUserAction
@@ -49,5 +60,5 @@ const reducer = createSlice({
     }
 });
 
-export const { setMainUser } = reducer.actions;
+export const { setMainUser, updateMainUser } = reducer.actions;
 export default reducer.reducer;
