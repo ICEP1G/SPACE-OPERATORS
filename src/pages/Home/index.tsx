@@ -16,7 +16,6 @@ const Home: React.FC = () => {
     const [mainUserUuid, setMainUserUuid] = useState('');
     const [mainUserName, setMainUserName] = useState('');
     const [editableName, setEditableName] = useState(false);
-    const [inputNameValue, setInputNameValue] = useState('');
 
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
@@ -28,7 +27,11 @@ const Home: React.FC = () => {
             setMainUserId(mainUserState.MainUser[0].id);
             setMainUserUuid(mainUserState.MainUser[0].uuid);
             setMainUserName(mainUserState.MainUser[0].name);
-        });
+        })
+        .catch(() => {
+            setMainUserName('fail');
+        })
+        ;
     }, []);
     
 
@@ -50,7 +53,7 @@ const Home: React.FC = () => {
 
     
 
-    if (!mainUserState.MainUser[0]) {
+    if (!mainUserState.MainUser) {
         return (
             <BackgroundImageCtn 
             source={require('../../images/MainMenu_Background_Left_Planet.png')}
@@ -113,7 +116,7 @@ const Home: React.FC = () => {
                     <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}>
-                    <SP_TextButton onPress={ saveUserName} >CREER UNE PARTIE</SP_TextButton>
+                    <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button 
                     style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
