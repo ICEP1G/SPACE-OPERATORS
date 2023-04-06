@@ -8,10 +8,11 @@ import space_operators_db from "../../database/space_operators_db";
 
 
 const Lobby: React.FC = () => {
-    
+    const navigate = useNavigate();
+
     return (
         <>
-        
+            <SP_Button onPress={() => navigate("/")}></SP_Button>
         </>
     )
 }

@@ -25,6 +25,7 @@ export const ShipImage = styled.Image`
     width: 90%;
     align-self: center;
     z-index: 10;
+    top: 3%;
 `;
 
 export const AppLogo = styled.Image`

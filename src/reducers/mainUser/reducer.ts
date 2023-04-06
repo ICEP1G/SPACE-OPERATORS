@@ -45,7 +45,6 @@ const reducer = createSlice({
         updateMainUser: updateMainUserAction
     },
     extraReducers: (builder) => {
-        // Is used to inform that the request is pending
         builder.addCase(
             GetMainUser.pending,
             (state) => ({

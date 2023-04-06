@@ -16,7 +16,7 @@ interface SP_ButtonProps {
     mini?: boolean,
 }
 export const SP_Button = styled.TouchableOpacity<SP_ButtonProps>`
-    height: ${props => props.mini ? "40" : "48px"}
+    height: ${props => props.mini ? "40" : "48px"};
     display: flex;
     flex-direction: row;
     justify-content: center;

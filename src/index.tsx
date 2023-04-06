@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NativeRouter, Route, Routes } from 'react-router-native';
 import { Provider } from 'react-redux';
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions, useWindowDimensions} from "react-native"
+import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions, useWindowDimensions, StatusBar} from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { initializeDatabase } from "./database/space_operators_db";
 import Home from "./pages/Home/index";
@@ -30,12 +30,6 @@ const App = () => {
     'roboto-bold-italic': require('../assets/fonts/Roboto/Roboto-BoldItalic.ttf')
   });
 
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (fontsLoaded) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [fontsLoaded]);
-
   if (!fontsLoaded) {
     return null;
   }
@@ -47,7 +41,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "absolute", zIndex: 10}}>
+      <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "absolute", zIndex: 10, backgroundColor: 'black'}}>
         <NativeRouter>
           <Routes>
             <Route path="/" element={<Home/>} />
@@ -60,18 +54,5 @@ const App = () => {
     </Provider>
   );
 };
-
-
-// Get the real size of the phone screen and apply it to the former View
-const styles = StyleSheet.create({
-  indexView:{
-      // width: Dimensions.get('window').width,
-      // height: Dimensions.get('window').height,
-      display: 'flex',
-      flexDirection: 'column',
-      position: 'absolute',
-      zIndex: 10
-  }
-})
 
 export default App;
