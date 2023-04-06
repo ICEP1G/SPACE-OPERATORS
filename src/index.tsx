@@ -2,6 +2,7 @@ import * as React from "react";
 import { NativeRouter, Route, Routes } from 'react-router-native';
 import { Provider } from 'react-redux';
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions, useWindowDimensions} from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context";
 import { initializeDatabase } from "./database/space_operators_db";
 import Home from "./pages/Home/index";
 import { useFonts } from "expo-font";
@@ -46,7 +47,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <View style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "absolute", zIndex: 10}}>
+      <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "absolute", zIndex: 10}}>
         <NativeRouter>
           <Routes>
             <Route path="/" element={<Home/>} />
@@ -55,7 +56,7 @@ const App = () => {
             <Route path="/Historic" element={<Historic/>} />
           </Routes>
         </NativeRouter>
-      </View>
+      </SafeAreaView>
     </Provider>
   );
 };

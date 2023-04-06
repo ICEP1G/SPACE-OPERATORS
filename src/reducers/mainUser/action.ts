@@ -14,9 +14,10 @@ export const updateMainUserAction = ( state: MainUserState, action: PayloadActio
     ...state,
     // Update the MainUser Array and save the new user name in the database
     MainUser: state.MainUser.map((user: User) => {
-        if (user.id === action.payload.id)
-            return action.payload;
+        if (user.id === action.payload.id) {
             updateUserName(action.payload)
+            return action.payload;
+        }  
         return user;
     })
 });

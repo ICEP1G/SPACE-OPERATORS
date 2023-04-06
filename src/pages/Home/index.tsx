@@ -39,6 +39,10 @@ const Home: React.FC = () => {
     const toggleButtonEditableName = () => {
         setEditableName(!editableName);
       };
+
+    const editUserName = (text: string) => {
+        setMainUserName(text);
+    };
     // Update the userName in Redux and in the Database
     const saveUserName = () => {
         const userToUpdate =
@@ -94,10 +98,9 @@ const Home: React.FC = () => {
                 <InputPlayerName 
                     style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }}
                     editable={editableName}
-                    defaultValue=''
+                    defaultValue={mainUserName}
                     onChangeText={setMainUserName}
                     onBlur={saveUserName}
-                    value={mainUserName}
                     >
                 </InputPlayerName>
                 <SP_Button style={{width: 48}}
