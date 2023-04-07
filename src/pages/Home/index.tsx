@@ -1,27 +1,77 @@
 import * as React from "react";
-import { NativeRouter, Routes, Route, Link, useNavigate } from "react-router-native"
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler } from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipImage, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
-import space_operators_db from "../../database/space_operators_db";
-import styled from "styled-components/native";
+import { useNavigate } from "react-router-native"
+import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated } from "react-native"
+import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
-import { useEffect, useState } from "react";
-import { randomUserName } from "../../services/RandomNameGenerator";
-// import { v4 as uuidv4 } from 'uuid';
-import uuid from 'react-native-uuid';
+import { useEffect, useState, useRef } from "react";
+import { User } from "../../models/User";
+import { GetMainUser, MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
+import { useAppSelector, useAppDispatch } from "../../store";
+import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
+import index_modal from "./index_modal"
+import HomeModal from "./index_modal";
+import ShipImage from "../../components/ShipImage";
 
 
-const Home: React.FC = () => {
+
+interface Props {
+    interactable: boolean
+}
+
+const Home: React.FC<Props> = ({...Props}) => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    
+    const [mainUserId, setMainUserId] = useState(0);
+    const [mainUserUuid, setMainUserUuid] = useState('');
+    const [mainUserName, setMainUserName] = useState('');
     const [editableName, setEditableName] = useState(false);
 
+    const mainUserState: MainUserState = 
+        useAppSelector((state) => state.mainUser);
+
+    useEffect(() => {
+        dispatch(GetMainUser())
+        .then(() => {
+            // Load the values in the states to update them when the response is returned
+            setMainUserId(mainUserState.MainUser[0].id);
+            setMainUserUuid(mainUserState.MainUser[0].uuid);
+            setMainUserName(mainUserState.MainUser[0].name);
+        })
+        .catch(() => {
+            setMainUserName('No info -> refresh the page');
+        })
+    }, []);
+
+    
+
     // Lock or unlock the input Name
-    const toggleEditableName = () => {
+    const toggleButtonEditableName = () => {
         setEditableName(!editableName);
       };
 
+    // Update the userName in Redux and in the Database
+    const saveUserName = () => {
+        const userToUpdate =
+            User(
+                mainUserId,
+                mainUserUuid,
+                mainUserName
+            );
+        dispatch(updateMainUser(userToUpdate));
+        toggleButtonEditableName;
+    };
 
+    
 
+    if (!mainUserState.MainUser) {
+        return (
+            <BackgroundImageCtn 
+            source={require('../../images/MainMenu_Background_Left_Planet.png')}
+            resizeMode="cover"
+            />
+        );
+    }
     return (
         <>
         <BackgroundImageCtn 
@@ -29,71 +79,68 @@ const Home: React.FC = () => {
             resizeMode="cover"
         />
         <ShipCtn>
-            <ShipImage 
-            source={require('../../images/MainMenu_RazorBack_Ship.png')}
-            resizeMode="contain"
-            />
+            <ShipImage/>
         </ShipCtn>
         <AppLogo
             source={require('../../images/SPACEOPERATORS_logo_bold_strech.png')}
             resizeMode="contain"
         />
+
+        <HomeModal visible={false}></HomeModal>
+
+        <IdCtnView>
+            <SP_AestheticLine/>
+            <SP_LabelView mini style={{marginRight: 3}}>
+                <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>ID</Text>
+            </SP_LabelView>
+            <SP_InfoView transparent>
+                <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-regular'}}>{mainUserUuid}</Text>
+            </SP_InfoView>
+        </IdCtnView>
         
         <HomeMainCtn>
-            <IdCtnView>
-                <SP_AestheticLine/>
-                <SP_LabelView mini style={{marginRight: 6}}>
-                    <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-bold'}}>ID</Text>
-                </SP_LabelView>
-                <SP_InfoView transparent>
-                    <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-regular'}}>{uuid.v4()}</Text>
-                </SP_InfoView>
-            </IdCtnView>
-
-            <BottomCtn>
-                <PlayerNameCtn style={styles.shadow}>
-                    <SP_AestheticLine maxi/>
-                    <InputPlayerName 
-                        style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 40 }}
-                        defaultValue={randomUserName()}
-                        editable={editableName}
-                        >
-                    </InputPlayerName>
-                    <SP_Button style={{width: 84}}
-                        onPress={toggleEditableName}
+            <PlayerNameCtn style={styles.shadow}>
+                <SP_AestheticLine maxi/>
+                <InputPlayerName 
+                    style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }}
+                    editable={editableName}
+                    defaultValue={mainUserName}
+                    onChangeText={setMainUserName}
+                    onBlur={saveUserName}
                     >
-                        <EditLogo
-                            source={require('../../../assets/icons/user-edit.png')}
-                            resizeMode="contain"
-                        />
-                    </SP_Button>
-                </PlayerNameCtn>
+                </InputPlayerName>
+                <SP_Button style={{width: 48}} onPress={toggleButtonEditableName}>
+                    <EditLogo
+                        source={require('../../../assets/icons/user-edit.png')}
+                        resizeMode="contain"
+                    />
+                </SP_Button>
+            </PlayerNameCtn>
 
-                <ButtonsContainer>
-                    <SP_Button primary 
-                    style={{borderWidth: 3, borderColor: '#C7532F'}}>
-                        <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
-                    </SP_Button>
-                    <SP_Button style={{marginTop: 24, borderWidth: 3, borderColor: Colors.input}}>
-                        <SP_TextButton >CREER UNE PARTIE</SP_TextButton>
-                    </SP_Button>
-                    <SP_Button 
-                        style={{marginTop: 24, borderWidth: 3, borderColor: Colors.input}}
-                        onPress={() => navigate("/Historic")}
-                    >
-                        <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
-                    </SP_Button>
-                    <LeaveButton onPress={() => BackHandler.exitApp()}>
-                        <TextLeaveButton>LEAVE</TextLeaveButton>
-                    </LeaveButton>
-                </ButtonsContainer>
-            </BottomCtn>
-
+            <ButtonsContainer>
+                <SP_Button primary 
+                    style={{borderWidth: 1.5, borderColor: '#C7532F'}}
+                    onPress={() => navigate("/Lobby")}>
+                    <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
+                </SP_Button>
+                <SP_Button style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}>
+                    <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
+                </SP_Button>
+                <SP_Button 
+                    style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
+                    onPress={() => navigate("/Historic")}>
+                    <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
+                </SP_Button>
+                <LeaveButton onPress={() => BackHandler.exitApp()}>
+                    <TextLeaveButton>QUITTER</TextLeaveButton>
+                </LeaveButton>
+            </ButtonsContainer>
         </HomeMainCtn>
             
         </>
     )
 };
+
 
 
 const styles = StyleSheet.create({

@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 export const BackgroundImageCtn = styled.Image`
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 110%;
 `;
 
 export const ShipCtn = styled.View`
@@ -20,22 +20,28 @@ export const ShipCtn = styled.View`
     z-index: 10;
 `;
 
-export const ShipImage = styled.Image`
-    position: relative;
-    width: 90%;
-    align-self: center;
-    z-index: 10;
-`;
-
 export const AppLogo = styled.Image`
     position: absolute;
     width: 85%;
     align-self: center;
     z-index: 20;
+    top: -1%;
+`;
+
+export const IdCtnView = styled.View`
+    position: absolute;
+    width: 95%;
+    padding: 0 8%;
+    height: 28px;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    top: 21%;
 `;
 
 
-//----------------------------------------------------------//
+//--------------------BOTTOM CONTAINER-----------------------//
+
 export const HomeMainCtn = styled.ScrollView`
     position: absolute;
     width: 100%;
@@ -44,19 +50,11 @@ export const HomeMainCtn = styled.ScrollView`
     flex-direction: column;
     padding: 0 8% ;
     z-index: 20;
-`;
-
-export const IdCtnView = styled.View`
-    position: relative;
-    height: 48px;
-    display: flex;
-    flex-direction: row;
-    margin-top: 40%;
-    
+    top: 19%;
 `;
 
 
-//------------------------------------------------------------//
+//-----------------------EDIT PLAYER------------------------//
 
 export const BottomCtn = styled.View`
     position: relative;
@@ -64,27 +62,26 @@ export const BottomCtn = styled.View`
     flex-direction: column;
 `;
 
-//------------------------------------------------------------//
+
 export const PlayerNameCtn = styled.View`
     position: relative;
-    height: 84px;
+    height: 48px;
     flex: 1;
     flex-direction: row;
     margin-top: 110%;
 `;
 
-
 export const InputPlayerName = styled.TextInput`
     flex: 1;
     opacity: 0.8;
-    border-radius: 4px;
-    margin-right: 8px;
-    padding-left: 20px;
+    border-radius: 2px;
+    margin-right: 4px;
+    padding-left: 10px;
 `;
 
 export const EditPlayerNameCtn = styled.TouchableOpacity`
-    width: 84px;
-    border-radius: 4px;
+    width: 42px;
+    border-radius: 2px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -93,35 +90,37 @@ export const EditPlayerNameCtn = styled.TouchableOpacity`
 
 export const EditLogo = styled.Image`
     position: relative;
-    width: 48px;
-    height: 48px;
-    top: 2px;
-    left: 2px;
+    width: 28px;
+    height: 28px;
+    top: 1px;
+    left: 1px;
 `;
 
+
+//------------------------BUTTONS-------------------------//
 
 export const ButtonsContainer = styled.View`
     position: relative;
     display: flex;
     flex-direction: column;
-    margin-top: 32px;
+    margin-top: 16px;
 `;
 
 
 export const LeaveButton = styled.TouchableOpacity`
-    height: 84px;
+    height: 48px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
-    border: solid 3px #DE583A;
-    border-left-width: 16px;
-    border-right-width: 16px;
-    margin-top: 24px;
+    border-radius: 2px;
+    border: solid 1.5px #DE583A;
+    border-left-width: 8px;
+    border-right-width: 8px;
+    margin-top: 12px;
 `;
 export const TextLeaveButton = styled.Text`
-    font-size: 32px;
+    font-size: 18px;
     font-family: 'roboto-bold';
     color: #DE583A;
 `;
