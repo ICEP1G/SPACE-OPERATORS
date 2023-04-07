@@ -1,15 +1,24 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
 import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated } from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipImage, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
+import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState, useRef } from "react";
 import { User } from "../../models/User";
 import { GetMainUser, MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
+import index_modal from "./index_modal"
+import HomeModal from "./index_modal";
+import ShipImage from "../../components/ShipImage";
 
-const Home: React.FC = () => {
+
+
+interface Props {
+    interactable: boolean
+}
+
+const Home: React.FC<Props> = ({...Props}) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     
@@ -17,8 +26,6 @@ const Home: React.FC = () => {
     const [mainUserUuid, setMainUserUuid] = useState('');
     const [mainUserName, setMainUserName] = useState('');
     const [editableName, setEditableName] = useState(false);
-
-    const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
 
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
@@ -36,22 +43,6 @@ const Home: React.FC = () => {
         })
     }, []);
 
-    useEffect(() => {
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(position, {
-                    toValue: { x: 0, y: 5 },
-                    duration: 1800,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(position, {
-                    toValue: { x: 0, y: 0 },
-                    duration: 1800,
-                    useNativeDriver: false,
-                }),
-            ])
-        ).start();
-    }, [])
     
 
     // Lock or unlock the input Name
@@ -88,17 +79,14 @@ const Home: React.FC = () => {
             resizeMode="cover"
         />
         <ShipCtn>
-            <Animated.View style={[position.getLayout(), {width: '100%'}]}>
-                <ShipImage 
-                source={require('../../images/MainMenu_RazorBack_Ship.png')}
-                resizeMode="contain"
-                />
-            </Animated.View>
+            <ShipImage/>
         </ShipCtn>
         <AppLogo
             source={require('../../images/SPACEOPERATORS_logo_bold_strech.png')}
             resizeMode="contain"
         />
+
+        <HomeModal visible={false}></HomeModal>
 
         <IdCtnView>
             <SP_AestheticLine/>
@@ -132,8 +120,7 @@ const Home: React.FC = () => {
             <ButtonsContainer>
                 <SP_Button primary 
                     style={{borderWidth: 1.5, borderColor: '#C7532F'}}
-                    onPress={() => navigate("/Lobby")}
-                    >
+                    onPress={() => navigate("/Lobby")}>
                     <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}>
@@ -141,8 +128,7 @@ const Home: React.FC = () => {
                 </SP_Button>
                 <SP_Button 
                     style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
-                    onPress={() => navigate("/Historic")}
-                >
+                    onPress={() => navigate("/Historic")}>
                     <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
                 </SP_Button>
                 <LeaveButton onPress={() => BackHandler.exitApp()}>
@@ -154,6 +140,7 @@ const Home: React.FC = () => {
         </>
     )
 };
+
 
 
 const styles = StyleSheet.create({

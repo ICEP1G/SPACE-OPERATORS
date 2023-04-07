@@ -20,14 +20,6 @@ export const ShipCtn = styled.View`
     z-index: 10;
 `;
 
-export const ShipImage = styled.Image`
-    position: relative;
-    width: 90%;
-    align-self: center;
-    z-index: 10;
-    top: 3%;
-`;
-
 export const AppLogo = styled.Image`
     position: absolute;
     width: 85%;
