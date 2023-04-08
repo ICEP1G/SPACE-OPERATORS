@@ -30,6 +30,7 @@ const Home: React.FC<Props> = ({...Props}) => {
     const [mainUserUuid, setMainUserUuid] = useState('');
     const [mainUserName, setMainUserName] = useState('');
     const [editableName, setEditableName] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
@@ -78,6 +79,7 @@ const Home: React.FC<Props> = ({...Props}) => {
         toggleButtonEditableName;
     };
 
+
     
 
     if (!mainUserState.MainUser) {
@@ -102,7 +104,7 @@ const Home: React.FC<Props> = ({...Props}) => {
             resizeMode="contain"
         />
 
-        <HomeModal visible={false}></HomeModal>
+        <HomeModal visible={modalVisible} setModalVisible={setModalVisible}></HomeModal>
 
         <IdCtnView>
             <SP_AestheticLine/>
@@ -136,10 +138,12 @@ const Home: React.FC<Props> = ({...Props}) => {
             <ButtonsContainer>
                 <SP_Button primary 
                     style={{borderWidth: 1.5, borderColor: '#C7532F'}}
-                    onPress={() => navigate("/Lobby")}>
+                    onPress={() => setModalVisible(true)}>
                     <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
                 </SP_Button>
-                <SP_Button style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}>
+                <SP_Button
+                    style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
+                    onPress={() => navigate("/Lobby")}>
                     <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button 

@@ -25,13 +25,17 @@ interface ViewModalProps {
     visible?: boolean
 }
 export const ViewModal = styled.View<ViewModalProps>`
-    position: relative;
-    width: 100%;
+    position: absolute;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
     border-width: 2px;
     border-radius: 4px;
     border-color: ${Colors.uiborder};
     top: 24%;
     z-index: ${props => props.visible ? 31 : -10};
+    opacity: 1;
 `;
 
 //------------------HEADER-------------------//
@@ -78,7 +82,7 @@ export const ContentView = styled.View`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 16px;
+    padding: 40px 16px 28px 16px;
     background-color: ${Colors.modalBackground};
 `
 
@@ -93,4 +97,32 @@ export const GameIdInput = styled.TextInput`
     flex: 1;
     background-color: ${Colors.input};
     border-radius: 2px;
+`;
+
+//-----------------------EDIT PLAYER------------------------//
+
+export const PlayerNameCtn = styled.View`
+    position: relative;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+    margin-bottom: 40px;
+`;
+
+export const InputPlayerName = styled.TextInput`
+    flex: 1;
+    opacity: 0.8;
+    border-radius: 2px;
+    margin-right: 4px;
+    padding-left: 10px;
+`;
+
+
+export const EditLogo = styled.Image`
+    position: relative;
+    width: 22px;
+    height: 22px;
+    top: 1px;
+    left: 1px;
 `;

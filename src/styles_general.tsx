@@ -15,6 +15,7 @@ export const Colors = {
 interface SP_ButtonProps {
     primary?: boolean,
     mini?: boolean,
+    text?: boolean
 }
 export const SP_Button = styled.TouchableOpacity<SP_ButtonProps>`
     height: ${props => props.mini ? "40" : "48px"};
@@ -24,6 +25,7 @@ export const SP_Button = styled.TouchableOpacity<SP_ButtonProps>`
     align-items: center;
     border-radius: 2px;
     background-color: ${props => props.primary ? "#DE583A" : "#33383B"};
+    padding: ${props => props.text ? "0 20px" : "0"};
 `;
 
 // Text container for Buttons
@@ -33,7 +35,7 @@ interface SP_TextButtonProps {
 }
 export const SP_TextButton = styled.Text<SP_TextButtonProps>`
     color: #F3F3F3;
-    font-family: 'roboto-bold';
+    font-family: ${props => props.italic ? 'roboto-bold-italic' : 'roboto-bold'};
     font-size: ${props => props.mini ? "12px" : "18px"};
 `;
 
