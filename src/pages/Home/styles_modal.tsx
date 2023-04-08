@@ -30,10 +30,10 @@ export const ViewModal = styled.View<ViewModalProps>`
     display: flex;
     flex-direction: column;
     align-self: center;
-    border-width: 2px;
+    border-width: 1.5px;
     border-radius: 4px;
     border-color: ${Colors.uiborder};
-    top: 24%;
+    top: 30%;
     z-index: ${props => props.visible ? 31 : -10};
     opacity: 1;
 `;
@@ -47,6 +47,7 @@ export const HeaderCtn = styled.View`
     flex-direction: row;
     border-bottom-width: 1px;
     border-color: ${Colors.uiborder};
+    border-top-right-radius: 4px;
 `;
 
 export const HeaderView = styled.View`
@@ -56,6 +57,7 @@ export const HeaderView = styled.View`
     padding-left: 16px;
     align-items: center;
     background-color: ${Colors.secondary};
+    border-top-left-radius: 4px;
 `;
 export const HeaderText = styled.Text`
     color: ${Colors.text};
@@ -70,6 +72,7 @@ export const HeaderButton = styled.TouchableOpacity`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    border-top-right-radius: 2px;
 `;
 export const HeaderButtonIcon = styled.Image`
     width: 26px;
@@ -84,7 +87,9 @@ export const ContentView = styled.View`
     align-items: center;
     padding: 40px 16px 28px 16px;
     background-color: ${Colors.modalBackground};
-`
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+`;
 
 export const GameIdCtn = styled.View`
     width: 100%;

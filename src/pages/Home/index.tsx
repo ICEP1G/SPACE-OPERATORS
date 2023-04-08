@@ -104,7 +104,13 @@ const Home: React.FC<Props> = ({...Props}) => {
             resizeMode="contain"
         />
 
-        <HomeModal visible={modalVisible} setModalVisible={setModalVisible}></HomeModal>
+        <HomeModal
+            visible={modalVisible}
+            setModalVisible={setModalVisible}
+            setMainUserName={setMainUserName}
+            userName={mainUserName}
+            onSaveUserName={saveUserName}
+        />
 
         <IdCtnView>
             <SP_AestheticLine/>

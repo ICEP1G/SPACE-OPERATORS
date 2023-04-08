@@ -12,14 +12,23 @@ import { ContentView, GameIdCtn, GameIdInput, HeaderButton, HeaderButtonIcon, He
 
 interface Props {
     visible: boolean,
-    setModalVisible: (modalVisible: boolean) => void;
+    userName: string,
+    setModalVisible: (modalVisible: boolean) => void,
+    setMainUserName: (mainUserName: string) => void
+    onSaveUserName: () => void
 }
 
 const HomeModal: React.FC<Props> = ({...Props}) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const [editableName, setEditableName] = useState(false);
 
+
+    // Lock or unlock the input Name
+    const toggleButtonEditableName = () => {
+        setEditableName(!editableName);
+      };
 
     return (
         <>
@@ -43,13 +52,13 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                         <SP_AestheticLine />
                         <InputPlayerName 
                             style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }}
-                            // editable={editableName}
-                            // defaultValue={mainUserName}
-                            // onChangeText={setMainUserName}
-                            // onBlur={saveUserName}
+                            editable={editableName}
+                            defaultValue={Props.userName}
+                            onChangeText={Props.setMainUserName}
+                            onBlur={Props.onSaveUserName}
                             >
                         </InputPlayerName>
-                        <SP_Button mini style={{width: 40}}>
+                        <SP_Button mini style={{width: 40}} onPress={toggleButtonEditableName}>
                             <EditLogo
                                 source={require('../../../assets/icons/user-edit.png')}
                                 resizeMode="contain"
