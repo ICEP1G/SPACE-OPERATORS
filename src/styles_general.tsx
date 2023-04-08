@@ -6,7 +6,8 @@ export const Colors = {
     secondary: '#33383B',
     input: '#7B7B7B',
     uiborder: '#8FA69B',
-    text: '#fff'
+    text: '#fff',
+    modalBackground: '#505253'
 }
 
 
@@ -52,10 +53,31 @@ export const SP_AestheticLine = styled.View<SP_AestheticLineProps>`
 `;
 
 // Label container
-interface SP_LabelViewProps {
+export const SP_LabelView = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: #33383B;
+    border-radius: 2px;
+    margin-right: 3px;
+`;
+// Text for the Label container
+interface SP_TextLabelProps {
+    maxi?: boolean
+}
+export const SP_TextLabel = styled.Text<SP_TextLabelProps>`
+    color: ${Colors.text};
+    font-size: ${props => props.maxi ? "15px" : "13px"};
+    font-family: 'roboto-bold';
+`;
+
+// LabelSquare container
+interface SP_LabelSquareViewProps {
     mini?: boolean
 }
-export const SP_LabelView = styled.View<SP_LabelViewProps>`
+export const SP_LabelSquareView = styled.View<SP_LabelSquareViewProps>`
     width: ${props => props.mini ? "28px" : "36px"};
     display: flex;
     flex-direction: row;

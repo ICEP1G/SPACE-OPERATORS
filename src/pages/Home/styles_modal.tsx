@@ -11,7 +11,7 @@ interface ViewCtnProps {
 export const ViewCtn = styled.View<ViewCtnProps>`
     position: absolute;
     width: 100%;
-    height: 110%;
+    height: 120%;
     flex: 1;
     flex-direction: column;
     padding: 0% 8%;
@@ -27,9 +27,70 @@ interface ViewModalProps {
 export const ViewModal = styled.View<ViewModalProps>`
     position: relative;
     width: 100%;
+    border-width: 2px;
+    border-radius: 4px;
+    border-color: ${Colors.uiborder};
     top: 24%;
     z-index: ${props => props.visible ? 31 : -10};
 `;
 
+//------------------HEADER-------------------//
 
+export const HeaderCtn = styled.View`
+    width: 100%;
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    border-bottom-width: 1px;
+    border-color: ${Colors.uiborder};
+`;
 
+export const HeaderView = styled.View`
+    flex: 1;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 16px;
+    align-items: center;
+    background-color: ${Colors.secondary};
+`;
+export const HeaderText = styled.Text`
+    color: ${Colors.text};
+    font-family: 'roboto-medium';
+    font-size: 18px;
+`;
+
+export const HeaderButton = styled.TouchableOpacity`
+    width: 48px;
+    background-color: ${Colors.primary};
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`;
+export const HeaderButtonIcon = styled.Image`
+    width: 26px;
+    height: 26px;
+`;
+
+//------------------CONTENT------------------//
+
+export const ContentView = styled.View`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px;
+    background-color: ${Colors.modalBackground};
+`
+
+export const GameIdCtn = styled.View`
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+`;
+
+export const GameIdInput = styled.TextInput`
+    flex: 1;
+    background-color: ${Colors.input};
+    border-radius: 2px;
+`;

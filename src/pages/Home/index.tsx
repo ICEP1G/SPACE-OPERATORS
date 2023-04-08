@@ -1,16 +1,20 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated } from "react-native"
+import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform } from "react-native"
 import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
+import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState, useRef } from "react";
 import { User } from "../../models/User";
-import { GetMainUser, MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
+import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
 import index_modal from "./index_modal"
 import HomeModal from "./index_modal";
 import ShipImage from "../../components/ShipImage";
+import { actualUser, createUser } from "../../databaseObjects/UsersDAO";
+import uuid from 'react-native-uuid';
+import { randomUserName } from "../../services/RandomNameGenerator";
+import space_operators_db from '../../database/space_operators_db';
 
 
 
@@ -30,21 +34,33 @@ const Home: React.FC<Props> = ({...Props}) => {
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
 
+    // Get the Main user of the app, if it doesn't exist then create a new user
     useEffect(() => {
-        dispatch(GetMainUser())
-        .then(() => {
-            // Load the values in the states to update them when the response is returned
-            setMainUserId(mainUserState.MainUser[0].id);
-            setMainUserUuid(mainUserState.MainUser[0].uuid);
-            setMainUserName(mainUserState.MainUser[0].name);
-        })
-        .catch(() => {
-            setMainUserName('No info -> refresh the page');
+        actualUser()
+        .then((mainUser) => {
+            if (mainUser.length <= 0) {
+                // Create a new user with a random UUID and Name
+                const newUser = User(1 ,uuid.v4().toString(), randomUserName());
+                // Add the new user in database
+                createUser(newUser);
+                // Add the new user to the reducer
+                mainUser.push(newUser)
+                dispatch(setMainUser(mainUser));
+                // Update the user information
+                setMainUserId(mainUser[0].id);
+                setMainUserUuid(mainUser[0].uuid);
+                setMainUserName(mainUser[0].name);
+            }
+            else {
+                dispatch(setMainUser(mainUser));
+                setMainUserId(mainUser[0].id);
+                setMainUserUuid(mainUser[0].uuid);
+                setMainUserName(mainUser[0].name);
+            }
         })
     }, []);
 
     
-
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
         setEditableName(!editableName);
@@ -90,9 +106,9 @@ const Home: React.FC<Props> = ({...Props}) => {
 
         <IdCtnView>
             <SP_AestheticLine/>
-            <SP_LabelView mini style={{marginRight: 3}}>
+            <SP_LabelSquareView mini style={{marginRight: 3}}>
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>ID</Text>
-            </SP_LabelView>
+            </SP_LabelSquareView>
             <SP_InfoView transparent>
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-regular'}}>{mainUserUuid}</Text>
             </SP_InfoView>

@@ -16,27 +16,7 @@ const initialState: MainUserState = {
     isFetchingUsers: false
 };
 
-
-// Get the Main user of the app, if it doesn't exist then create a new user
-// We only need ONE user but REDUX seems to only accept an array of users...
-export const GetMainUser = createAsyncThunk(
-    'users/fetchUsers', () =>
-        actualUser()
-        .then((mainUser) => {
-            if (mainUser.length <= 0) {
-                // Create a new user with a random UUID and Name
-                const newUser = User(1 ,uuid.v4().toString(), randomUserName());
-                // Add the new user in database
-                createUser(newUser);
-                // Add the new user in the array
-                mainUser.push(newUser);
-                return mainUser;
-            }
-            return mainUser
-        })
-);
     
-
 const reducer = createSlice({
     name: "mainUser",
     initialState: initialState,
@@ -44,19 +24,6 @@ const reducer = createSlice({
         setMainUser: setMainUserAction,
         updateMainUser: updateMainUserAction
     },
-    extraReducers: (builder) => {
-        builder.addCase(
-            GetMainUser.pending,
-            (state) => ({
-                ...state,
-                isFetchingUsers: true
-            })
-        );
-        builder.addCase(
-            GetMainUser.fulfilled,
-            setMainUserAction
-        );
-    }
 });
 
 export const { setMainUser, updateMainUser } = reducer.actions;
