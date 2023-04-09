@@ -13,6 +13,8 @@ import InGame from "./pages/InGame";
 import Historic from "./pages/Historic";
 import store from "./store";
 
+export const API_URL: string = "https://space-operators.herokuapp.com/"
+export const WEBSOCKET: WebSocket = new WebSocket("ws://space-operators.herokuapp.com/");
 
 initializeDatabase();
 

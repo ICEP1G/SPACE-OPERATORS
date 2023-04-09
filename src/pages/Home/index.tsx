@@ -7,14 +7,14 @@ import { useEffect, useState, useRef } from "react";
 import { User } from "../../models/User";
 import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
 import index_modal from "./index_modal"
 import HomeModal from "./index_modal";
 import ShipImage from "../../components/ShipImage";
 import { actualUser, createUser } from "../../databaseObjects/UsersDAO";
 import uuid from 'react-native-uuid';
 import { randomUserName } from "../../services/RandomNameGenerator";
-import space_operators_db from '../../database/space_operators_db';
+import axios from 'axios';
+import { API_URL, WEBSOCKET } from "../../index";
 
 
 
@@ -79,7 +79,16 @@ const Home: React.FC<Props> = ({...Props}) => {
         toggleButtonEditableName;
     };
 
+    // Call the API when creating a new game
+    const api_createGame = () => {
+        axios.post(API_URL + "create-game")
+        .then((response) => {
+            const gameId: string = response.data.id;
+        })
+        .catch(() => {
 
+        })
+    }
     
 
     if (!mainUserState.MainUser) {
