@@ -14,15 +14,16 @@ import { actualUser, createUser } from "../../databaseObjects/UsersDAO";
 import uuid from 'react-native-uuid';
 import { randomUserName } from "../../services/RandomNameGenerator";
 import axios from 'axios';
-import { API_URL, WEBSOCKET } from "../../index";
+import { API_URL} from "../../index";
+import { socket, socketResponse, socket_send_connect } from "../../services/WebSocket";
+import { data_connect, send_data_connect } from "../../models/types/data_connect";
+import { data_players } from "../../models/types/data_players";
+import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
+import { GameState, setGameId } from "../../reducers/game/reducer";
 
 
 
-interface Props {
-    interactable: boolean
-}
-
-const Home: React.FC<Props> = ({...Props}) => {
+const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     
@@ -34,6 +35,12 @@ const Home: React.FC<Props> = ({...Props}) => {
 
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
+
+    const lobbyState: LobbyState = 
+        useAppSelector((state) => state.lobby);
+
+    const gameState: GameState = 
+        useAppSelector((state) => state.game);
 
     // Get the Main user of the app, if it doesn't exist then create a new user
     useEffect(() => {
@@ -61,6 +68,9 @@ const Home: React.FC<Props> = ({...Props}) => {
         })
     }, []);
 
+    useEffect(() => {
+        console.log("HomePage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
+    }, [lobbyState])
     
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
@@ -79,16 +89,39 @@ const Home: React.FC<Props> = ({...Props}) => {
         toggleButtonEditableName;
     };
 
-    // Call the API when creating a new game
+    // Call the API when creating a new game then redirect the user to the lobby
     const api_createGame = () => {
         axios.post(API_URL + "create-game")
         .then((response) => {
             const gameId: string = response.data.id;
+            dispatch(setGameId(gameId));
+            console.log("gameId : " + gameId);
+            const dataConnect: data_connect = (
+                data_connect(
+                    gameId,
+                    mainUserUuid,
+                    mainUserName
+                )
+            );
+            socket_send_connect(dataConnect);
+            navigate("/Lobby");
         })
-        .catch(() => {
+        .catch((error) => {
 
         })
-    }
+    };
+
+    // // Parse the message to the right data everytime a message is return from the WebSocket
+    // socket.onmessage = (event => {
+    //     if (event.data != "ping") {
+    //         const playerData = socketResponse(event.data);
+    //         if (playerData.type == "players") {
+    //             console.log(playerData.data)
+    //             dispatch(setLobbyPlayer(playerData.data))
+    //             console.log('new reducer state : ' + JSON.stringify(LobbyState.players))
+    //         }
+    //     }
+    // });
     
 
     if (!mainUserState.MainUser) {
@@ -118,6 +151,7 @@ const Home: React.FC<Props> = ({...Props}) => {
             setModalVisible={setModalVisible}
             setMainUserName={setMainUserName}
             userName={mainUserName}
+            userUuid={mainUserUuid}
             onSaveUserName={saveUserName}
         />
 
@@ -126,12 +160,13 @@ const Home: React.FC<Props> = ({...Props}) => {
             <SP_LabelSquareView mini style={{marginRight: 3}}>
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>ID</Text>
             </SP_LabelSquareView>
-            <SP_InfoView transparent>
+            <SP_InfoView transparent centerContent>
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-regular'}}>{mainUserUuid}</Text>
             </SP_InfoView>
         </IdCtnView>
         
         <HomeMainCtn>
+            <Text style={{color: 'white'}}>{JSON.stringify(lobbyState.players)}</Text>
             <PlayerNameCtn style={styles.shadow}>
                 <SP_AestheticLine maxi/>
                 <InputPlayerName 
@@ -158,7 +193,9 @@ const Home: React.FC<Props> = ({...Props}) => {
                 </SP_Button>
                 <SP_Button
                     style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
-                    onPress={() => navigate("/Lobby")}>
+                    // onPress={() => navigate("/Lobby")}
+                    onPress={() => api_createGame()}
+                    >
                     <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button 
@@ -166,7 +203,7 @@ const Home: React.FC<Props> = ({...Props}) => {
                     onPress={() => navigate("/Historic")}>
                     <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
                 </SP_Button>
-                <LeaveButton onPress={() => BackHandler.exitApp()}>
+                <LeaveButton onPress={() => (BackHandler.exitApp(), socket.close()) }>
                     <TextLeaveButton>QUITTER</TextLeaveButton>
                 </LeaveButton>
             </ButtonsContainer>

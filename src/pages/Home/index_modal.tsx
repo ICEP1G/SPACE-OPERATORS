@@ -4,17 +4,23 @@ import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, Refr
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_AestheticLine, SP_LabelView, SP_TextLabel } from "../../styles_general";
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-import { API_URL, WEBSOCKET } from "../../index";
+import { API_URL } from "../../index";
 import { User } from "../../models/User";
 import { MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
 import { ContentView, GameIdCtn, GameIdInput, HeaderButton, HeaderButtonIcon, HeaderCtn, HeaderText, HeaderView, ViewCtn, ViewModal, PlayerNameCtn, InputPlayerName, EditLogo } from "./styles_modal";
+import { data_connect } from "../../models/types/data_connect";
+import { socket_send_connect } from "../../services/WebSocket";
+import { socket, socketResponse } from "../../services/WebSocket";
+import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
+import { GameState, setGameId } from "../../reducers/game/reducer";
 
 
 interface Props {
     visible: boolean,
     userName: string,
+    userUuid: string,
     setModalVisible: (modalVisible: boolean) => void,
     setMainUserName: (mainUserName: string) => void
     onSaveUserName: () => void
@@ -25,11 +31,44 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
     const navigate = useNavigate();
 
     const [editableName, setEditableName] = useState(false);
+    const [gameId, setNewGameId] = useState('');
 
+    const lobbyState: LobbyState = 
+        useAppSelector((state) => state.lobby);
+
+    const gameState: GameState = 
+        useAppSelector((state) => state.game);
+
+        
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
         setEditableName(!editableName);
       };
+
+    // Join a game create by another user
+    const joinAGame = () => {
+        const dataConnect: data_connect = (
+            data_connect(
+                gameId,
+                Props.userUuid,
+                Props.userName
+            )
+        )
+        socket_send_connect(dataConnect);
+        dispatch(setGameId(gameId));
+        navigate("/Lobby");
+    };
+
+    // socket.onmessage = (event => {
+    //     const playerData = socketResponse(event.data)
+    //     if (playerData.type == "players") {
+    //         dispatch(setLobbyPlayer(playerData.data))
+    //         if (playerData.data) {
+    //             console.log("null")
+    //         }
+    //         console.log(playerData.data)
+    //     }
+    // });
 
 
     return (
@@ -49,8 +88,11 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
             <ContentView>
                 <GameIdCtn>
                     <SP_AestheticLine/>
-                    <SP_LabelView><SP_TextLabel maxi>GAME ID</SP_TextLabel></SP_LabelView>
-                    <GameIdInput></GameIdInput>
+                    <SP_LabelView><SP_TextLabel maxi style={{fontSize: 18}}>GAME ID</SP_TextLabel></SP_LabelView>
+                    <GameIdInput
+                        defaultValue={gameId}
+                        onChangeText={setNewGameId}
+                    ></GameIdInput>
                 </GameIdCtn>
 
                 <PlayerNameCtn>
@@ -71,7 +113,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                     </SP_Button>
                 </PlayerNameCtn>
                 
-                <SP_Button text primary>
+                <SP_Button text primary onPress={() => joinAGame()}>
                     <SP_TextButton italic>JOIN THE GAME</SP_TextButton>
                 </SP_Button>
             </ContentView>

@@ -55,14 +55,17 @@ export const SP_AestheticLine = styled.View<SP_AestheticLineProps>`
 `;
 
 // Label container
-export const SP_LabelView = styled.View`
+interface SP_LabelViewProps {
+    straight?: boolean
+}
+export const SP_LabelView = styled.View<SP_LabelViewProps>`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 8px 16px;
     background-color: #33383B;
-    border-radius: 2px;
+    border-radius: ${(props) => props.straight ? 0 : '2px'};
     margin-right: 3px;
 `;
 // Text for the Label container
@@ -91,14 +94,17 @@ export const SP_LabelSquareView = styled.View<SP_LabelSquareViewProps>`
 
 // Information container
 interface SP_InfoViewProps {
-    transparent?: boolean
+    transparent?: boolean,
+    straight?: boolean,
+    centerContent?: boolean
 }
 export const SP_InfoView = styled.View<SP_InfoViewProps>`
     flex: 1;
     flex-direction: row;
-    justify-content: center;
+    justify-content: ${props => props.centerContent ? 'center' : 'flex-start'};
     align-items: center;
-    border-radius: 2px;
+    padding-left: ${props => props.centerContent ? '0' : '10px'};
+    border-radius: ${props => props.straight ? 0 : '2px'};
     background-color: #7B7B7B;
     opacity: ${props => props.transparent ? "0.7" : "1"};
 `;

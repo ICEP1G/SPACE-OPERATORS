@@ -1,6 +1,6 @@
 import { Result } from "./Result";
 
-export interface type_operation {
+export interface data_operation {
     turn: number,
     role: string,
     id: string,
@@ -10,7 +10,7 @@ export interface type_operation {
     result: Result
 }
 
-export const type_operation = (
+export const data_operation = (
     turn: number,
     role: string,
     id: string,
@@ -18,7 +18,7 @@ export const type_operation = (
     description: string,
     elements: Element[],
     result: Result
-): type_operation => ({
+): data_operation => ({
     turn,
     role,
     id,

@@ -1,11 +1,12 @@
 import { Player } from "./Player";
 
-export interface type_players {
+export interface data_players {
     players: Player[]
 }
 
-export const type_players = (
+export const data_players = (
     players: Player[]
-): type_players => ({
+): data_players => ({
     players
 });
+

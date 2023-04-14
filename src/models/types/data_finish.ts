@@ -1,13 +1,13 @@
 
-export interface type_finish {
+export interface data_finish {
     id: string,
     success: boolean
 }
 
-export const type_finish = (
+export const data_finish = (
     id: string,
     success: boolean
-): type_finish => ({
+): data_finish => ({
     id,
     success
 });

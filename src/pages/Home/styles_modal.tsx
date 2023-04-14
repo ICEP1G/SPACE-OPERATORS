@@ -102,6 +102,10 @@ export const GameIdInput = styled.TextInput`
     flex: 1;
     background-color: ${Colors.input};
     border-radius: 2px;
+    padding: 0 10px;
+    color: ${Colors.text};
+    font-family: 'roboto-regular';
+    font-size: 20px;
 `;
 
 //-----------------------EDIT PLAYER------------------------//
