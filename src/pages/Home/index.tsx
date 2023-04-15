@@ -15,11 +15,13 @@ import uuid from 'react-native-uuid';
 import { randomUserName } from "../../services/RandomNameGenerator";
 import axios from 'axios';
 import { API_URL} from "../../index";
-import { socket, socketResponse, socket_send_connect } from "../../services/WebSocket";
-import { data_connect, send_data_connect } from "../../models/types/data_connect";
+import { socket } from "../../services/WebSocket";
+import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId } from "../../reducers/game/reducer";
+import ErrorMessage from "../../components/ErrorMessage";
+import { Player } from "../../models/types/Player";
 
 
 
@@ -27,11 +29,14 @@ const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     
+    const [modalVisible, setModalVisible] = useState(false);
+    const [errorBoxVisible, setErrorBoxVisible] = useState(false);
+    const [errorBoxMessage, setErrorBoxMessage] = useState('');
+
     const [mainUserId, setMainUserId] = useState(0);
     const [mainUserUuid, setMainUserUuid] = useState('');
     const [mainUserName, setMainUserName] = useState('');
     const [editableName, setEditableName] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
 
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
@@ -96,32 +101,24 @@ const Home: React.FC = () => {
             const gameId: string = response.data.id;
             dispatch(setGameId(gameId));
             console.log("gameId : " + gameId);
-            const dataConnect: data_connect = (
-                data_connect(
-                    gameId,
-                    mainUserUuid,
-                    mainUserName
-                )
-            );
-            socket_send_connect(dataConnect);
+            const dataConnect: data_connect = data_connect("connect", {
+                gameId: gameId,
+                playerId: mainUserUuid,
+                playerName: mainUserName
+            });
+            socket.send(JSON.stringify(dataConnect));
             navigate("/Lobby");
         })
         .catch((error) => {
-
+            setErrorBoxMessage("error");
+            setErrorBoxVisible(true);
+            setTimeout(() => {
+                setErrorBoxMessage('');
+                setErrorBoxVisible(false);
+            }, 3000);
         })
     };
 
-    // // Parse the message to the right data everytime a message is return from the WebSocket
-    // socket.onmessage = (event => {
-    //     if (event.data != "ping") {
-    //         const playerData = socketResponse(event.data);
-    //         if (playerData.type == "players") {
-    //             console.log(playerData.data)
-    //             dispatch(setLobbyPlayer(playerData.data))
-    //             console.log('new reducer state : ' + JSON.stringify(LobbyState.players))
-    //         }
-    //     }
-    // });
     
 
     if (!mainUserState.MainUser) {
@@ -166,7 +163,6 @@ const Home: React.FC = () => {
         </IdCtnView>
         
         <HomeMainCtn>
-            <Text style={{color: 'white'}}>{JSON.stringify(lobbyState.players)}</Text>
             <PlayerNameCtn style={styles.shadow}>
                 <SP_AestheticLine maxi/>
                 <InputPlayerName 
@@ -193,7 +189,6 @@ const Home: React.FC = () => {
                 </SP_Button>
                 <SP_Button
                     style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
-                    // onPress={() => navigate("/Lobby")}
                     onPress={() => api_createGame()}
                     >
                     <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
@@ -208,7 +203,8 @@ const Home: React.FC = () => {
                 </LeaveButton>
             </ButtonsContainer>
         </HomeMainCtn>
-            
+        
+        <ErrorMessage isDisplayed={errorBoxVisible} errorMessage={errorBoxMessage}></ErrorMessage>
         </>
     )
 };

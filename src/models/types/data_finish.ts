@@ -1,13 +1,19 @@
 
 export interface data_finish {
-    id: string,
-    success: boolean
+    type: string,
+    data: {
+        id: string,
+        success: boolean
+    }
 }
 
 export const data_finish = (
-    id: string,
-    success: boolean
+    type: string,
+    data: {
+        id: string,
+        success: boolean
+    }
 ): data_finish => ({
-    id,
-    success
+    type,
+    data
 });

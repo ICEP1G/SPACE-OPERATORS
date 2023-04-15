@@ -9,8 +9,8 @@ import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainU
 import { BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, StatusButton, StatusButtonText } from "./styles";
 import axios from 'axios';
 import { API_URL} from "../../index";
-import { socket, socketResponse, socket_send_connect } from "../../services/WebSocket";
-import { data_connect, send_data_connect } from "../../models/types/data_connect";
+import { socket, ws_GenericResponse } from "../../services/WebSocket";
+import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId } from "../../reducers/game/reducer";
@@ -46,13 +46,27 @@ const Lobby: React.FC = () => {
     // Parse the message to the right data everytime a message is return from the WebSocket
     socket.onmessage = (event => {
         if (event.data != "ping") {
-            const playerData = socketResponse(event.data);
-            if (playerData.type == "players") {
-                console.log(playerData.data)
-                dispatch(setLobbyPlayer(playerData.data))
+            const objectResponse: ws_GenericResponse = JSON.parse(event.data);
+            if (objectResponse.type == "players") {
+                const dataPlayer: data_players = JSON.parse(event.data);
+                console.log(JSON.stringify(dataPlayer));
+
+                console.log(dataPlayer.data.players)
+                dispatch(setLobbyPlayer(dataPlayer.data.players))
                 console.log('new reducer state : ' + JSON.stringify(lobbyState.players))
             }
         }
+
+
+
+        // if (event.data != "ping") {
+        //     const playerData = socketResponse(event.data);
+        //     if (playerData.type == "players") {
+        //         console.log(playerData.data)
+        //         dispatch(setLobbyPlayer(playerData.data))
+        //         console.log('new reducer state : ' + JSON.stringify(lobbyState.players))
+        //     }
+        // }
     });
 
 
@@ -68,7 +82,6 @@ const Lobby: React.FC = () => {
             /> 
 
         <LobbyMainCtn>
-            {/* <Text style={{color: Colors.text}}>{JSON.stringify(lobbyState.players)}</Text> */}
             <GameInfoCtn>
                 <SP_Button primary style={{width: 48}} onPress={() => navigate("/")}>
                 <Image

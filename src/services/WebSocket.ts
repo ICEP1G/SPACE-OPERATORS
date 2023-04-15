@@ -1,6 +1,6 @@
 
 import { data_players } from "../models/types/data_players";
-import { data_connect, send_data_connect } from "../models/types/data_connect";
+import { data_connect } from "../models/types/data_connect";
 import { data_destroyed } from "../models/types/data_destroyed";
 import { data_start } from "../models/types/data_start"
 import { data_operation } from "../models/types/data_operation";
@@ -32,86 +32,96 @@ socket.onclose = (event) => {
 //--------------------------------------------------------------------------------//
 
 
-export const socket_send_connect = (data_connect: data_connect) => {
-    const request: send_data_connect = ({
-        type: "connect",
-        data: data_connect
-    })
-    socket.send(
-        JSON.stringify(request)
-    );
-};
-
-
-// Allow to get automatically the right data when the WebSocket is returning a message
-export interface websocket_request {
+// Generic data response from the WebSocket
+export interface ws_GenericResponse {
     type: string,
-    data?: data_connect | data_players | data_start | data_operation | data_finish | data_integrity | data_destroyed | any
+    data: any
 }
-
-export const websocket_request = (
+export const ws_GenericResponse = (
     type: string,
-    data?: data_connect | data_players | data_start | data_operation | data_finish | data_integrity | data_destroyed | any
-): websocket_request => ({
+    data: any
+): ws_GenericResponse => ({
     type,
     data
 });
 
-// Convert the socket response into an object based on the correct model
-export const socketResponse = (data: string): websocket_request => {
-    if (data != "ping") {
-        const response: websocket_request = JSON.parse(data);
-        const type: string = response.type;
 
-        switch (type) {
-            case "players":
-                const dataPlayers: data_players = response.data
-                const resultPlayers: websocket_request = {
-                    type: type,
-                    data: dataPlayers
-                }
-                return resultPlayers;
-            case "operation":
-                const dataOperation: data_operation = response.data
-                const resultOperation: websocket_request = {
-                    type: type,
-                    data: dataOperation
-                }
-                return resultOperation;
-            case "finish":
-                const dataFinish: data_finish = response.data
-                const resultFinish: websocket_request = {
-                    type: type,
-                    data: dataFinish
-                }
-                return resultFinish;
-            case "intergrity":
-                const dataIntegrity: data_integrity = response.data
-                const resultIntegrity: websocket_request = {
-                    type: type,
-                    data: dataIntegrity
-                }
-                return resultIntegrity;
-            case "destroyed":
-                const dataDestroyed: data_destroyed = response.data
-                const resultDestroyed: websocket_request = {
-                    type: type,
-                    data: dataDestroyed
-                }
-                return resultDestroyed;
-            default:
-                const resultDefault: websocket_request = {
-                    type: "Data unknown",
-                    data: "No data or data unknown"
-                }
-                return resultDefault;
-        } 
-    }
-    const resultPing: websocket_request = {
-        type: "ping"
-    }
-    return resultPing
-}
+
+
+
+
+
+
+
+// // Allow to get automatically the right data when the WebSocket is returning a message
+// export interface websocket_request {
+//     type: string,
+//     data?: data_connect | data_players | data_start | data_operation | data_finish | data_integrity | data_destroyed | any
+// }
+
+// export const websocket_request = (
+//     type: string,
+//     data?: data_connect | data_players | data_start | data_operation | data_finish | data_integrity | data_destroyed | any
+// ): websocket_request => ({
+//     type,
+//     data
+// });
+
+// // Convert the socket response into an object based on the correct model
+// export const socketResponse = (data: string): websocket_request => {
+//     if (data != "ping") {
+//         const response: websocket_request = JSON.parse(data);
+//         const type: string = response.type;
+
+//         switch (type) {
+//             case "players":
+//                 const dataPlayers: data_players = response.data
+//                 const resultPlayers: websocket_request = {
+//                     type: type,
+//                     data: dataPlayers
+//                 }
+//                 return resultPlayers;
+//             case "operation":
+//                 const dataOperation: data_operation = response.data
+//                 const resultOperation: websocket_request = {
+//                     type: type,
+//                     data: dataOperation
+//                 }
+//                 return resultOperation;
+//             case "finish":
+//                 const dataFinish: data_finish = response.data
+//                 const resultFinish: websocket_request = {
+//                     type: type,
+//                     data: dataFinish
+//                 }
+//                 return resultFinish;
+//             case "intergrity":
+//                 const dataIntegrity: data_integrity = response.data
+//                 const resultIntegrity: websocket_request = {
+//                     type: type,
+//                     data: dataIntegrity
+//                 }
+//                 return resultIntegrity;
+//             case "destroyed":
+//                 const dataDestroyed: data_destroyed = response.data
+//                 const resultDestroyed: websocket_request = {
+//                     type: type,
+//                     data: dataDestroyed
+//                 }
+//                 return resultDestroyed;
+//             default:
+//                 const resultDefault: websocket_request = {
+//                     type: "Data unknown",
+//                     data: "No data or data unknown"
+//                 }
+//                 return resultDefault;
+//         } 
+//     }
+//     const resultPing: websocket_request = {
+//         type: "ping"
+//     }
+//     return resultPing
+// }
 
 
 

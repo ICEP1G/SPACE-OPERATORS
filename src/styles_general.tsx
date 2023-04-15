@@ -108,3 +108,4 @@ export const SP_InfoView = styled.View<SP_InfoViewProps>`
     background-color: #7B7B7B;
     opacity: ${props => props.transparent ? "0.7" : "1"};
 `;
+

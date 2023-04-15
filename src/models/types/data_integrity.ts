@@ -1,10 +1,17 @@
 
 export interface data_integrity {
-    integrity: number
+    type: string,
+    data: {
+        integrity: number
+    }
 }
 
 export const data_integrity = (
-    integrity: number
+    type: string,
+    data: {
+        integrity: number
+    }
 ): data_integrity => ({
-    integrity
+    type,
+    data
 });

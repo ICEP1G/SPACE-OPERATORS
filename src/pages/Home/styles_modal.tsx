@@ -116,7 +116,7 @@ export const PlayerNameCtn = styled.View`
     display: flex;
     flex-direction: row;
     margin-top: 5%;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 `;
 
 export const InputPlayerName = styled.TextInput`
@@ -134,4 +134,15 @@ export const EditLogo = styled.Image`
     height: 22px;
     top: 1px;
     left: 1px;
+`;
+
+interface ModalErrorMessageProps {
+    displayError?: boolean
+}
+export const ModalErrorMessage = styled.Text<ModalErrorMessageProps>`
+    color: white;
+    font-family: 'roboto-light-italic';
+    font-size: 18px;
+    margin: 0 16px 32px 16px;
+    display: ${props => props.displayError ? 'flex' : 'none'};
 `;

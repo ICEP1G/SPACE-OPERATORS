@@ -1,10 +1,17 @@
 
 export interface data_start {
-    gameId: string
+    type: string
+    data: {
+        gameId: string
+    }
 }
 
 export const data_start = (
-    gameId: string
+    type: string,
+    data: {
+        gameId: string
+    }
 ): data_start => ({
-    gameId
+    type,
+    data
 });

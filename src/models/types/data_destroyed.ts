@@ -1,10 +1,17 @@
 
 export interface data_destroyed {
-    turns: number
+    type: string,
+    data: {
+        turn: number
+    }
 }
 
 export const data_destroyed = (
-    turns: number
+    type: string,
+    data: {
+        turn: number
+    }
 ): data_destroyed => ({
-    turns
+    type,
+    data
 });

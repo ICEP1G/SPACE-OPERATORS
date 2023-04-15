@@ -27,8 +27,10 @@ const App = () => {
   const [fontsLoaded] = useFonts({
     'protomolecule': require('../assets/fonts/Protomolecule.ttf'),
     'roboto-light': require('../assets/fonts/Roboto/Roboto-Light.ttf'),
+    'roboto-light-italic': require('../assets/fonts/Roboto/Roboto-LightItalic.ttf'),
     'roboto-regular': require('../assets/fonts/Roboto/Roboto-Regular.ttf'),
     'roboto-medium': require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
+    'roboto-medium-italic': require('../assets/fonts/Roboto/Roboto-MediumItalic.ttf'),
     'roboto-bold': require('../assets/fonts/Roboto/Roboto-Bold.ttf'),
     'roboto-bold-italic': require('../assets/fonts/Roboto/Roboto-BoldItalic.ttf')
   });
