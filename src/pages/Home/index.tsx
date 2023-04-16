@@ -1,27 +1,38 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated } from "react-native"
+import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform } from "react-native"
 import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
+import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState, useRef } from "react";
 import { User } from "../../models/User";
-import { GetMainUser, MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
+import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
 import index_modal from "./index_modal"
 import HomeModal from "./index_modal";
 import ShipImage from "../../components/ShipImage";
+import { actualUser, createUser } from "../../databaseObjects/UsersDAO";
+import uuid from 'react-native-uuid';
+import { randomUserName } from "../../services/RandomNameGenerator";
+import axios from 'axios';
+import { API_URL} from "../../index";
+import { socket } from "../../services/WebSocket";
+import { data_connect } from "../../models/types/data_connect";
+import { data_players } from "../../models/types/data_players";
+import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
+import { GameState, setGameId } from "../../reducers/game/reducer";
+import ErrorMessage from "../../components/ErrorMessage";
+import { Player } from "../../models/types/Player";
 
 
 
-interface Props {
-    interactable: boolean
-}
-
-const Home: React.FC<Props> = ({...Props}) => {
+const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     
+    const [modalVisible, setModalVisible] = useState(false);
+    const [errorBoxVisible, setErrorBoxVisible] = useState(false);
+    const [errorBoxMessage, setErrorBoxMessage] = useState('');
+
     const [mainUserId, setMainUserId] = useState(0);
     const [mainUserUuid, setMainUserUuid] = useState('');
     const [mainUserName, setMainUserName] = useState('');
@@ -30,21 +41,42 @@ const Home: React.FC<Props> = ({...Props}) => {
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
 
+    const lobbyState: LobbyState = 
+        useAppSelector((state) => state.lobby);
+
+    const gameState: GameState = 
+        useAppSelector((state) => state.game);
+
+    // Get the Main user of the app, if it doesn't exist then create a new user
     useEffect(() => {
-        dispatch(GetMainUser())
-        .then(() => {
-            // Load the values in the states to update them when the response is returned
-            setMainUserId(mainUserState.MainUser[0].id);
-            setMainUserUuid(mainUserState.MainUser[0].uuid);
-            setMainUserName(mainUserState.MainUser[0].name);
-        })
-        .catch(() => {
-            setMainUserName('No info -> refresh the page');
+        actualUser()
+        .then((mainUser) => {
+            if (mainUser.length <= 0) {
+                // Create a new user with a random UUID and Name
+                const newUser = User(1 ,uuid.v4().toString(), randomUserName());
+                // Add the new user in database
+                createUser(newUser);
+                // Add the new user to the reducer
+                mainUser.push(newUser)
+                dispatch(setMainUser(mainUser));
+                // Update the user information
+                setMainUserId(mainUser[0].id);
+                setMainUserUuid(mainUser[0].uuid);
+                setMainUserName(mainUser[0].name);
+            }
+            else {
+                dispatch(setMainUser(mainUser));
+                setMainUserId(mainUser[0].id);
+                setMainUserUuid(mainUser[0].uuid);
+                setMainUserName(mainUser[0].name);
+            }
         })
     }, []);
 
+    useEffect(() => {
+        console.log("HomePage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
+    }, [lobbyState])
     
-
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
         setEditableName(!editableName);
@@ -60,6 +92,31 @@ const Home: React.FC<Props> = ({...Props}) => {
             );
         dispatch(updateMainUser(userToUpdate));
         toggleButtonEditableName;
+    };
+
+    // Call the API when creating a new game then redirect the user to the lobby
+    const api_createGame = () => {
+        axios.post(API_URL + "create-game")
+        .then((response) => {
+            const gameId: string = response.data.id;
+            dispatch(setGameId(gameId));
+            console.log("gameId : " + gameId);
+            const dataConnect: data_connect = data_connect("connect", {
+                gameId: gameId,
+                playerId: mainUserUuid,
+                playerName: mainUserName
+            });
+            socket.send(JSON.stringify(dataConnect));
+            navigate("/Lobby");
+        })
+        .catch((error) => {
+            setErrorBoxMessage("error");
+            setErrorBoxVisible(true);
+            setTimeout(() => {
+                setErrorBoxMessage('');
+                setErrorBoxVisible(false);
+            }, 3000);
+        })
     };
 
     
@@ -86,14 +143,21 @@ const Home: React.FC<Props> = ({...Props}) => {
             resizeMode="contain"
         />
 
-        <HomeModal visible={false}></HomeModal>
+        <HomeModal
+            visible={modalVisible}
+            setModalVisible={setModalVisible}
+            setMainUserName={setMainUserName}
+            userName={mainUserName}
+            userUuid={mainUserUuid}
+            onSaveUserName={saveUserName}
+        />
 
         <IdCtnView>
             <SP_AestheticLine/>
-            <SP_LabelView mini style={{marginRight: 3}}>
+            <SP_LabelSquareView mini style={{marginRight: 3}}>
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>ID</Text>
-            </SP_LabelView>
-            <SP_InfoView transparent>
+            </SP_LabelSquareView>
+            <SP_InfoView transparent centerContent>
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-regular'}}>{mainUserUuid}</Text>
             </SP_InfoView>
         </IdCtnView>
@@ -120,10 +184,13 @@ const Home: React.FC<Props> = ({...Props}) => {
             <ButtonsContainer>
                 <SP_Button primary 
                     style={{borderWidth: 1.5, borderColor: '#C7532F'}}
-                    onPress={() => navigate("/Lobby")}>
+                    onPress={() => setModalVisible(true)}>
                     <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
                 </SP_Button>
-                <SP_Button style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}>
+                <SP_Button
+                    style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
+                    onPress={() => api_createGame()}
+                    >
                     <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button 
@@ -131,12 +198,13 @@ const Home: React.FC<Props> = ({...Props}) => {
                     onPress={() => navigate("/Historic")}>
                     <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
                 </SP_Button>
-                <LeaveButton onPress={() => BackHandler.exitApp()}>
+                <LeaveButton onPress={() => (BackHandler.exitApp(), socket.close()) }>
                     <TextLeaveButton>QUITTER</TextLeaveButton>
                 </LeaveButton>
             </ButtonsContainer>
         </HomeMainCtn>
-            
+        
+        <ErrorMessage isDisplayed={errorBoxVisible} errorMessage={errorBoxMessage}></ErrorMessage>
         </>
     )
 };

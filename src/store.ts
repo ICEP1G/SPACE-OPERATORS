@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import mainUserReducer from './reducers/mainUser/reducer';
+import lobbyReducer from './reducers/lobby/reducer';
+import gameReducer from './reducers/game/reducer';
 
 
 const store = configureStore({
   reducer: {
-    mainUser: mainUserReducer
+    mainUser: mainUserReducer,
+    lobby: lobbyReducer,
+    game: gameReducer
   }
 });
 
