@@ -28,10 +28,14 @@ export const LobbyMainCtn = styled.View`
     z-index: 20;
 `;
 
-export const OperatorImage = styled.Image`
+interface OperatorImageProps {
+    isDisplayed?: boolean
+}
+export const OperatorImage = styled.Image<OperatorImageProps>`
     position: absolute;
     width: 9%;
     height: 9%;
+    display: ${props => props.isDisplayed ? 'flex' : 'none'};
     z-index: 11;
 `;
 

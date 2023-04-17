@@ -15,15 +15,16 @@ export const Colors = {
 interface SP_ButtonProps {
     primary?: boolean,
     mini?: boolean,
-    text?: boolean
+    text?: boolean,
+    notRound?: boolean
 }
 export const SP_Button = styled.TouchableOpacity<SP_ButtonProps>`
-    height: ${props => props.mini ? "40" : "48px"};
+    height: ${props => props.mini ? "40px" : "48px"};
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-radius: 2px;
+    border-radius: ${props => props.notRound ? '0px' : '2px'};
     background-color: ${props => props.primary ? "#DE583A" : "#33383B"};
     padding: ${props => props.text ? "0 20px" : "0"};
 `;

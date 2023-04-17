@@ -7,18 +7,17 @@ import { useEffect, useState, useRef } from "react";
 import { User } from "../../models/User";
 import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import index_modal from "./index_modal"
 import HomeModal from "./index_modal";
 import ShipImage from "../../components/ShipImage";
 import { actualUser, createUser } from "../../databaseObjects/UsersDAO";
 import uuid from 'react-native-uuid';
 import { randomUserName } from "../../services/RandomNameGenerator";
 import axios from 'axios';
-import { API_URL} from "../../index";
+import { API_URL} from "../../services/WebSocket";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
-import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
+import { LobbyState, setLobbyGameId, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId } from "../../reducers/game/reducer";
 import ErrorMessage from "../../components/ErrorMessage";
 import { Player } from "../../models/types/Player";
@@ -80,9 +79,9 @@ const Home: React.FC = () => {
     //     console.log("HomePage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
     // }, [lobbyState])
 
-    // useEffect(() => {
-
-    // }, [gameState])
+    useEffect(() => {
+        console.log('game Id : ' + gameState.gameId)
+    }, [gameState])
     
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
@@ -106,16 +105,15 @@ const Home: React.FC = () => {
         axios.post(API_URL + "create-game")
         .then((response) => {
             const gameId: string = response.data.id;
+            dispatch(setLobbyGameId(gameId));
+            console.log("gameId : " + gameId)
             dispatch(setGameId(gameId));
-            console.log("gameId : " + gameId);
             const dataConnect: data_connect = data_connect("connect", {
                 gameId: gameId,
                 playerId: mainUserUuid,
                 playerName: mainUserName
             });
             socket.send(JSON.stringify(dataConnect));
-            navigate("/Lobby");
-            
         })
         .catch((error) => {
             setErrorBoxMessage("error");
@@ -126,6 +124,19 @@ const Home: React.FC = () => {
             }, 3000);
         })
     };
+
+    // Parse the message to the right data everytime a message is return from the WebSocket
+    socket.onmessage = (event => {
+        if (event.data != "ping") {
+            const objectResponse: ws_GenericResponse = JSON.parse(event.data);
+            if (objectResponse.type == "players") {
+                const dataPlayer: data_players = JSON.parse(event.data);
+                console.log("HomePage - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
+                dispatch(setLobbyPlayer(dataPlayer.data.players))
+                navigate("/Lobby");
+            }
+        }
+    });
 
 
 

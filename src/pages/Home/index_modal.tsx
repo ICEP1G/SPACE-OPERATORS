@@ -4,7 +4,7 @@ import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, Refr
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_AestheticLine, SP_LabelView, SP_TextLabel } from "../../styles_general";
 import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
-import { API_URL } from "../../index";
+import { API_URL } from "../../services/WebSocket";
 import { User } from "../../models/User";
 import { MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
@@ -13,7 +13,7 @@ import { ContentView, GameIdCtn, GameIdInput, HeaderButton, HeaderButtonIcon, He
 import { data_connect } from "../../models/types/data_connect";
 import { ws_GenericResponse } from "../../services/WebSocket";
 import { socket } from "../../services/WebSocket";
-import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
+import { LobbyState, setLobbyPlayer, setLobbyGameId } from "../../reducers/lobby/reducer";
 import { GameState, setGameId } from "../../reducers/game/reducer";
 import { Player } from "../../models/types/Player";
 import { data_players } from "../../models/types/data_players";
@@ -93,24 +93,25 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         socket.send(JSON.stringify(dataConnect));
     };
 
-    socket.onmessage = (event => {
-        if (event.data != "ping") {
-            // Check if the data seem's OK then transform it to an object and navigate to the next page if there is at least one player
-            const objectResponse: ws_GenericResponse = JSON.parse(event.data);
-            if (objectResponse.type == "players") {
-                const dataPlayer: data_players = JSON.parse(event.data);
-                if (dataPlayer.data.players.length <= 0) {
-                    showErrorFeedback("Cette partie n'existe pas");
+    if (Props.visible == true) {
+        socket.onmessage = (event => {
+            if (event.data != "ping") {
+                // Check if the data seem's OK then transform it to an object and navigate to the next page if there is at least one player
+                const objectResponse: ws_GenericResponse = JSON.parse(event.data);
+                if (objectResponse.type == "players") {
+                    const dataPlayer: data_players = JSON.parse(event.data);
+                    if (dataPlayer.data.players.length <= 0) {
+                        showErrorFeedback("Cette partie n'existe pas");
+                    }
+                    else {
+                        dispatch(setLobbyGameId(gameId));
+                        dispatch(setLobbyPlayer(dataPlayer.data.players))
+                        navigate("/Lobby");
+                    } 
                 }
-                else {
-                    dispatch(setGameId(gameId));
-                    dispatch(setLobbyPlayer(dataPlayer.data.players))
-                    navigate("/Lobby");
-                } 
             }
-        }
-    });
-
+        });
+    }
 
     return (
         <>

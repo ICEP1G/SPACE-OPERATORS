@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NativeRouter, Routes, Route, Link, useNavigate } from "react-router-native"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine, SP_TextLabel } from "../../styles_general";
@@ -8,7 +8,7 @@ import { useAppSelector, useAppDispatch } from "../../store";
 import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
 import { AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, StatusButton, StatusButtonText } from "./styles";
 import axios from 'axios';
-import { API_URL} from "../../index";
+import { API_URL} from "../../services/WebSocket";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
@@ -21,6 +21,7 @@ const Lobby: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const playerElement: any = [];
+    const buttonPlayElement: any = [];
 
     const [launchButtonPressable, setLaunchButtonPressable] = useState(false);
 
@@ -35,28 +36,19 @@ const Lobby: React.FC = () => {
         console.log("LobbyPage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
         let playerReady = 0;
         lobbyState.players.forEach((player, index) => {
-            if (index == 0) {
-                
-            }
             if (player.status == true) {
                 playerReady++;
             }
         })
+        console.log(playerReady);
+        console.log(lobbyState.players.length);
         if (playerReady == lobbyState.players.length) {
             setLaunchButtonPressable(true)
         }
         else {
             setLaunchButtonPressable(false)
         }
-    }, [])
-
-    // useEffect(() => {
-
-    // }, [gameState])
-
-    // useEffect(() => {
-    //     console.log("lobbyPage - mainUserState reducer : " + JSON.stringify(mainUserState.MainUser));
-    // }, [mainUserState])
+    }, [lobbyState])
 
 
     // Parse the message to the right data everytime a message is return from the WebSocket
@@ -92,6 +84,7 @@ const Lobby: React.FC = () => {
                 </StatusButton>
             </PlayerStatusCtn>
         );
+
     })
 
     const setStatusReady = () => {
@@ -115,7 +108,7 @@ const Lobby: React.FC = () => {
 
         <LobbyMainCtn>
             <GameInfoCtn>
-                <SP_Button primary style={{width: 48}} onPress={() => navigate("/")}>
+                <SP_Button primary notRound style={{width: 48}} onPress={() => navigate("/")}>
                 <Image
                     style={{width: 24, position: 'relative', left: -1}}
                     source={require('../../../assets/icons/angle-double-left.png')}
@@ -124,7 +117,7 @@ const Lobby: React.FC = () => {
                 </SP_Button>
                 <GameInfoLabel><GameInfoLabelText>GAME ID</GameInfoLabelText></GameInfoLabel>
                 <SP_InfoView straight centerContent>
-                    <GameIdText>{gameState.gameId}</GameIdText>
+                    <GameIdText>{lobbyState.gameId}</GameIdText>
                 </SP_InfoView>
             </GameInfoCtn>
 
@@ -155,42 +148,44 @@ const Lobby: React.FC = () => {
 
             </LobbyContentCtn>
 
-            <Text>{mainUserState.MainUser[0].name}</Text>
-            {/* <Text>{lobbyState.players[0].name}</Text> */}
-
-            {/* {
+            {
                 lobbyState.players[0].name == mainUserState.MainUser[0].name ?
                 <LobbyLaunchButton isPressable={launchButtonPressable}>
                     <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
                 </LobbyLaunchButton>
                 : ''
-            } */}
+            }
             
 
         </LobbyMainCtn>
 
 
             <OperatorImage 
+                isDisplayed={lobbyState.players[1] ? true : false}
                 source={require('../../images/Lobby_Player.png')}
                 resizeMode="contain"
                 style={{bottom: '11%', left: '63%'}}
             />
             <OperatorImage 
+                isDisplayed={lobbyState.players[2] ? true : false}
                 source={require('../../images/Lobby_Player.png')}
                 resizeMode="contain"
                 style={{bottom: '8%', left: '86%'}}
             />
             <OperatorImage 
+                isDisplayed={lobbyState.players[3] ? true : false}
                 source={require('../../images/Lobby_Player.png')}
                 resizeMode="contain"
                 style={{bottom: '13%', left: '50%'}}
             />
             <OperatorImage 
+                isDisplayed={lobbyState.players[4] ? true : false}
                 source={require('../../images/Lobby_Player.png')}
                 resizeMode="contain"
                 style={{bottom: '4%', left: '76%'}}
             />
             <OperatorImage 
+                isDisplayed={lobbyState.players[5] ? true : false}
                 source={require('../../images/Lobby_Player.png')}
                 resizeMode="contain"
                 style={{bottom: '9%', left: '40%'}}

@@ -7,8 +7,8 @@ import { data_operation } from "../models/types/data_operation";
 import { data_integrity } from "../models/types/data_integrity";
 import { data_finish } from "../models/types/data_finish";
 
+export const API_URL: string = "https://space-operators.herokuapp.com/"
 export const socket: WebSocket = new WebSocket("ws://space-operators.herokuapp.com/");
-
 
 // Basic functions
 socket.onopen = () => {
