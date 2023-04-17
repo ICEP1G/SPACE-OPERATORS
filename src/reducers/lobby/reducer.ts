@@ -4,12 +4,10 @@ import { setLobbyPlayerAction } from './action';
 
 export interface LobbyState {
     players: Player[]
-    allUsersReady: boolean
 }
 
 const initialState: LobbyState = {
     players: [],
-    allUsersReady: false
 };
 
     

@@ -126,6 +126,12 @@ export const PlayerNameCtn = styled.View`
     flex-direction: row;
 `;
 
+export const AdminPlayer = styled.Image`
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+`;
+
 interface StatusButtonProps {
     isReady?: boolean
 }
@@ -184,7 +190,7 @@ export const FooterButtonReady = styled.TouchableOpacity`
 `;
 
 interface LobbyLaunchButtonProps {
-    allPlayersReady?: boolean
+    isPressable?: boolean
 }
 export const LobbyLaunchButton = styled.TouchableOpacity<LobbyLaunchButtonProps>`
     position: absolute;
@@ -196,7 +202,8 @@ export const LobbyLaunchButton = styled.TouchableOpacity<LobbyLaunchButtonProps>
     align-items: center;
     align-self: center;
     border-radius: 2px;
-    background-color: ${Colors.primary};
+    background-color: ${props => props.isPressable ? Colors.primary : Colors.input};
+    pointer-events: ${props => props.isPressable ? 'auto' : 'none'};
     padding: 0 20px;
     bottom: 8%;
 `;

@@ -15,7 +15,7 @@ import uuid from 'react-native-uuid';
 import { randomUserName } from "../../services/RandomNameGenerator";
 import axios from 'axios';
 import { API_URL} from "../../index";
-import { socket } from "../../services/WebSocket";
+import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
@@ -40,10 +40,8 @@ const Home: React.FC = () => {
 
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
-
     const lobbyState: LobbyState = 
         useAppSelector((state) => state.lobby);
-
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
@@ -73,9 +71,18 @@ const Home: React.FC = () => {
         })
     }, []);
 
-    useEffect(() => {
-        console.log("HomePage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
-    }, [lobbyState])
+
+    // useEffect(() => {
+    //     console.log("homePage - mainUserState reducer : " + JSON.stringify(mainUserState.MainUser[0]));
+    // }, [mainUserState])
+
+    // useEffect(() => {
+    //     console.log("HomePage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
+    // }, [lobbyState])
+
+    // useEffect(() => {
+
+    // }, [gameState])
     
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
@@ -108,6 +115,7 @@ const Home: React.FC = () => {
             });
             socket.send(JSON.stringify(dataConnect));
             navigate("/Lobby");
+            
         })
         .catch((error) => {
             setErrorBoxMessage("error");
@@ -119,7 +127,7 @@ const Home: React.FC = () => {
         })
     };
 
-    
+
 
     if (!mainUserState.MainUser) {
         return (

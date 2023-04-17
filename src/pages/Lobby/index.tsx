@@ -6,7 +6,7 @@ import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, Te
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine, SP_TextLabel } from "../../styles_general";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
-import { BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, StatusButton, StatusButtonText } from "./styles";
+import { AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, StatusButton, StatusButtonText } from "./styles";
 import axios from 'axios';
 import { API_URL} from "../../index";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
@@ -14,33 +14,49 @@ import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId } from "../../reducers/game/reducer";
+import { Player } from "../../models/types/Player";
 
 
 const Lobby: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const playerElement: any = [];
 
-    const mainUserState: MainUserState = 
-        useAppSelector((state) => state.mainUser);
+    const [launchButtonPressable, setLaunchButtonPressable] = useState(false);
 
+    const mainUserState: MainUserState =
+         useAppSelector((state) => state.mainUser);
     const lobbyState: LobbyState = 
         useAppSelector((state) => state.lobby);
-
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
-
-    useEffect(() => {
-        dispatch(setMainUser);
-    }, []);
-
     useEffect(() => {
         console.log("LobbyPage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
-    }, [lobbyState])
+        let playerReady = 0;
+        lobbyState.players.forEach((player, index) => {
+            if (index == 0) {
+                
+            }
+            if (player.status == true) {
+                playerReady++;
+            }
+        })
+        if (playerReady == lobbyState.players.length) {
+            setLaunchButtonPressable(true)
+        }
+        else {
+            setLaunchButtonPressable(false)
+        }
+    }, [])
 
-    useEffect(() => {
-        
-    }, [gameState])
+    // useEffect(() => {
+
+    // }, [gameState])
+
+    // useEffect(() => {
+    //     console.log("lobbyPage - mainUserState reducer : " + JSON.stringify(mainUserState.MainUser));
+    // }, [mainUserState])
 
 
     // Parse the message to the right data everytime a message is return from the WebSocket
@@ -49,26 +65,42 @@ const Lobby: React.FC = () => {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                console.log(JSON.stringify(dataPlayer));
-
-                console.log(dataPlayer.data.players)
+                console.log("lobbyPage - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
                 dispatch(setLobbyPlayer(dataPlayer.data.players))
-                console.log('new reducer state : ' + JSON.stringify(lobbyState.players))
             }
         }
-
-
-
-        // if (event.data != "ping") {
-        //     const playerData = socketResponse(event.data);
-        //     if (playerData.type == "players") {
-        //         console.log(playerData.data)
-        //         dispatch(setLobbyPlayer(playerData.data))
-        //         console.log('new reducer state : ' + JSON.stringify(lobbyState.players))
-        //     }
-        // }
     });
 
+    // Display each player name in the lobby and update their status when they're ready
+    lobbyState.players.forEach((player, index) => {
+        playerElement.push(
+            <PlayerStatusCtn key={index}>
+                <PlayerNameCtn>
+                    <SP_AestheticLine></SP_AestheticLine>
+                    <SP_InfoView transparent>
+                        {index === 0 ?
+                        <AdminPlayer
+                        source={require('../../../assets/icons/crown.png')}
+                        resizeMode="cover"
+                        /> : ''
+                        }   
+                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{player.name}</Text>
+                    </SP_InfoView>
+                </PlayerNameCtn>
+                <StatusButton isReady={player.status}>
+                    <StatusButtonText isReady={player.status}>{player.status ? 'PRÊT' : 'EN ATTENTE'}</StatusButtonText>
+                </StatusButton>
+            </PlayerStatusCtn>
+        );
+    })
+
+    const setStatusReady = () => {
+        axios.post(API_URL + "ready/" + mainUserState.MainUser[0].uuid)
+        .then((response) => {
+        })
+        .catch((error) => {
+        })
+    };
 
 
 
@@ -108,29 +140,7 @@ const Lobby: React.FC = () => {
 
                 <ContentScrollViewCtn>
 
-                    <PlayerStatusCtn>
-                        <PlayerNameCtn>
-                            <SP_AestheticLine></SP_AestheticLine>
-                            <SP_InfoView transparent>
-                                <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>ICEP1G</Text>
-                            </SP_InfoView>
-                        </PlayerNameCtn>
-                        <StatusButton isReady>
-                            <StatusButtonText isReady>PRÊT</StatusButtonText>
-                        </StatusButton>
-                    </PlayerStatusCtn>
-
-                    <PlayerStatusCtn>
-                        <PlayerNameCtn>
-                            <SP_AestheticLine></SP_AestheticLine>
-                            <SP_InfoView transparent>
-                            <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Klaes_Ashford</Text>
-                            </SP_InfoView>
-                        </PlayerNameCtn>
-                        <StatusButton >
-                            <StatusButtonText>EN ATTENTE</StatusButtonText>
-                        </StatusButton>
-                    </PlayerStatusCtn>
+                    {playerElement}
 
                 </ContentScrollViewCtn>
 
@@ -138,16 +148,24 @@ const Lobby: React.FC = () => {
                     <ContentFooterInfo>
                         <ContentFooterText>EN ATTENTE DE JOUEURS ...</ContentFooterText>
                     </ContentFooterInfo>
-                    <FooterButtonReady>
+                    <FooterButtonReady onPress={setStatusReady}>
                         <SP_TextButton italic>READY</SP_TextButton>
                     </FooterButtonReady>
                 </ContentFooterCtn>
 
             </LobbyContentCtn>
 
-            <LobbyLaunchButton>
-                <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
-            </LobbyLaunchButton>
+            <Text>{mainUserState.MainUser[0].name}</Text>
+            {/* <Text>{lobbyState.players[0].name}</Text> */}
+
+            {/* {
+                lobbyState.players[0].name == mainUserState.MainUser[0].name ?
+                <LobbyLaunchButton isPressable={launchButtonPressable}>
+                    <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
+                </LobbyLaunchButton>
+                : ''
+            } */}
+            
 
         </LobbyMainCtn>
 

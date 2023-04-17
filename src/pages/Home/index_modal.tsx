@@ -35,12 +35,12 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
     const [editableName, setEditableName] = useState(false);
     const [gameId, setNewGameId] = useState('');
     const [displayError, setDisplayError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
 
     const lobbyState: LobbyState = 
         useAppSelector((state) => state.lobby);
-
     const gameState: GameState = 
         useAppSelector((state) => state.game);
         
@@ -74,10 +74,12 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
     //     ])
     // }
 
-    const showErrorFeedback = () => {
+    const showErrorFeedback = (errorMessage: string) => {
+        setErrorMessage(errorMessage);
         setDisplayError(true);
         setTimeout(() => {
             setDisplayError(false);
+            setErrorMessage('');
         }, 3000);
     }
 
@@ -98,10 +100,11 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
                 if (dataPlayer.data.players.length <= 0) {
-                    showErrorFeedback();
+                    showErrorFeedback("Cette partie n'existe pas");
                 }
                 else {
                     dispatch(setGameId(gameId));
+                    dispatch(setLobbyPlayer(dataPlayer.data.players))
                     navigate("/Lobby");
                 } 
             }
@@ -151,7 +154,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                     </SP_Button>
                 </PlayerNameCtn>
 
-                <ModalErrorMessage  displayError={displayError}>La partie n'existe pas</ModalErrorMessage>
+                <ModalErrorMessage  displayError={displayError}>{errorMessage}</ModalErrorMessage>
                 
                 <SP_Button text 
                     style={{position: 'relative', bottom: 0}}
@@ -161,7 +164,8 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
             </ContentView>
 
         </ViewModal>
-        <ViewCtn visible={Props.visible} pointerEvents="none"></ViewCtn>
+        <ViewCtn visible={Props.visible}>
+        </ViewCtn>
         </>
     )
 }

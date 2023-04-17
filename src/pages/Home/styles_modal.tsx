@@ -8,7 +8,7 @@ import { useFonts } from "expo-font";
 interface ViewCtnProps {
     visible?: boolean
 }
-export const ViewCtn = styled.View<ViewCtnProps>`
+export const ViewCtn = styled.Pressable<ViewCtnProps>`
     position: absolute;
     width: 100%;
     height: 120%;
