@@ -15,13 +15,13 @@ import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId } from "../../reducers/game/reducer";
 import { Player } from "../../models/types/Player";
+import { data_start } from "../../models/types/data_start";
 
 
 const Lobby: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const playerElement: any = [];
-    const buttonPlayElement: any = [];
 
     const [launchButtonPressable, setLaunchButtonPressable] = useState(false);
 
@@ -60,6 +60,9 @@ const Lobby: React.FC = () => {
                 console.log("lobbyPage - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
                 dispatch(setLobbyPlayer(dataPlayer.data.players))
             }
+            if (objectResponse.type == "start") {
+                navigate("/InGame");
+            }
         }
     });
 
@@ -87,6 +90,7 @@ const Lobby: React.FC = () => {
 
     })
 
+    // Tell the API that to set the player status to ready
     const setStatusReady = () => {
         axios.post(API_URL + "ready/" + mainUserState.MainUser[0].uuid)
         .then((response) => {
@@ -95,6 +99,13 @@ const Lobby: React.FC = () => {
         })
     };
 
+    // Tell the WebSocket to start the game
+    const LaunchGame = () => {
+        const dataStart: data_start = data_start("start", {
+            gameId: lobbyState.gameId
+        });
+        socket.send(JSON.stringify(dataStart));
+    }
 
 
     return (
@@ -150,7 +161,10 @@ const Lobby: React.FC = () => {
 
             {
                 lobbyState.players[0].name == mainUserState.MainUser[0].name ?
-                <LobbyLaunchButton isPressable={launchButtonPressable}>
+                <LobbyLaunchButton
+                    isPressable={launchButtonPressable}
+                    onPress={LaunchGame}
+                    >
                     <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
                 </LobbyLaunchButton>
                 : ''
@@ -160,36 +174,36 @@ const Lobby: React.FC = () => {
         </LobbyMainCtn>
 
 
-            <OperatorImage 
-                isDisplayed={lobbyState.players[1] ? true : false}
-                source={require('../../images/Lobby_Player.png')}
-                resizeMode="contain"
-                style={{bottom: '11%', left: '63%'}}
-            />
-            <OperatorImage 
-                isDisplayed={lobbyState.players[2] ? true : false}
-                source={require('../../images/Lobby_Player.png')}
-                resizeMode="contain"
-                style={{bottom: '8%', left: '86%'}}
-            />
-            <OperatorImage 
-                isDisplayed={lobbyState.players[3] ? true : false}
-                source={require('../../images/Lobby_Player.png')}
-                resizeMode="contain"
-                style={{bottom: '13%', left: '50%'}}
-            />
-            <OperatorImage 
-                isDisplayed={lobbyState.players[4] ? true : false}
-                source={require('../../images/Lobby_Player.png')}
-                resizeMode="contain"
-                style={{bottom: '4%', left: '76%'}}
-            />
-            <OperatorImage 
-                isDisplayed={lobbyState.players[5] ? true : false}
-                source={require('../../images/Lobby_Player.png')}
-                resizeMode="contain"
-                style={{bottom: '9%', left: '40%'}}
-            />
+        <OperatorImage 
+            isDisplayed={lobbyState.players[1] ? true : false}
+            source={require('../../images/Lobby_Player.png')}
+            resizeMode="contain"
+            style={{bottom: '11%', left: '63%'}}
+        />
+        <OperatorImage 
+            isDisplayed={lobbyState.players[2] ? true : false}
+            source={require('../../images/Lobby_Player.png')}
+            resizeMode="contain"
+            style={{bottom: '8%', left: '86%'}}
+        />
+        <OperatorImage 
+            isDisplayed={lobbyState.players[3] ? true : false}
+            source={require('../../images/Lobby_Player.png')}
+            resizeMode="contain"
+            style={{bottom: '13%', left: '50%'}}
+        />
+        <OperatorImage 
+            isDisplayed={lobbyState.players[4] ? true : false}
+            source={require('../../images/Lobby_Player.png')}
+            resizeMode="contain"
+            style={{bottom: '4%', left: '76%'}}
+        />
+        <OperatorImage 
+            isDisplayed={lobbyState.players[5] ? true : false}
+            source={require('../../images/Lobby_Player.png')}
+            resizeMode="contain"
+            style={{bottom: '9%', left: '40%'}}
+        />
 
         </LobbyWindow>
 

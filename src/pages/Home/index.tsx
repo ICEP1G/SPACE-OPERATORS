@@ -107,7 +107,6 @@ const Home: React.FC = () => {
             const gameId: string = response.data.id;
             dispatch(setLobbyGameId(gameId));
             console.log("gameId : " + gameId)
-            dispatch(setGameId(gameId));
             const dataConnect: data_connect = data_connect("connect", {
                 gameId: gameId,
                 playerId: mainUserUuid,
