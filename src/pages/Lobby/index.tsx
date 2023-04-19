@@ -61,6 +61,7 @@ const Lobby: React.FC = () => {
                 dispatch(setLobbyPlayer(dataPlayer.data.players))
             }
             if (objectResponse.type == "start") {
+                dispatch(setGameId(lobbyState.gameId));
                 navigate("/InGame");
             }
         }

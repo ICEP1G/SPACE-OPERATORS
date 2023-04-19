@@ -7,7 +7,8 @@ export const Colors = {
     input: '#7B7B7B',
     uiborder: '#8FA69B',
     text: '#fff',
-    modalBackground: '#505253'
+    modalBackground: '#505253',
+    gameBackground: '#3D4245;'
 }
 
 
@@ -57,14 +58,15 @@ export const SP_AestheticLine = styled.View<SP_AestheticLineProps>`
 
 // Label container
 interface SP_LabelViewProps {
-    straight?: boolean
+    straight?: boolean,
+    maxi?: boolean
 }
 export const SP_LabelView = styled.View<SP_LabelViewProps>`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 8px 16px;
+    padding: ${props => props.maxi ? '4px 16px' : '8px 16px'};
     background-color: #33383B;
     border-radius: ${(props) => props.straight ? 0 : '2px'};
     margin-right: 3px;
@@ -97,7 +99,8 @@ export const SP_LabelSquareView = styled.View<SP_LabelSquareViewProps>`
 interface SP_InfoViewProps {
     transparent?: boolean,
     straight?: boolean,
-    centerContent?: boolean
+    centerContent?: boolean,
+    maxi?: boolean
 }
 export const SP_InfoView = styled.View<SP_InfoViewProps>`
     flex: 1;
@@ -105,6 +108,8 @@ export const SP_InfoView = styled.View<SP_InfoViewProps>`
     justify-content: ${props => props.centerContent ? 'center' : 'flex-start'};
     align-items: center;
     padding-left: ${props => props.centerContent ? '0' : '10px'};
+    padding-top: ${props => props.maxi ? '4px' : 0};
+    padding-bottom: ${props => props.maxi ? '4px' : 0};
     border-radius: ${props => props.straight ? 0 : '2px'};
     background-color: #7B7B7B;
     opacity: ${props => props.transparent ? "0.7" : "1"};
