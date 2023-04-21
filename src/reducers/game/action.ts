@@ -1,6 +1,7 @@
 import { PayloadAction} from '@reduxjs/toolkit';
 import { GameState } from './reducer';
 import { data_operation } from '../../models/types/data_operation';
+import { data_integrity } from '../../models/types/data_integrity';
 
 export const setGameIdAction = (state: GameState, action: PayloadAction<string>): GameState =>
 ({
@@ -19,3 +20,9 @@ export const setGameOperationAction = (state: GameState, action: PayloadAction<d
     elements: action.payload.data.elements,
     result: action.payload.data.result
 });
+
+export const setGameShipIntegrityAction = (state: GameState, action: PayloadAction<number>): GameState =>
+({
+    ...state,
+    shipIntegrity: action.payload
+})

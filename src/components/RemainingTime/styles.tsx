@@ -2,9 +2,6 @@ import styled from "styled-components/native";
 import { Colors } from "../../styles_general";
 import { useFonts } from "expo-font";
 
-interface LoadingTimeBarProps {
-    time: number
-}
 
 export const LoadingTimeBarCtn = styled.View`
     flex: 1;
@@ -14,9 +11,12 @@ export const LoadingTimeBarCtn = styled.View`
     border-radius: 2px;
 `;
 
+interface LoadingTimeBarProps {
+    time: number
+}
 export const LoadingTimeBar = styled.View<LoadingTimeBarProps>`
     display: flex;
     flex-direction: row;
     width: ${props => props.time}%;
-    background-color: blue;
+    background-color: ${props => props.time > 30 ? '#67BDBC' : Colors.primary};
 `;

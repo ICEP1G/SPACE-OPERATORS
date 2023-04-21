@@ -92,6 +92,7 @@ export const ContentView = styled.View`
 export const ContentText = styled.Text`
     color: ${Colors.text};
     font-family: 'roboto-light';
-    font-size: 20px;
+    text-align: center;
+    font-size: 18px;
     margin-bottom: 32px;
 `;

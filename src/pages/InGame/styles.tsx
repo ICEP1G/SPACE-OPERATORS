@@ -73,18 +73,27 @@ export const RoundCtn = styled.View`
     padding-left: 12px;
 `;
 
-export const ShipStateCtn = styled.View`
+export const ShipIntegrityCtn = styled.View`
     height: 22px;
     flex: 1;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
     border-width: 1px;
     border-color: ${Colors.uiborder};
     border-radius: 2px;
     margin-left: 28px;
     margin-right: 12px;
+`;
+
+interface ShipIntegrityBarProps {
+    integrity: number
+}
+export const ShipIntegrityBar = styled.View<ShipIntegrityBarProps>`
+    width: ${props => props.integrity}%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.integrity > 40 ? '#67BDBC' : Colors.primary};
 `;
 
 export const ShipStateCtnText = styled.Text`

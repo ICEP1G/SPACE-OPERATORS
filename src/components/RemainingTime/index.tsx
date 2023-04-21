@@ -16,16 +16,15 @@ const RemainingTime: React.FC<Props> = ({...Props}) => {
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
-    let roundDuration = Props.duration;
-    let time = roundDuration;
-
+    // Allow the loading bar to decrease each 100 milliseconde
     useEffect(() => {
+        const roundDuration = Props.duration * 1000;
+        let time = roundDuration;
+
         const countDown = setInterval(() => {
-            time = time - 1;
-            let progressWidth = (time / roundDuration * 100);
+            time = time - 100;
+            let progressWidth = ((time / roundDuration) * 100);
             if (time > 0) {
-                console.log(time);
-                console.log(progressWidth.toPrecision(3));
                 let floatValue = parseFloat(progressWidth.toPrecision(3));
                 setTiming(floatValue);
             }
@@ -34,17 +33,9 @@ const RemainingTime: React.FC<Props> = ({...Props}) => {
                 setTiming(0);
                 console.log(time);
             }
-        }, 1000)
+        }, 100)
 
     }, [gameState.duration])
-
-    // useEffect(() => {
-    //     // let widthValue = parseFloat('72.7%') / 100;
-    //     let widthValue = 32.5;
-    //     setTiming(widthValue);
-    // }, [])
-
-
 
 
     return (

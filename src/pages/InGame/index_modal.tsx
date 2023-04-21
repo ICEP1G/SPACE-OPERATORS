@@ -27,7 +27,7 @@ const InGameModal: React.FC<Props> = ({...Props}) => {
             </HeaderCtn>
 
             <ContentView>
-                <ContentText>Si vous quittez maintenant vous ne pourrez plus vous reconnecter. Voulez-vous vraiment quitter la partie ?</ContentText>
+                <ContentText>Si vous quittez maintenant vous ne pourrez plus vous reconnecter.{'\n' + '\n'}Voulez-vous vraiment quitter la partie ?</ContentText>
                 <SP_Button text 
                     style={{position: 'relative', bottom: 0}}
                     primary onPress={() => {Props.setModalVisible(false), navigate('/')}}>

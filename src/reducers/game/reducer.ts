@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import space_operators_db from '../../database/space_operators_db';
 import { UserPlayer } from '../../models/UserPlayer';
 import { Player } from '../../models/types/Player';
-import { setGameIdAction, setGameOperationAction } from './action';
+import { setGameIdAction, setGameOperationAction, setGameShipIntegrityAction } from './action';
 import { data_operation } from '../../models/types/data_operation';
 import { Result } from '../../models/types/Result';
 
@@ -15,7 +15,7 @@ export interface GameState {
     description: string,
     elements: Element[],
     result: Result,
-    shipState: number,
+    shipIntegrity: number,
     players: UserPlayer[],
 }
 
@@ -28,7 +28,7 @@ const initialState: GameState = {
     description: '',
     elements: [],
     result: {},
-    shipState: 100,
+    shipIntegrity: 100,
     players: [],
 };
 
@@ -38,9 +38,10 @@ const reducer = createSlice({
     initialState: initialState,
     reducers: {
         setGameId: setGameIdAction,
-        setGameOperation: setGameOperationAction
+        setGameOperation: setGameOperationAction,
+        setGameShipIntegrity: setGameShipIntegrityAction
     },
 });
 
-export const { setGameId, setGameOperation } = reducer.actions;
+export const { setGameId, setGameOperation, setGameShipIntegrity } = reducer.actions;
 export default reducer.reducer;
