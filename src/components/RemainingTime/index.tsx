@@ -43,7 +43,7 @@ const RemainingTime: React.FC<Props> = ({...Props}) => {
         <View style={styles.style}>
             <SP_AestheticLine></SP_AestheticLine>
             <SP_LabelView maxi>
-                <SP_TextLabel style={{ bottom: 1, fontFamily: 'roboto-medium'}}>Remaining time</SP_TextLabel>
+                <SP_TextLabel style={{ bottom: 1, fontFamily: 'roboto-medium'}}>Temps restant</SP_TextLabel>
             </SP_LabelView>
             <LoadingTimeBarCtn>
                 <LoadingTimeBar time={timing}></LoadingTimeBar>

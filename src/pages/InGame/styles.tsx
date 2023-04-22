@@ -133,3 +133,50 @@ export const GamePlayerInfoSecondCtn = styled.View`
     flex-direction: row;
     padding: 0 12px;
 `;
+
+//----------------VALIDATE-OPERATION---------------//
+
+export const ContentValidateCtn = styled.View`
+    position: relative;
+    width: 100%;
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    border-bottom-width: 1px;
+    border-color: ${Colors.uiborder};
+    background-color: ${Colors.secondary};
+`;
+
+export const ContentValidateInfo = styled.View`
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 12px;
+    background-color: ${Colors.secondary};
+`;
+export const ContentValidateText = styled.Text`
+    color: ${Colors.text};
+    font-family: 'roboto-regular';
+    font-size: 16px;
+`;
+
+export const ValidateButtonReady = styled.TouchableOpacity`
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: ${Colors.primary};
+    padding: 8px 32px;
+    border-color: ${Colors.uiborder};
+    border-left-width: 1px;
+`;
+
+//-----------------GAME-CONTAINER------------------//
+
+export const GameCtn = styled.View`
+    position: relative;
+    flex: 1;
+    flex-direction: column;
+    z-index: 20;
+`;

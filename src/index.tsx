@@ -44,7 +44,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "absolute", zIndex: 10, backgroundColor: 'black'}}>
+      <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "relative", zIndex: 10, backgroundColor: 'black'}}>
         <NativeRouter>
           <Routes>
             <Route path="/" element={<Home/>} />

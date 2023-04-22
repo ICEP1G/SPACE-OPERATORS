@@ -15,7 +15,7 @@ const PlayerRole: React.FC<Props> = ({...Props}) => {
         <View style={styles.style}>
             <SP_AestheticLine></SP_AestheticLine>
             <SP_LabelView maxi>
-                <SP_TextLabel maxi>ROLE</SP_TextLabel>
+                <SP_TextLabel maxi>RÔLE</SP_TextLabel>
             </SP_LabelView>
             <SP_InfoView maxi centerContent>
                 <SP_TextLabel maxi style={{fontFamily: 'roboto-regular'}}>{Props.role}</SP_TextLabel>

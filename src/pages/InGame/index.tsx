@@ -12,7 +12,7 @@ import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, PlanetBackGroundCtn, RoundCtn, ShipCockpitBackGroundCtn, ShipIntegrityCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, ShipIntegrityBar } from "./styles";
+import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, PlanetBackGroundCtn, RoundCtn, ShipCockpitBackGroundCtn, ShipIntegrityCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, ShipIntegrityBar, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
 import InGameModal from "./index_modal";
 import PlayerRole from "../../components/PlayerRole";
 import PlayerOperatorName from "../../components/PlayerOperatorName";
@@ -22,6 +22,7 @@ import { data_operation } from "../../models/types/data_operation";
 import { data_start } from "../../models/types/data_start";
 import EmptyInfo from "../../components/EmptyInfo";
 import { data_integrity } from "../../models/types/data_integrity";
+import GameBoard from "../../components/GameBoard";
 
 
 const InGame: React.FC = () => {
@@ -136,9 +137,23 @@ const InGame: React.FC = () => {
                     <GamePlayerInfoSecondCtn>
                         {remainingTimeElement}
                     </GamePlayerInfoSecondCtn>
-
                 </GamePlayerInfoCtn>
             </GameInfoCtn>
+
+            
+
+            <GameCtn>
+                <ContentValidateCtn>
+                    <ContentValidateInfo>
+                        <ContentValidateText>VALIDER LES ACTIONS DU TOUR</ContentValidateText>
+                    </ContentValidateInfo>
+                    <ValidateButtonReady>
+                        <SP_TextButton italic>OK</SP_TextButton>
+                    </ValidateButtonReady>
+                </ContentValidateCtn>
+                
+                <GameBoard />
+            </GameCtn>
 
 
         </InGameWindow>

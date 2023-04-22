@@ -114,7 +114,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         <ViewModal visible={Props.visible}>
 
             <HeaderCtn>
-                <HeaderView><HeaderText>ENTER YOUR PARTY INFO</HeaderText></HeaderView>
+                <HeaderView><HeaderText>ENTREZ LES INFORMATIONS</HeaderText></HeaderView>
                 <HeaderButton onPress={() => Props.setModalVisible(false)}>
                     <HeaderButtonIcon
                         source={require('../../../assets/icons/cross.png')}
@@ -126,7 +126,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
             <ContentView>
                 <GameIdCtn>
                     <SP_AestheticLine/>
-                    <SP_LabelView><SP_TextLabel maxi style={{fontSize: 18}}>GAME ID</SP_TextLabel></SP_LabelView>
+                    <SP_LabelView><SP_TextLabel maxi style={{fontSize: 18}}>PARTIE ID</SP_TextLabel></SP_LabelView>
                     <GameIdInput
                         defaultValue={gameId}
                         onChangeText={setNewGameId}
@@ -156,7 +156,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                 <SP_Button text 
                     style={{position: 'relative', bottom: 0}}
                     primary onPress={() => joinAGame()}>
-                    <SP_TextButton italic>JOIN THE GAME</SP_TextButton>
+                    <SP_TextButton italic>REJOINDRE LA PARTIE</SP_TextButton>
                 </SP_Button>
             </ContentView>
 

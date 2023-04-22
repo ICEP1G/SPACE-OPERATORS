@@ -154,7 +154,7 @@ const Lobby: React.FC = () => {
                         <ContentFooterText>EN ATTENTE DE JOUEURS ...</ContentFooterText>
                     </ContentFooterInfo>
                     <FooterButtonReady onPress={setStatusReady}>
-                        <SP_TextButton italic>READY</SP_TextButton>
+                        <SP_TextButton italic>PRÊT</SP_TextButton>
                     </FooterButtonReady>
                 </ContentFooterCtn>
 
