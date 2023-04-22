@@ -23,14 +23,14 @@ export const BackGroundGameImageCtn = styled.Image`
 export const ShipCockpitBackGroundCtn = styled.Image`
     position: relative;
     width: 100%;
-    height: 26%;
+    height: 22%;
     z-index: 15;
 `;
 
 export const PlanetBackGroundCtn = styled.Image`
     position: absolute;
     width: 100%;
-    height: 26%;
+    height: 22%;
     z-index: 12;
 `;
 

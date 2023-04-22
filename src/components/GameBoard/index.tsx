@@ -11,8 +11,14 @@ import { GameState, setGameId, setGameOperation, setGameShipIntegrity } from "..
 import { useAppSelector, useAppDispatch } from "../../store";
 import { GameBoardWindow } from "./styles";
 import Instructions from "../Instructions";
+import GameButton from "../GameButton";
 
-const GameBoard: React.FC = () => {
+
+interface Props {
+    playerRole: string
+}
+
+const GameBoard: React.FC<Props> = ({...Props}) => {
     const dispatch = useAppDispatch();
 
     const gameState: GameState = 
@@ -23,10 +29,16 @@ const GameBoard: React.FC = () => {
         <>
         <GameBoardWindow>
 
-            <Instructions 
+            
+            {/* <Instructions 
                 operatorName={gameState.id}
                 operationDescription={gameState.description}
-            />
+            /> */}
+            <GameButton id={3} value={'#fff'} valueType="color"></GameButton>
+
+            {/* <GameButton value={'#fff'} valueType="color"></GameButton>
+            <GameButton value={'#fff'} valueType="color"></GameButton>
+            <GameButton value={'#fff'} valueType="color"></GameButton> */}
 
 
         </GameBoardWindow>

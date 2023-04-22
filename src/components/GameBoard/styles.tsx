@@ -7,7 +7,8 @@ export const GameBoardWindow = styled.View`
     position: relative;
     flex: 1;
     flex-direction: column;
-    padding: 32px 16px;
+    padding: 24px 16px;
+    justify-content: space-between;
 `;
 
 //-------------------------------------------//

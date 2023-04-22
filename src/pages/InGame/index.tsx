@@ -5,12 +5,8 @@ import styled from "styled-components/native";
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import space_operators_db from "../../database/space_operators_db";
-import { API_URL} from "../../services/WebSocket";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { data_connect } from "../../models/types/data_connect";
-import { data_players } from "../../models/types/data_players";
-import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
-import { GameState, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
+import { GameState, resetAllResultGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, PlanetBackGroundCtn, RoundCtn, ShipCockpitBackGroundCtn, ShipIntegrityCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, ShipIntegrityBar, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
 import InGameModal from "./index_modal";
@@ -23,6 +19,7 @@ import { data_start } from "../../models/types/data_start";
 import EmptyInfo from "../../components/EmptyInfo";
 import { data_integrity } from "../../models/types/data_integrity";
 import GameBoard from "../../components/GameBoard";
+import { resetAllResultGameAction } from "../../reducers/game/action";
 
 
 const InGame: React.FC = () => {
@@ -39,10 +36,6 @@ const InGame: React.FC = () => {
 
     useEffect(() => {
 
-    }, []);
-
-    useEffect(() => {
-
     }, [gameState]);
 
     socket.onmessage = (event => {
@@ -53,6 +46,9 @@ const InGame: React.FC = () => {
             }
             console.log(objectResponse);
             if (objectResponse.type == "operation") {
+                // Reset the results in the reducer each new operation
+                dispatch(resetAllResultGame())
+                // then send the operation data for the round to the reducer
                 const dataOperation: data_operation = JSON.parse(event.data);
                 console.log('dataOperation : ' + JSON.stringify(dataOperation));
                 dispatch(setGameOperation(dataOperation));
@@ -152,7 +148,7 @@ const InGame: React.FC = () => {
                     </ValidateButtonReady>
                 </ContentValidateCtn>
                 
-                <GameBoard />
+                <GameBoard playerRole={gameState.role} />
             </GameCtn>
 
 

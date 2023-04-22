@@ -26,3 +26,16 @@ export const setGameShipIntegrityAction = (state: GameState, action: PayloadActi
     ...state,
     shipIntegrity: action.payload
 })
+
+export const addButtonResultToGameAction = (state: GameState, action: PayloadAction<number>): GameState =>
+({
+    ...state,
+    buttonResult: state.buttonResult.concat(action.payload)
+})
+
+export const resetAllResultGameAction = (state: GameState): GameState =>
+({
+    ...state,
+    buttonResult: [],
+    switchResult: []
+})
