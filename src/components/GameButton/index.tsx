@@ -1,11 +1,7 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
+import { Colors } from "../../styles_general";
 import { GameState, addButtonResultToGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { useSelector } from "react-redux";
-import GameBoard from "../../components/GameBoard";
 import { GameButtonCtn, GameButtonText, GameButtonTouchable } from "./styles";
 
 

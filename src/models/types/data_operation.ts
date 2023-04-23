@@ -1,4 +1,5 @@
 import { Result } from "./Result";
+import { Element } from "./Element";
 
 export interface data_operation {
     type: string,

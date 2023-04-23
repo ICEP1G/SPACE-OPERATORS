@@ -2,6 +2,7 @@ import { PayloadAction} from '@reduxjs/toolkit';
 import { GameState } from './reducer';
 import { data_operation } from '../../models/types/data_operation';
 import { data_integrity } from '../../models/types/data_integrity';
+import { Element } from '../../models/types/Element';
 
 export const setGameIdAction = (state: GameState, action: PayloadAction<string>): GameState =>
 ({
@@ -33,9 +34,33 @@ export const addButtonResultToGameAction = (state: GameState, action: PayloadAct
     buttonResult: state.buttonResult.concat(action.payload)
 })
 
+export const addSwitchResultToGameAction = (state: GameState, action: PayloadAction<number>): GameState =>
+({
+    ...state,
+    switchResult: state.switchResult.concat(action.payload)
+})
+
+export const removeSwitchResultToGameAction = (state: GameState, action: PayloadAction<number>): GameState =>
+({
+    ...state,
+    switchResult: state.switchResult.filter(nb => nb !== action.payload)
+})
+
+
 export const resetAllResultGameAction = (state: GameState): GameState =>
 ({
     ...state,
     buttonResult: [],
     switchResult: []
+})
+
+export const resetOperationGameAction = (state: GameState): GameState => 
+({
+    ...state,
+    role: '',
+    id: '',
+    duration: 0,
+    description: '',
+    elements: [],
+    result: {}
 })

@@ -39,8 +39,7 @@ const Home: React.FC = () => {
 
     const mainUserState: MainUserState = 
         useAppSelector((state) => state.mainUser);
-    const lobbyState: LobbyState = 
-        useAppSelector((state) => state.lobby);
+        
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
@@ -69,15 +68,6 @@ const Home: React.FC = () => {
             }
         })
     }, []);
-
-
-    // useEffect(() => {
-    //     console.log("homePage - mainUserState reducer : " + JSON.stringify(mainUserState.MainUser[0]));
-    // }, [mainUserState])
-
-    // useEffect(() => {
-    //     console.log("HomePage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
-    // }, [lobbyState])
 
     useEffect(() => {
         console.log('game Id : ' + gameState.gameId)
@@ -130,7 +120,6 @@ const Home: React.FC = () => {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                console.log("HomePage - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
                 dispatch(setLobbyPlayer(dataPlayer.data.players))
                 navigate("/Lobby");
             }

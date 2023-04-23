@@ -15,6 +15,17 @@ export const GameBoardWindow = styled.View`
 
 export const GameBoardCtn = styled.View`
     flex: 1;
+    flex-direction: column;
+`;
 
+export const GameBoardCtnSplited = styled.View`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: space-around;
+    margin-bottom: 4px;
 `;
 

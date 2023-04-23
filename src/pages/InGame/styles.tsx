@@ -20,20 +20,6 @@ export const BackGroundGameImageCtn = styled.Image`
     z-index: 10;
 `;
 
-export const ShipCockpitBackGroundCtn = styled.Image`
-    position: relative;
-    width: 100%;
-    height: 22%;
-    z-index: 15;
-`;
-
-export const PlanetBackGroundCtn = styled.Image`
-    position: absolute;
-    width: 100%;
-    height: 22%;
-    z-index: 12;
-`;
-
 //----------------------GAME-INFO---------------------//
 
 export const GameInfoCtn = styled.View`
@@ -48,6 +34,8 @@ export const GameInfoCtn = styled.View`
     border-color: ${Colors.uiborder};
     z-index: 20;
 `;
+
+//------------------//
 
 export const GameStateCtn = styled.View`
     width: 100%;
@@ -102,6 +90,8 @@ export const ShipStateCtnText = styled.Text`
     font-size: 11px;
 
 `;
+
+//------------------//
 
 export const GamePlayerInfoCtn = styled.View`
     width: 100%;

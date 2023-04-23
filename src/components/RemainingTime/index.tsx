@@ -3,14 +3,16 @@ import { useEffect, useState } from "react";
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions, ActivityIndicator, Animated, ProgressBarAndroidBase} from "react-native"
 import { Colors, SP_AestheticLine, SP_InfoView, SP_LabelView, SP_TextLabel } from "../../styles_general";
 import { LoadingTimeBar, LoadingTimeBarCtn } from "./styles";
-import { GameState } from "../../reducers/game/reducer";
-import { useAppSelector } from "../../store";
+import { GameState, resetOperationGame } from "../../reducers/game/reducer";
+import { useAppDispatch, useAppSelector } from "../../store";
 
 interface Props {
     duration: number;
 }
 
 const RemainingTime: React.FC<Props> = ({...Props}) => {
+    const dispatch = useAppDispatch();
+
     const [timing, setTiming] = useState(0)
 
     const gameState: GameState = 
@@ -34,6 +36,9 @@ const RemainingTime: React.FC<Props> = ({...Props}) => {
                 console.log(time);
             }
         }, 100)
+
+
+
 
     }, [gameState.duration])
 

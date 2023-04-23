@@ -1,25 +1,27 @@
 import * as React from "react";
-import { NativeRouter, Routes, Route, Link, useNavigate } from "react-router-native"
-import { useEffect, useState } from "react";
-import styled from "styled-components/native";
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
+import { useNavigate } from "react-router-native"
+import { useEffect, useState, useRef } from "react";
+import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions, Animated} from "react-native"
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import space_operators_db from "../../database/space_operators_db";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { GameState, resetAllResultGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
+import { GameState, resetAllResultGame, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, PlanetBackGroundCtn, RoundCtn, ShipCockpitBackGroundCtn, ShipIntegrityCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, ShipIntegrityBar, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
+import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, ShipIntegrityCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, ShipIntegrityBar, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
 import InGameModal from "./index_modal";
 import PlayerRole from "../../components/PlayerRole";
 import PlayerOperatorName from "../../components/PlayerOperatorName";
 import RemainingTime from "../../components/RemainingTime";
 import { useSelector } from "react-redux";
 import { data_operation } from "../../models/types/data_operation";
-import { data_start } from "../../models/types/data_start";
 import EmptyInfo from "../../components/EmptyInfo";
 import { data_integrity } from "../../models/types/data_integrity";
 import GameBoard from "../../components/GameBoard";
 import { resetAllResultGameAction } from "../../reducers/game/action";
+import { data_finish } from "../../models/types/data_finish";
+import ShipCockpit from "../../components/ShipCockpit";
+import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
+import { Result } from "../../models/types/Result";
 
 
 const InGame: React.FC = () => {
@@ -30,36 +32,52 @@ const InGame: React.FC = () => {
     const remainingTimeElement: any = [];
 
     const [modalVisible, setModalVisible] = useState(false);
+    // Allow to be passed to the children component to play an animation when the result is wrong
+    const [roundFail, setRoundFail] = useState(false);
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
     useEffect(() => {
-
     }, [gameState]);
 
     socket.onmessage = (event => {
         if (event.data != "ping") {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
-            if (objectResponse.type == "integrity") {
-                console.log(JSON.stringify(objectResponse));
-            }
-            console.log(objectResponse);
             if (objectResponse.type == "operation") {
                 // Reset the results in the reducer each new operation
-                dispatch(resetAllResultGame())
+                dispatch(resetAllResultGame());
+                dispatch(resetOperationGame());
                 // then send the operation data for the round to the reducer
                 const dataOperation: data_operation = JSON.parse(event.data);
                 console.log('dataOperation : ' + JSON.stringify(dataOperation));
                 dispatch(setGameOperation(dataOperation));
             }
             if (objectResponse.type == "integrity") {
+                // setRoundFail(true);
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
-                console.log('dataIntegrity : ' + JSON.stringify(dataIntegrity));
+                console.log(dataIntegrity);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
             }
         }
     });
+
+    // Send to the WebSocket the result of the operator
+    const finishTurn = () => {
+        let intendedResult: Result = gameState.result;
+        let buttonResult: number[] = [...gameState.buttonResult];
+        let switchResult: number[] = [...gameState.switchResult];
+    
+        const isSuccessful = VerifyIfRoundIsSuccessful(intendedResult, buttonResult, switchResult);
+        console.log('is successful ? : ' + isSuccessful);
+    
+        const dataFinish: data_finish = data_finish("finish", {
+            operator: gameState.id,
+            success: isSuccessful
+        });
+        socket.send(JSON.stringify(dataFinish));
+    }
+
 
 
     // Display the component Role if there is an info about it
@@ -79,8 +97,6 @@ const InGame: React.FC = () => {
         remainingTimeElement.push(<RemainingTime duration={gameState.duration}/>)
     }
     else {remainingTimeElement.push(<EmptyInfo/>)};
-
-
     
     return (
         <>
@@ -89,14 +105,8 @@ const InGame: React.FC = () => {
                 source={require('../../images/InGame_Background_Dot.png')}
                 resizeMode="cover"
             />
-            <ShipCockpitBackGroundCtn
-                source={require('../../images/InGame_Background_Cockpit.png')}
-                resizeMode="cover"
-            />
-            <PlanetBackGroundCtn
-                source={require('../../images/InGame_Background_CockpitPlanet.jpg')}
-                resizeMode="cover"
-            />
+
+            <ShipCockpit roundFail={roundFail} />
 
             <InGameModal 
                 visible={modalVisible}
@@ -139,16 +149,19 @@ const InGame: React.FC = () => {
             
 
             <GameCtn>
+                {gameState.role == "operator" ?
                 <ContentValidateCtn>
                     <ContentValidateInfo>
                         <ContentValidateText>VALIDER LES ACTIONS DU TOUR</ContentValidateText>
                     </ContentValidateInfo>
-                    <ValidateButtonReady>
-                        <SP_TextButton italic>OK</SP_TextButton>
+                    <ValidateButtonReady onPress={finishTurn}>
+                        <SP_TextButton italic >OK</SP_TextButton>
                     </ValidateButtonReady>
                 </ContentValidateCtn>
+                : null}
                 
                 <GameBoard playerRole={gameState.role} />
+                
             </GameCtn>
 
 
@@ -156,5 +169,6 @@ const InGame: React.FC = () => {
         </>
     )
 }
+
 
 export default InGame

@@ -5,10 +5,11 @@ import { useFonts } from "expo-font";
 
 export const GameButtonCtn = styled.View`
     position: relative;
-    width: 45%;
-    height: 23%;
+    width: 43%;
+    height: 100px;;
     justify-content: center;
     align-items: center;
+    margin: 6px;
     background-color: ${Colors.secondary};
     z-index: 20;
 `;
@@ -31,5 +32,5 @@ export const GameButtonTouchable = styled.TouchableOpacity<GameButtonTouchablePr
 export const GameButtonText = styled.Text`
     color: ${Colors.text};
     font-family: 'roboto-bold-italic';
-    font-size: 20px;
+    font-size: 18px;
 `;
