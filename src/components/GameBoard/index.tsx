@@ -30,7 +30,7 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
         // Display Instructor components
         if (gameState.role === "instructor") {
             elementsInstructorArray.push(
-                <Instructions operatorName={gameState.id} operationDescription={gameState.description} />
+                <Instructions key={1} operatorName={gameState.id} operationDescription={gameState.description} />
             )
         }
         // Display Operator components
@@ -55,13 +55,13 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
         // Display the waiting loader if operation is finish
         else {
             elementsWaitingArray.push(
-                <WaitingLoader />
+                <WaitingLoader key={1} />
             )
         }
     }  
     else {
         elementsWaitingArray.push(
-            <WaitingLoader />
+            <WaitingLoader key={1} />
         )
     } 
     
@@ -69,17 +69,11 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
     return (
         <>
         <GameBoardWindow>
-
             {elementsWaitingArray}
             {elementsInstructorArray}
             <GameBoardCtnSplited>
                 {elementsOperatorArray}
             </GameBoardCtnSplited>
-            
-
-            {/* <TouchableOpacity style={{width: 60, height: 60, backgroundColor: 'blue'}} onPress={() => console.log(gameState.switchResult)}></TouchableOpacity> */}
-
-
         </GameBoardWindow>
         </>
     )

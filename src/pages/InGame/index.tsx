@@ -86,21 +86,21 @@ const InGame: React.FC = () => {
 
     // Display the component Role if there is an info about it
     if (gameState.role == "operator" || gameState.role == "instructor") {
-        roleElement.push(<PlayerRole role={gameState.role}/>)
+        roleElement.push(<PlayerRole key={1} role={gameState.role}/>)
     }
-    else {roleElement.push(<EmptyInfo/>)};
+    else {roleElement.push(<EmptyInfo key={1} />)};
 
     // Display the component Name/Id if the player is operator
     if (gameState.role == "operator") {
-        nameIdElement.push(<PlayerOperatorName name={gameState.id} />)
+        nameIdElement.push(<PlayerOperatorName key={1} name={gameState.id} />)
     }
-    else {nameIdElement.push(<EmptyInfo/>)};
+    else {nameIdElement.push(<EmptyInfo key={1} />)};
 
     // Display the component RemainingTime if it need to be displayed
     if (gameState.duration) {
-        remainingTimeElement.push(<RemainingTime duration={gameState.duration}/>)
+        remainingTimeElement.push(<RemainingTime key={1} duration={gameState.duration}/>)
     }
-    else {remainingTimeElement.push(<EmptyInfo/>)};
+    else {remainingTimeElement.push(<EmptyInfo key={1} />)};
     
     return (
         <>
