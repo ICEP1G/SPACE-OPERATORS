@@ -3,64 +3,77 @@ import { useNavigate } from "react-router-native"
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import space_operators_db from "../../database/space_operators_db";
 import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated } from "react-native"
-import { BackgroundImageCtn, HistoryMainCtn, ButtonsContainer, HistoricContainer, HistoricTitle, HistoricGames, HeaderContainer, HeaderTitle, GameName, ShowLogo} from "./styles";
+import { 
+    HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN,
+    HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText
+
+} from "./styles";
 
 
 
-const Historic: React.FC = () => {
+const Historic: React.FC = () => {    
 
     const navigate = useNavigate();
 
-        // Lock or unlock the input Name
-        const ButtonGameMoreInfos = () => {
-            console.log('test');
-        };
-
-        const toggleButtonMoreInfos = () => {
-            console.log('test');
-            
-        };
-    
     return (
         <>
-            <BackgroundImageCtn 
-            source={require('../../images/Historic_Background.jpg')}
-            resizeMode="cover"
-            />
+            <HistoricWindow style={{position: 'relative', width: '100%', height: '100%', flex: 1, flexDirection: 'column'}}>
+                <BackgroundImageCtn 
+                    source={require('../../images/Historic_Background.jpg')}
+                    resizeMode="cover"
+                />
+                <HistoricMainCTN>
+                    <HistoricHeader>
+                        <SP_Button primary style={{width: 48}} onPress={() => navigate("/")}>
+                            <Image
+                                style={{width: 24, position: 'relative', left: -1}}
+                                source={require('../../../assets/icons/angle-double-left.png')}
+                                resizeMode="contain"
+                            />
+                        </SP_Button>
+                        <HistoricHeaderTitle>
+                            <HistoricHeaderTitleText>HISTORIQUE</HistoricHeaderTitleText>
+                        </HistoricHeaderTitle>
+                    </HistoricHeader>
 
-            <HeaderContainer>
-                <HeaderTitle>
-                    <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-bold'}}>Historique des parties</Text>
-                </HeaderTitle>
-            </HeaderContainer>
 
-            <HistoryMainCtn>
-                <HistoricContainer>
-                    <HistoricTitle>
-                        <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>Historique des parties</Text>
-                    </HistoricTitle>
-                    <HistoricGames>
-                        <GameName>
-                            
-                            <SP_AestheticLine maxi/>
 
-                            <SP_Button onPress={toggleButtonMoreInfos}>
-                                <ShowLogo
-                                    source={require('../../../assets/icons/info-circle.png')}
-                                    resizeMode="contain"
-                                />
-                            </SP_Button>
-                        </GameName>
-                    </HistoricGames>
-                </HistoricContainer>
-                <ButtonsContainer>
-                    <SP_Button primary
-                        style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
-                        onPress={() => navigate("/")}>
-                        <SP_TextButton>RETOUR</SP_TextButton>
-                    </SP_Button>
-                </ButtonsContainer>
-            </HistoryMainCtn>
+
+                    <HistoricContentCtn>
+                        <ContentHeaderCtn>
+                            <ContentHeaderText>HISTORIQUE DES PARTIES</ContentHeaderText>
+                            <Image
+                                style={{width: 24, position: 'relative', left: -1}}
+                                source={require('../../../assets/icons/astronaut-icon.png')}
+                                resizeMode="contain"
+                            />
+                        </ContentHeaderCtn>
+
+                        <ContentScrollViewCtn>
+                            <GameHistory>
+                                <GameNameCdn>
+                                    <SP_AestheticLine></SP_AestheticLine>
+                                    <SP_InfoView transparent>
+                                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Game 1</Text>
+                                    </SP_InfoView>
+                                </GameNameCdn>
+                                <TurnNumber>
+                                    <TurnNumberText>Round 12</TurnNumberText>
+                                </TurnNumber>
+                                <ShowMoreInfo>
+                                    <SP_Button primary style={{width: 40, height: 40}} onPress={() => navigate("/")}>
+                                        <Image
+                                            style={{width: 24, position: 'relative', left: -1}}
+                                            source={require('../../../assets/icons/info-circle.png')}
+                                            resizeMode="contain"
+                                        />
+                                    </SP_Button>
+                                </ShowMoreInfo>
+                            </GameHistory>
+                        </ContentScrollViewCtn>
+                    </HistoricContentCtn>
+                </HistoricMainCTN>
+            </HistoricWindow>            
         </>
     )
 }

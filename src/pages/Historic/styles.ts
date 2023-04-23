@@ -1,112 +1,143 @@
 import styled from "styled-components/native";
+import { Colors } from "../../styles_general";
 
-export const BackgroundImageCtn = styled.Image`
+export const HistoricWindow = styled.View`
     position: relative;
     width: 100%;
+    height: 100%;
+    flex: 1;
+    flex-direction: column;
+`;
+
+export const BackgroundImageCtn = styled.Image`
+    position: absolute;
+    width: 100%;
     height: 110%;
+    z-index: 10;
+`;
+
+
+export const HistoricMainCTN = styled.View`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
 `;
 
 //--------------------HEADER CONTAINER-----------------------//
 
-export const HeaderContainer = styled.View`
-    position fixed;
+export const HistoricHeader = styled.View`
+    position: relative;
     width: 100%;
-    height: 19%;
-    top: 0;
-`;
-
-
-export const HeaderTitle = styled.Text`
-
-`;
-
-//--------------------BOTTOM CONTAINER-----------------------//
-
-export const HistoryMainCtn = styled.ScrollView`
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    height: 48px;
     display: flex;
-    flex-direction: column;
-    padding: 0 8% ;
-    z-index: 20;
-    top: 19%;
+    flex-direction: row;
 `;
 
-//------------------------BUTTONS-------------------------//
-
-export const ButtonsContainer = styled.View`
+export const HistoricHeaderTitle = styled.View`
     position: relative;
     display: flex;
-    flex-direction: column;
-    margin-top: 16px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: ${Colors.secondary};
+    padding: 8px 140px;
 `;
 
-export const ButtonMoreInfo = styled.TouchableOpacity`
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    left: 255px;
-    top: 96px;
+export const HistoricHeaderTitleText = styled.Text`
+    color: ${Colors.text};
+    font-family: 'roboto-medium';
+    font-size: 20px;
+`;
 
-    background: #DE583A;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
+//--------------------CONTENT CONTAINER---------------------//
+
+export const HistoricContentCtn = styled.View`
+    position: relative;
+    width: 86%;
+    height: 64%;
+    margin-top: 7%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    border-color: ${Colors.uiborder};
+    border-radius: 4px;
+    border-width: 1.5px;
+`;
+
+//--------------------Header Content---------------------//
+export const ContentHeaderCtn = styled.View`
+    width: 100%;
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    background-color: ${Colors.secondary};
+    border-bottom-width: 1px;
+    border-bottom-color: ${Colors.uiborder};
+`;
+export const ContentHeaderText = styled.Text`
+    color: ${Colors.text};
+    font-family: 'roboto-medium';
+    font-size: 18px;
+`;
+
+//--------------Content---------------//
+export const ContentScrollViewCtn = styled.ScrollView`
+    width: 100%;
+    background-color: rgba(51, 56, 59, 0.7);
+    padding: 8px 12px;
+`;
+
+export const GameHistory = styled.View`
+    width: 100%;
+    height: 42px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 2px;
+    margin: 6px 0;
+`;
+
+export const GameNameCdn = styled.View`
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+`;
+
+export const ShowMoreInfo = styled.View`
+    height: 100%;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     border-radius: 2px;
 `;
 
-//------------------------Historiques des parties-------------------------//
-
-export const HistoricContainer = styled.Text`
-    position: absolute;
-    width: 299px;
-    height: 360px;
-    left: 0px;
-    top: 0px;
-
-    background: rgba(51, 56, 59, 0.7);
-    border-radius: 0px;
+export const ShowMoreInfoText = styled.Text`
+    color: ${Colors.text};
+    font-family: 'roboto-bold';
 `;
 
-export const HistoricTitle = styled.Text`
-    position: absolute;
-    width: 138px;
-    height: 17px;
-    left: 12px;
-    top: 13px;
-
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    /* identical to box height */
-
-
-    color: #ECECEC;
-`;
-
-export const HistoricGames = styled.View`
+export const TurnNumber = styled.View`
     position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 0 8% ;
-    z-index: 20;
-`;
-
-export const GameName = styled.View`
-    position: relative;
-    width: 48px;
     display: flex;
     flex-direction: row;
-    margin-top: 110%;
+    justify-content: center;
+    align-items: center;
+    background-color: ${Colors.secondary};
+    width: 35%;
+    padding: 8px;
+    margin: 0px 8px 0px 8px;
 `;
 
-export const ShowLogo = styled.Image`
-    position: relative;
-    width: 28px;
-    height: 28px;
-    top: 1px;
-    left: 1px;
+export const TurnNumberText = styled.Text`
+    color: ${Colors.text};
+    font-family: 'roboto-medium';
+    font-size: 20px;
 `;

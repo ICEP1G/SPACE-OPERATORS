@@ -96,60 +96,60 @@ const Lobby: React.FC = () => {
                 </SP_InfoView>
             </GameInfoCtn>
 
-            <LobbyContentCtn>
-                <ContentHeaderCtn>
-                    <ContentHeaderText>STATUT DES JOUEURS</ContentHeaderText>
-                    <Image
-                        style={{width: 24, position: 'relative', left: -1}}
-                        source={require('../../../assets/icons/astronaut-icon.png')}
-                        resizeMode="contain"
-                    />
-                </ContentHeaderCtn>
+                <LobbyContentCtn>
+                    <ContentHeaderCtn>
+                        <ContentHeaderText>STATUT DES JOUEURS</ContentHeaderText>
+                        <Image
+                            style={{width: 24, position: 'relative', left: -1}}
+                            source={require('../../../assets/icons/astronaut-icon.png')}
+                            resizeMode="contain"
+                        />
+                    </ContentHeaderCtn>
 
-                <ContentScrollViewCtn>
+                    <ContentScrollViewCtn>
 
-                    <PlayerStatusCtn>
-                        <PlayerNameCtn>
-                            <SP_AestheticLine></SP_AestheticLine>
-                            <SP_InfoView transparent>
-                                <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>ICEP1G</Text>
-                            </SP_InfoView>
-                        </PlayerNameCtn>
-                        <StatusButton isReady>
-                            <StatusButtonText isReady>PRÊT</StatusButtonText>
-                        </StatusButton>
-                    </PlayerStatusCtn>
+                        <PlayerStatusCtn>
+                            <PlayerNameCtn>
+                                <SP_AestheticLine></SP_AestheticLine>
+                                <SP_InfoView transparent>
+                                    <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>ICEP1G</Text>
+                                </SP_InfoView>
+                            </PlayerNameCtn>
+                            <StatusButton isReady>
+                                <StatusButtonText isReady>PRÊT</StatusButtonText>
+                            </StatusButton>
+                        </PlayerStatusCtn>
 
-                    <PlayerStatusCtn>
-                        <PlayerNameCtn>
-                            <SP_AestheticLine></SP_AestheticLine>
-                            <SP_InfoView transparent>
-                            <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Klaes_Ashford</Text>
-                            </SP_InfoView>
-                        </PlayerNameCtn>
-                        <StatusButton >
-                            <StatusButtonText>EN ATTENTE</StatusButtonText>
-                        </StatusButton>
-                    </PlayerStatusCtn>
+                        <PlayerStatusCtn>
+                            <PlayerNameCtn>
+                                <SP_AestheticLine></SP_AestheticLine>
+                                <SP_InfoView transparent>
+                                <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Klaes_Ashford</Text>
+                                </SP_InfoView>
+                            </PlayerNameCtn>
+                            <StatusButton >
+                                <StatusButtonText>EN ATTENTE</StatusButtonText>
+                            </StatusButton>
+                        </PlayerStatusCtn>
 
-                </ContentScrollViewCtn>
+                    </ContentScrollViewCtn>
 
-                <ContentFooterCtn>
-                    <ContentFooterInfo>
-                        <ContentFooterText>EN ATTENTE DE JOUEURS ...</ContentFooterText>
-                    </ContentFooterInfo>
-                    <FooterButtonReady>
-                        <SP_TextButton italic>READY</SP_TextButton>
-                    </FooterButtonReady>
-                </ContentFooterCtn>
+                    <ContentFooterCtn>
+                        <ContentFooterInfo>
+                            <ContentFooterText>EN ATTENTE DE JOUEURS ...</ContentFooterText>
+                        </ContentFooterInfo>
+                        <FooterButtonReady>
+                            <SP_TextButton italic>READY</SP_TextButton>
+                        </FooterButtonReady>
+                    </ContentFooterCtn>
 
-            </LobbyContentCtn>
+                </LobbyContentCtn>
 
-            <LobbyLaunchButton>
-                <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
-            </LobbyLaunchButton>
+                <LobbyLaunchButton>
+                    <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
+                </LobbyLaunchButton>
 
-        </LobbyMainCtn>
+            </LobbyMainCtn>
 
 
             <OperatorImage 
