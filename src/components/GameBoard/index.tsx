@@ -9,6 +9,7 @@ import Instructions from "../Instructions";
 import GameButton from "../GameButton";
 import GameSwitch from "../GameSwitch";
 import { Element } from "../../models/types/Element";
+import WaitingLoader from "../WaitingLoader";
 
 
 interface Props {
@@ -54,13 +55,13 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
         // Display the waiting loader if operation is finish
         else {
             elementsWaitingArray.push(
-                <Text>En attente</Text>
+                <WaitingLoader />
             )
         }
     }  
     else {
         elementsWaitingArray.push(
-            <Text>En attente</Text>
+            <WaitingLoader />
         )
     } 
     

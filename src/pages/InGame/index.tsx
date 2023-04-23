@@ -7,7 +7,7 @@ import space_operators_db from "../../database/space_operators_db";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { GameState, resetAllResultGame, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, ShipIntegrityCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, ShipIntegrityBar, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
+import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
 import InGameModal from "./index_modal";
 import PlayerRole from "../../components/PlayerRole";
 import PlayerOperatorName from "../../components/PlayerOperatorName";
@@ -22,6 +22,7 @@ import { data_finish } from "../../models/types/data_finish";
 import ShipCockpit from "../../components/ShipCockpit";
 import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
 import { Result } from "../../models/types/Result";
+import ShipIntegrity from "../../components/ShipIntegrity";
 
 
 const InGame: React.FC = () => {
@@ -75,6 +76,9 @@ const InGame: React.FC = () => {
             operator: gameState.id,
             success: isSuccessful
         });
+
+        dispatch(resetOperationGame());
+        dispatch(resetAllResultGame());
         socket.send(JSON.stringify(dataFinish));
     }
 
@@ -126,10 +130,7 @@ const InGame: React.FC = () => {
                             <Text style={{fontSize: 18, fontFamily: 'roboto-regular', color: Colors.text, marginRight: 8, bottom: 1}}>TOUR :</Text>
                             <Text style={{fontSize: 20, fontFamily: 'roboto-medium', color: Colors.text, bottom: 1}}>{gameState.turn}</Text>
                         </RoundCtn>
-                        <ShipIntegrityCtn>
-                            <ShipIntegrityBar integrity={gameState.shipIntegrity}></ShipIntegrityBar>
-                            <Text style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 11, position: 'absolute', alignSelf: 'center', left: '22%' }}>INTÉGRITÉ DU VAISSEAU</Text>
-                        </ShipIntegrityCtn>
+                        <ShipIntegrity />
                     </GameStateInfo>
                 </GameStateCtn>
 
