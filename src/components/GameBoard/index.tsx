@@ -1,15 +1,17 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
 import { Colors } from "../../styles_general";
 import { GameState, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { GameBoardCtnSplited, GameBoardWindow } from "./styles";
+import { GameBoardCtnSplited, GameBoardWindow, GameLinkWindow } from "./styles";
 import Instructions from "../Instructions";
 import GameButton from "../GameButton";
 import GameSwitch from "../GameSwitch";
 import { Element } from "../../models/types/Element";
 import WaitingLoader from "../WaitingLoader";
+import GameLink from "../GameLink";
+import { PanResponder } from "react-native";
 
 
 interface Props {
@@ -74,6 +76,14 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
             <GameBoardCtnSplited>
                 {elementsOperatorArray}
             </GameBoardCtnSplited>
+
+            {/* <GameLinkWindow>
+                <GameLink id={1} value={"perroquet"} valueType="string"/>
+                <GameLink id={2} value={"#fff"} valueType="color"/>
+                <GameLink id={3} value={"#fff"} valueType="color"/>
+                <GameLink id={4} value={"oiseau"} valueType="string"/>
+            </GameLinkWindow> */}
+            
         </GameBoardWindow>
         </>
     )

@@ -23,6 +23,7 @@ import ShipCockpit from "../../components/ShipCockpit";
 import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
 import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
+import GameLink from "../../components/GameLink";
 
 
 const InGame: React.FC = () => {

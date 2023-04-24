@@ -33,7 +33,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
     const [displayError, setDisplayError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+    const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;;
 
     const lobbyState: LobbyState = 
         useAppSelector((state) => state.lobby);
@@ -45,30 +45,30 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         setEditableName(!editableName);
       };
 
-    // const showErrorFeedback = () => {
-    //     Animated.sequence([
-    //         Animated.timing(position, {
-    //             toValue: { x: 5, y: 0 },
-    //             duration: 500,
-    //             useNativeDriver: false,
-    //         }),
-    //         Animated.timing(position, {
-    //             toValue: { x: 0, y: 0 },
-    //             duration: 500,
-    //             useNativeDriver: false,
-    //         }),
-    //         Animated.timing(position, {
-    //             toValue: { x: 5, y: 0 },
-    //             duration: 500,
-    //             useNativeDriver: false,
-    //         }),
-    //         Animated.timing(position, {
-    //             toValue: { x: 0, y: 0 },
-    //             duration: 500,
-    //             useNativeDriver: false,
-    //         }),
-    //     ])
-    // }
+    const showErrorFeedbackAnimation = () => {
+        Animated.sequence([
+            Animated.timing(position, {
+                toValue: { x: 5, y: 0 },
+                duration: 50,
+                useNativeDriver: false,
+            }),
+            Animated.timing(position, {
+                toValue: { x: 0, y: 0 },
+                duration: 50,
+                useNativeDriver: false,
+            }),
+            Animated.timing(position, {
+                toValue: { x: 5, y: 0 },
+                duration: 50,
+                useNativeDriver: false,
+            }),
+            Animated.timing(position, {
+                toValue: { x: 0, y: 0 },
+                duration: 50,
+                useNativeDriver: false,
+            }),
+        ]).start();
+    }
 
     const showErrorFeedback = (errorMessage: string) => {
         setErrorMessage(errorMessage);
@@ -97,6 +97,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                 if (objectResponse.type == "players") {
                     const dataPlayer: data_players = JSON.parse(event.data);
                     if (dataPlayer.data.players.length <= 0) {
+                        showErrorFeedbackAnimation();
                         showErrorFeedback("Cette partie n'existe pas");
                     }
                     else {
@@ -109,9 +110,28 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         });
     }
 
+
+    const style = StyleSheet.create({
+        ViewModal: {
+            position: 'relative',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignSelf: 'center',
+            borderWidth: 1.5,
+            borderRadius: 4,
+            borderColor: Colors.uiborder,
+            zIndex: Props.visible ? 31 : -10,
+            opacity: 1
+        }
+    })
+
+
     return (
         <>
+        {/* <ViewModal visible={Props.visible}> */}
         <ViewModal visible={Props.visible}>
+        <Animated.View style={[style.ViewModal, position.getLayout()]}>
 
             <HeaderCtn>
                 <HeaderView><HeaderText>ENTREZ LES INFORMATIONS</HeaderText></HeaderView>
@@ -160,13 +180,13 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                 </SP_Button>
             </ContentView>
 
+        </Animated.View>
         </ViewModal>
+        {/* </ViewModal> */}
         <ViewCtn visible={Props.visible}>
         </ViewCtn>
         </>
     )
 }
-
-
 
 export default HomeModal;

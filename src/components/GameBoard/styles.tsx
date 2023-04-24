@@ -29,3 +29,13 @@ export const GameBoardCtnSplited = styled.View`
     margin-bottom: 4px;
 `;
 
+
+//-----------For the link component----------//
+export const GameLinkWindow = styled.View`
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 16px;
+`;

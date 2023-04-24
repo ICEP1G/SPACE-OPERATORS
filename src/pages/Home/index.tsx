@@ -68,10 +68,6 @@ const Home: React.FC = () => {
             }
         })
     }, []);
-
-    useEffect(() => {
-        console.log('game Id : ' + gameState.gameId)
-    }, [gameState])
     
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {

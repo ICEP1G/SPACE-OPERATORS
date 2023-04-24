@@ -11,7 +11,6 @@ interface Props {
     valueType: string,
     value: string | number
 }
-
 const GameSwitch: React.FC<Props> = ({...Props}) => {
     const dispatch = useAppDispatch();
 

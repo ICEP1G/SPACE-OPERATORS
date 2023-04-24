@@ -27,12 +27,7 @@ interface ViewModalProps {
 export const ViewModal = styled.View<ViewModalProps>`
     position: absolute;
     width: 85%;
-    display: flex;
-    flex-direction: column;
     align-self: center;
-    border-width: 1.5px;
-    border-radius: 4px;
-    border-color: ${Colors.uiborder};
     top: 30%;
     z-index: ${props => props.visible ? 31 : -10};
     opacity: 1;
