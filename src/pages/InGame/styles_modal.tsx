@@ -2,8 +2,6 @@ import styled from "styled-components/native";
 import { Colors } from "../../styles_general";
 import { useFonts } from "expo-font";
 
-
-
 // Layer view to darken the index page
 interface ViewCtnProps {
     visible?: boolean
@@ -27,7 +25,12 @@ interface ViewModalProps {
 export const ViewModal = styled.View<ViewModalProps>`
     position: absolute;
     width: 85%;
+    display: flex;
+    flex-direction: column;
     align-self: center;
+    border-width: 1.5px;
+    border-radius: 4px;
+    border-color: ${Colors.uiborder};
     top: 30%;
     z-index: ${props => props.visible ? 31 : -10};
     opacity: 1;
@@ -80,64 +83,16 @@ export const ContentView = styled.View`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 16px 28px 16px;
+    padding: 32px;
     background-color: ${Colors.modalBackground};
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
 `;
 
-export const GameIdCtn = styled.View`
-    width: 100%;
-    height: 40px;
-    display: flex;
-    flex-direction: row;
-`;
-
-export const GameIdInput = styled.TextInput`
-    flex: 1;
-    background-color: ${Colors.input};
-    border-radius: 2px;
-    padding: 0 10px;
+export const ContentText = styled.Text`
     color: ${Colors.text};
-    font-family: 'roboto-regular';
-    font-size: 20px;
-`;
-
-//-----------------------EDIT PLAYER------------------------//
-
-export const PlayerNameCtn = styled.View`
-    position: relative;
-    height: 40px;
-    display: flex;
-    flex-direction: row;
-    margin-top: 5%;
-    margin-bottom: 32px;
-`;
-
-export const InputPlayerName = styled.TextInput`
-    flex: 1;
-    opacity: 0.8;
-    border-radius: 2px;
-    margin-right: 4px;
-    padding-left: 10px;
-`;
-
-
-export const EditLogo = styled.Image`
-    position: relative;
-    width: 22px;
-    height: 22px;
-    top: 1px;
-    left: 1px;
-`;
-
-interface ModalErrorMessageProps {
-    displayError?: boolean
-}
-export const ModalErrorMessage = styled.Text<ModalErrorMessageProps>`
-    color: white;
-    font-family: 'roboto-light-italic';
+    font-family: 'roboto-light';
+    text-align: center;
     font-size: 18px;
-    margin: 0 16px 32px 16px;
-    display: ${props => props.displayError ? 'flex' : 'none'};
+    margin-bottom: 32px;
 `;

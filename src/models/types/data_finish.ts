@@ -2,7 +2,7 @@
 export interface data_finish {
     type: string,
     data: {
-        id: string,
+        operator: string,
         success: boolean
     }
 }
@@ -10,7 +10,7 @@ export interface data_finish {
 export const data_finish = (
     type: string,
     data: {
-        id: string,
+        operator: string,
         success: boolean
     }
 ): data_finish => ({

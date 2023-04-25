@@ -2,16 +2,16 @@ import { ResultButtons } from "./ResultButtons";
 
 export interface Result {
     buttons?: ResultButtons,
-    switches?: number[],
+    switchs?: number[],
     links?: number[][]
 }
 
 export const Result = (
     buttons?: ResultButtons,
-    switches?: number[],
+    switchs?: number[],
     links?: number[][]
 ): Result => ({
     buttons,
-    switches,
+    switchs,
     links
 })

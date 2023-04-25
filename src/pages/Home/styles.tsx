@@ -36,7 +36,7 @@ export const IdCtnView = styled.View`
     display: flex;
     flex-direction: row;
     align-self: center;
-    top: 21%;
+    top: 20%;
 `;
 
 
