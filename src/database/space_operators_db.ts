@@ -1,23 +1,30 @@
 import * as SQLite from 'expo-sqlite';
+import { actualUser, createUser } from '../databaseObjects/UsersDAO';
+import { User } from '../models/User';
+import uuid from 'react-native-uuid';
+import { randomUserName } from "../services/RandomNameGenerator";
 
 const space_operators_db = SQLite.openDatabase('space_operators.db');
 
 export const initializeDatabase = () => {
+  // space_operators_db.closeAsync();
+  // space_operators_db.deleteAsync();
     space_operators_db.transaction((tx) => {
         tx.executeSql(`
             CREATE TABLE IF NOT EXISTS Users(
-                Uuid VARCHAR(40) NOT NULL,
+                Id INTEGER PRIMARY KEY NOT NULL,
+                Uuid VARCHAR(50) NOT NULL,
                 Name VARCHAR(20) NOT NULL
-                )`
-        );
+                )
+        `);
         tx.executeSql(`
             CREATE TABLE IF NOT EXISTS OldGames(
                 Id VARCHAR(10) NOT NULL,
                 Rounds INTEGER NOT NULL,
                 GameCreationDates VARCHAR(10) NOT NULL,
                 PlayersNames VARCHAR(500) NOT NULL
-                )`
-        );
+                )
+        `);
     });
 };
 

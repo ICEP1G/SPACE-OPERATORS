@@ -1,27 +1,134 @@
 import * as React from "react";
-import { NativeRouter, Routes, Route, Link, useNavigate } from "react-router-native"
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler } from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipImage, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
-import space_operators_db from "../../database/space_operators_db";
-import styled from "styled-components/native";
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
-import { useEffect, useState } from "react";
-import { randomUserName } from "../../services/RandomNameGenerator";
-// import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from "react-router-native"
+import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform } from "react-native"
+import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
+import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
+import { useEffect, useState, useRef } from "react";
+import { User } from "../../models/User";
+import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
+import { useAppSelector, useAppDispatch } from "../../store";
+import index_modal from "./index_modal"
+import HomeModal from "./index_modal";
+import ShipImage from "../../components/ShipImage";
+import { actualUser, createUser } from "../../databaseObjects/UsersDAO";
 import uuid from 'react-native-uuid';
+import { randomUserName } from "../../services/RandomNameGenerator";
+import axios from 'axios';
+import { API_URL} from "../../index";
+import { socket } from "../../services/WebSocket";
+import { data_connect } from "../../models/types/data_connect";
+import { data_players } from "../../models/types/data_players";
+import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
+import { GameState, setGameId } from "../../reducers/game/reducer";
+import ErrorMessage from "../../components/ErrorMessage";
+import { Player } from "../../models/types/Player";
+
 
 
 const Home: React.FC = () => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    
+    const [modalVisible, setModalVisible] = useState(false);
+    const [errorBoxVisible, setErrorBoxVisible] = useState(false);
+    const [errorBoxMessage, setErrorBoxMessage] = useState('');
+
+    const [mainUserId, setMainUserId] = useState(0);
+    const [mainUserUuid, setMainUserUuid] = useState('');
+    const [mainUserName, setMainUserName] = useState('');
     const [editableName, setEditableName] = useState(false);
 
+    const mainUserState: MainUserState = 
+        useAppSelector((state) => state.mainUser);
+
+    const lobbyState: LobbyState = 
+        useAppSelector((state) => state.lobby);
+
+    const gameState: GameState = 
+        useAppSelector((state) => state.game);
+
+    // Get the Main user of the app, if it doesn't exist then create a new user
+    useEffect(() => {
+        actualUser()
+        .then((mainUser) => {
+            if (mainUser.length <= 0) {
+                // Create a new user with a random UUID and Name
+                const newUser = User(1 ,uuid.v4().toString(), randomUserName());
+                // Add the new user in database
+                createUser(newUser);
+                // Add the new user to the reducer
+                mainUser.push(newUser)
+                dispatch(setMainUser(mainUser));
+                // Update the user information
+                setMainUserId(mainUser[0].id);
+                setMainUserUuid(mainUser[0].uuid);
+                setMainUserName(mainUser[0].name);
+            }
+            else {
+                dispatch(setMainUser(mainUser));
+                setMainUserId(mainUser[0].id);
+                setMainUserUuid(mainUser[0].uuid);
+                setMainUserName(mainUser[0].name);
+            }
+        })
+    }, []);
+
+    useEffect(() => {
+        console.log("HomePage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
+    }, [lobbyState])
+    
     // Lock or unlock the input Name
-    const toggleEditableName = () => {
+    const toggleButtonEditableName = () => {
         setEditableName(!editableName);
       };
 
+    // Update the userName in Redux and in the Database
+    const saveUserName = () => {
+        const userToUpdate =
+            User(
+                mainUserId,
+                mainUserUuid,
+                mainUserName
+            );
+        dispatch(updateMainUser(userToUpdate));
+        toggleButtonEditableName;
+    };
 
+    // Call the API when creating a new game then redirect the user to the lobby
+    const api_createGame = () => {
+        axios.post(API_URL + "create-game")
+        .then((response) => {
+            const gameId: string = response.data.id;
+            dispatch(setGameId(gameId));
+            console.log("gameId : " + gameId);
+            const dataConnect: data_connect = data_connect("connect", {
+                gameId: gameId,
+                playerId: mainUserUuid,
+                playerName: mainUserName
+            });
+            socket.send(JSON.stringify(dataConnect));
+            navigate("/Lobby");
+        })
+        .catch((error) => {
+            setErrorBoxMessage("error");
+            setErrorBoxVisible(true);
+            setTimeout(() => {
+                setErrorBoxMessage('');
+                setErrorBoxVisible(false);
+            }, 3000);
+        })
+    };
 
+    
+
+    if (!mainUserState.MainUser) {
+        return (
+            <BackgroundImageCtn 
+            source={require('../../images/MainMenu_Background_Left_Planet.png')}
+            resizeMode="cover"
+            />
+        );
+    }
     return (
         <>
         <BackgroundImageCtn 
@@ -29,71 +136,79 @@ const Home: React.FC = () => {
             resizeMode="cover"
         />
         <ShipCtn>
-            <ShipImage 
-            source={require('../../images/MainMenu_RazorBack_Ship.png')}
-            resizeMode="contain"
-            />
+            <ShipImage/>
         </ShipCtn>
         <AppLogo
             source={require('../../images/SPACEOPERATORS_logo_bold_strech.png')}
             resizeMode="contain"
         />
+
+        <HomeModal
+            visible={modalVisible}
+            setModalVisible={setModalVisible}
+            setMainUserName={setMainUserName}
+            userName={mainUserName}
+            userUuid={mainUserUuid}
+            onSaveUserName={saveUserName}
+        />
+
+        <IdCtnView>
+            <SP_AestheticLine/>
+            <SP_LabelSquareView mini style={{marginRight: 3}}>
+                <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>ID</Text>
+            </SP_LabelSquareView>
+            <SP_InfoView transparent centerContent>
+                <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-regular'}}>{mainUserUuid}</Text>
+            </SP_InfoView>
+        </IdCtnView>
         
         <HomeMainCtn>
-            <IdCtnView>
-                <SP_AestheticLine/>
-                <SP_LabelView mini style={{marginRight: 6}}>
-                    <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-bold'}}>ID</Text>
-                </SP_LabelView>
-                <SP_InfoView transparent>
-                    <Text style={{color: Colors.text, fontSize: 24, fontFamily: 'roboto-regular'}}>{uuid.v4()}</Text>
-                </SP_InfoView>
-            </IdCtnView>
-
-            <BottomCtn>
-                <PlayerNameCtn style={styles.shadow}>
-                    <SP_AestheticLine maxi/>
-                    <InputPlayerName 
-                        style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 40 }}
-                        defaultValue={randomUserName()}
-                        editable={editableName}
-                        >
-                    </InputPlayerName>
-                    <SP_Button style={{width: 84}}
-                        onPress={toggleEditableName}
+            <PlayerNameCtn style={styles.shadow}>
+                <SP_AestheticLine maxi/>
+                <InputPlayerName 
+                    style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }}
+                    editable={editableName}
+                    defaultValue={mainUserName}
+                    onChangeText={setMainUserName}
+                    onBlur={saveUserName}
                     >
-                        <EditLogo
-                            source={require('../../../assets/icons/user-edit.png')}
-                            resizeMode="contain"
-                        />
-                    </SP_Button>
-                </PlayerNameCtn>
+                </InputPlayerName>
+                <SP_Button style={{width: 48}} onPress={toggleButtonEditableName}>
+                    <EditLogo
+                        source={require('../../../assets/icons/user-edit.png')}
+                        resizeMode="contain"
+                    />
+                </SP_Button>
+            </PlayerNameCtn>
 
-                <ButtonsContainer>
-                    <SP_Button primary 
-                    style={{borderWidth: 3, borderColor: '#C7532F'}}>
-                        <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
-                    </SP_Button>
-                    <SP_Button style={{marginTop: 24, borderWidth: 3, borderColor: Colors.input}}>
-                        <SP_TextButton >CREER UNE PARTIE</SP_TextButton>
-                    </SP_Button>
-                    <SP_Button 
-                        style={{marginTop: 24, borderWidth: 3, borderColor: Colors.input}}
-                        onPress={() => navigate("/Historic")}
+            <ButtonsContainer>
+                <SP_Button primary 
+                    style={{borderWidth: 1.5, borderColor: '#C7532F'}}
+                    onPress={() => setModalVisible(true)}>
+                    <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
+                </SP_Button>
+                <SP_Button
+                    style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
+                    onPress={() => api_createGame()}
                     >
-                        <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
-                    </SP_Button>
-                    <LeaveButton onPress={() => BackHandler.exitApp()}>
-                        <TextLeaveButton>LEAVE</TextLeaveButton>
-                    </LeaveButton>
-                </ButtonsContainer>
-            </BottomCtn>
-
+                    <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
+                </SP_Button>
+                <SP_Button 
+                    style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
+                    onPress={() => navigate("/Historic")}>
+                    <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
+                </SP_Button>
+                <LeaveButton onPress={() => (BackHandler.exitApp(), socket.close()) }>
+                    <TextLeaveButton>QUITTER</TextLeaveButton>
+                </LeaveButton>
+            </ButtonsContainer>
         </HomeMainCtn>
-            
+        
+        <ErrorMessage isDisplayed={errorBoxVisible} errorMessage={errorBoxMessage}></ErrorMessage>
         </>
     )
 };
+
 
 
 const styles = StyleSheet.create({

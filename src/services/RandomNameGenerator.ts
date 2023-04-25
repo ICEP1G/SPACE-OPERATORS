@@ -1,6 +1,6 @@
 
 
-// Return a random name like 'Invisble-Rooster-42'
+// Return a random name like 'Invisible-Rooster-42'
 export const randomUserName = () => {
     const randomAttribute: string[] = [ "Floating", "Invisible", "Firing", "Immortal", "Alive", "Strong", "Healing", "Spiritual", "Accurate", "Morphing", "Quick", "Celestial" ]
     const randomName: string[]      = [ "Rooster", "Snake", "Dragon", "Dog", "Rat", "Bullock", "Horse", "Tiger", "Pig", "Monkey", "Rabbit", "Sheep" ]

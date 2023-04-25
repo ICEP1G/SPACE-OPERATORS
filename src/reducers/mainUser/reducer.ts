@@ -1,33 +1,26 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { User } from '../../models/User';
-import { setMainUserAction } from './action';
-import { actualUser } from '../../databaseObjects/UsersDAO';
-import { v4 as uuidv4 } from 'uuid';
+import { setMainUserAction, updateMainUserAction } from './action';
 
 export interface MainUserState {
-    MainUser: User
+    MainUser: User[],
+    isFetchingUsers: boolean
 }
 
 const initialState: MainUserState = {
-    MainUser: {
-        uuid: '',
-        name: ''
-    },
+    MainUser: [],
+    isFetchingUsers: false
 };
 
-
-// export const GetMainUser =
-//     actualUser()
-//         .then(())
-
-
+    
 const reducer = createSlice({
     name: "mainUser",
     initialState: initialState,
     reducers: {
-        setMainUser: setMainUserAction
-    }
+        setMainUser: setMainUserAction,
+        updateMainUser: updateMainUserAction
+    },
 });
 
-export const { setMainUser } = reducer.actions;
+export const { setMainUser, updateMainUser } = reducer.actions;
 export default reducer.reducer;
