@@ -170,8 +170,6 @@ const Lobby: React.FC = () => {
                 </LobbyLaunchButton>
                 : ''
             }
-            
-
         </LobbyMainCtn>
 
 
