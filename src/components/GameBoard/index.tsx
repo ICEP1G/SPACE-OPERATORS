@@ -27,12 +27,12 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
+    // Allow to display the waiting loader by reseting the game reducer state when the duration of the round is over    
     useEffect(() => {
         setTimeout(() => {
             dispatch(resetAllResultGame());
             dispatch(resetOperationGame());
-        }, (gameState.duration * 1000))
-
+        }, (gameState.duration * 1000));
     }, [gameState.duration]);
 
     // Verify there is data, if not display the waiting loader

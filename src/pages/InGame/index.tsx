@@ -60,10 +60,11 @@ const InGame: React.FC = () => {
                 dispatch(setGameOperation(dataOperation));
             }
             if (objectResponse.type == "integrity") {
-                // setRoundFail(true);
+                setRoundFail(true);
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 console.log(dataIntegrity);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
+                setRoundFail(false);
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
