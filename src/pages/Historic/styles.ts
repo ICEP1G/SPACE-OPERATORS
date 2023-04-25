@@ -239,15 +239,11 @@ export const GamePlayerNameModal = styled.View`
 `;
 
 export const GamePlayerLogoModal = styled.View`
-    position: relative;
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     background-color: ${Colors.secondary};
     width: 20%;
-    padding: 8px;
-    margin: 0px 8px 0px 8px;
+    margin: 0px 4px 0px 2px;
 `;
 
 export const Line = styled.View`

@@ -91,7 +91,7 @@ const Historic: React.FC = () => {
                         <SP_Button primary style={{width: 48}} onPress={toggleModal}>
                             <Image
                                 style={{width: 24, position: 'relative', left: -1}}
-                                source={require('../../../assets/icons/sign-out-alt.png')}
+                                source={require('../../../assets/icons/cross.png')}
                                 resizeMode="contain"
                             />
                         </SP_Button>
@@ -124,6 +124,7 @@ const Historic: React.FC = () => {
                                 </SP_InfoView>
                             </GamePlayerNameModal>
 
+                            
                             <GamePlayerNameModal>
                                 <SP_AestheticLine></SP_AestheticLine>
                                 <GamePlayerLogoModal>
