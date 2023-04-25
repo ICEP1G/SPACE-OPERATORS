@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect, useState, useRef } from "react";
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
 import { Colors } from "../../styles_general";
-import { GameState, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
+import { GameState, resetAllResultGame, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { GameBoardCtnSplited, GameBoardWindow, GameLinkWindow } from "./styles";
 import Instructions from "../Instructions";
@@ -26,6 +26,14 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
+
+    useEffect(() => {
+        setTimeout(() => {
+            dispatch(resetAllResultGame());
+            dispatch(resetOperationGame());
+        }, (gameState.duration * 1000))
+
+    }, [gameState.duration]);
 
     // Verify there is data, if not display the waiting loader
     if (gameState.elements[0] !== undefined) {
