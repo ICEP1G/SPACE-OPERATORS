@@ -8,3 +8,9 @@ export const setLobbyPlayerAction = ( state: LobbyState, action: PayloadAction<P
     players: action.payload
 });
 
+export const setLobbyGameIdAction = ( state: LobbyState, action: PayloadAction<string>): LobbyState =>
+({
+    ...state,
+    gameId: action.payload
+});
+

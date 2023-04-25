@@ -7,14 +7,12 @@ import { initializeDatabase } from "./database/space_operators_db";
 import Home from "./pages/Home/index";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState, useCallback } from 'react';
 import Lobby from "./pages/Lobby";
 import InGame from "./pages/InGame";
 import Historic from "./pages/Historic";
 import store from "./store";
 import { socket } from "./services/WebSocket";
 
-export const API_URL: string = "https://space-operators.herokuapp.com/"
 
 initializeDatabase();
 socket.onopen;
@@ -46,7 +44,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "absolute", zIndex: 10, backgroundColor: 'black'}}>
+      <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "relative", zIndex: 10, backgroundColor: 'black'}}>
         <NativeRouter>
           <Routes>
             <Route path="/" element={<Home/>} />

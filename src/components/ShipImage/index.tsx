@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         width: '90%',
         alignSelf: 'center',
         zIndex: 10,
-        top: '3%'
+        top: '2%'
     }
 })
 

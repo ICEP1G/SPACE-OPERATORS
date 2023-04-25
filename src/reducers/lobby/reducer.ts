@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Player } from '../../models/types/Player';
-import { setLobbyPlayerAction } from './action';
+import { setLobbyPlayerAction, setLobbyGameIdAction } from './action';
 
 export interface LobbyState {
-    players: Player[]
-    allUsersReady: boolean
+    players: Player[],
+    gameId: string
 }
 
 const initialState: LobbyState = {
     players: [],
-    allUsersReady: false
+    gameId: ''
 };
 
     
@@ -17,9 +17,10 @@ const reducer = createSlice({
     name: "lobby",
     initialState: initialState,
     reducers: {
-        setLobbyPlayer: setLobbyPlayerAction
+        setLobbyPlayer: setLobbyPlayerAction,
+        setLobbyGameId: setLobbyGameIdAction
     },
 });
 
-export const { setLobbyPlayer } = reducer.actions;
+export const { setLobbyPlayer, setLobbyGameId } = reducer.actions;
 export default reducer.reducer;
