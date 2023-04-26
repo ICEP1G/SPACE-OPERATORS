@@ -70,7 +70,7 @@ const Historic: React.FC = () => {
                                     <SP_Button primary style={{width: 40, height: 40}} onPress={toggleModal}>
                                         <Image
                                             style={{width: 24, position: 'relative', left: -1}}
-                                            source={require('../../../assets/icons/info-circle.png')}
+                                            source={require('../../../assets/icons/list-solid.png')}
                                             resizeMode="contain"
                                         />
                                     </SP_Button>

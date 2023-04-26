@@ -131,7 +131,7 @@ export const TurnNumber = styled.View`
     justify-content: center;
     align-items: center;
     background-color: ${Colors.secondary};
-    width: 35%;
+    width: 32%;
     padding: 8px;
     margin: 0px 8px 0px 8px;
 `;
