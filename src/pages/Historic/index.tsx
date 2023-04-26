@@ -4,8 +4,8 @@ import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_Aesthet
 import space_operators_db from "../../database/space_operators_db";
 import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Button } from "react-native"
 import { useEffect, useState, useCallback } from 'react';
-import Modal from "react-native-modal";
-import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText, ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeader, GamePlayerModal, GamePlayerNameModal, GamePlayerLogoModal, PlayerListModal, GameIDModal, GameIDModalText, RoundModal, RoundModalText, ModalGameStat, Line } from "./styles"; 
+import HistoricModal from "./index_modal";
+import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText } from "./styles"; 
 import { GetAllGames } from "../../databaseObjects/OldGamesDAO";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { HistoricState, setOldGames } from "../../reducers/historic/reducer";
@@ -56,6 +56,14 @@ const Historic: React.FC = () => {
                             resizeMode="contain"
                         />
                     </SP_Button>
+                    <HistoricModal
+                        visible={isModalVisible}
+                        toggleModal={toggleModal}
+                        gameId={game.gameId}
+                        turn={game.rounds}
+                        dateGame={game.gameCreationDate}
+                        players={game.playersNames}
+                    />
                 </ShowMoreInfo>
             </GameHistory>
         )
@@ -82,9 +90,6 @@ const Historic: React.FC = () => {
                         </HistoricHeaderTitle>
                     </HistoricHeader>
 
-
-
-
                     <HistoricContentCtn>
                         <ContentHeaderCtn>
                             <ContentHeaderText>HISTORIQUE DES PARTIES</ContentHeaderText>
@@ -100,74 +105,7 @@ const Historic: React.FC = () => {
                         </ContentScrollViewCtn>
                     </HistoricContentCtn>
                 </HistoricMainCTN>
-            </HistoricWindow>      
-
-            <Modal isVisible={isModalVisible}>
-                <View style={{ flex: 1 }}>
-                <ModalContent>
-                    <ModalContentHeader>
-                        <ModalHeaderTitle>
-                            <ModalHeaderTitleText>26/02/2023</ModalHeaderTitleText>
-                        </ModalHeaderTitle>
-                        <SP_Button primary style={{width: 48}} onPress={toggleModal}>
-                            <Image
-                                style={{width: 24, position: 'relative', left: -1}}
-                                source={require('../../../assets/icons/cross.png')}
-                                resizeMode="contain"
-                            />
-                        </SP_Button>
-                    </ModalContentHeader>
-
-                    <GamePlayerModal>
-                        <ModalGameStat>
-                            <GameIDModal>
-                                <GameIDModalText>GAME ID : 578800DIOK</GameIDModalText>
-                            </GameIDModal>
-                            <RoundModal>
-                                <RoundModalText>ROUNDS : 3</RoundModalText>
-                            </RoundModal>
-                        </ModalGameStat>
-
-                        <Line></Line>
-
-                        <PlayerListModal>
-                            <GamePlayerNameModal>
-                                <SP_AestheticLine></SP_AestheticLine>
-                                <GamePlayerLogoModal>
-                                    <Image
-                                        style={{width: 24, position: 'relative', left: -1}}
-                                        source={require('../../../assets/icons/astronaut-icon.png')}
-                                        resizeMode="contain"
-                                    />
-                                </GamePlayerLogoModal>
-                                <SP_InfoView transparent>
-                                    <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>ICEP1G</Text>
-                                </SP_InfoView>
-                            </GamePlayerNameModal>
-
-                            
-                            <GamePlayerNameModal>
-                                <SP_AestheticLine></SP_AestheticLine>
-                                <GamePlayerLogoModal>
-                                    <Image
-                                        style={{width: 24, position: 'relative', left: -1}}
-                                        source={require('../../../assets/icons/astronaut-icon.png')}
-                                        resizeMode="contain"
-                                    />
-                                </GamePlayerLogoModal>
-                                <SP_InfoView transparent>
-                                    <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>ICEP1G</Text>
-                                </SP_InfoView>
-                            </GamePlayerNameModal>
-
-                        </PlayerListModal>
-                    </GamePlayerModal>
-
-                    
-                </ModalContent>
-
-                </View>
-            </Modal>      
+            </HistoricWindow>
         </>
     )
 }
