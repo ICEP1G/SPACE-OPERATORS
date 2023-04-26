@@ -5,21 +5,31 @@ import space_operators_db from "../../database/space_operators_db";
 import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Button } from "react-native"
 import { useEffect, useState, useCallback } from 'react';
 import Modal from "react-native-modal";
-
-import { 
-    HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN,
-    HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText,
-    ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeader, GamePlayerModal, GamePlayerNameModal, GamePlayerLogoModal, PlayerListModal, GameIDModal, GameIDModalText, RoundModal, RoundModalText, ModalGameStat, Line
-} from "./styles"; 
+import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText, ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeader, GamePlayerModal, GamePlayerNameModal, GamePlayerLogoModal, PlayerListModal, GameIDModal, GameIDModalText, RoundModal, RoundModalText, ModalGameStat, Line } from "./styles"; 
+import { GetAllGames } from "../../databaseObjects/OldGamesDAO";
+import { useAppDispatch } from "../../store";
+import { setOldGames } from "../../reducers/historic/reducer";
 
 const Historic: React.FC = () => {    
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const [isModalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
+
+    // Get the old games, if it doesn't exist, display a message
+    useEffect(() => {
+        GetAllGames()
+        .then((Games) => {
+            if (Games.length > 0) {
+                // Add the new user to the reducer
+                dispatch(setOldGames(Games));
+            }
+        })
+    }, []);
 
     return (
         <>
