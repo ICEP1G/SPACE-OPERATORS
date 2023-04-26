@@ -3,13 +3,15 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import mainUserReducer from './reducers/mainUser/reducer';
 import lobbyReducer from './reducers/lobby/reducer';
 import gameReducer from './reducers/game/reducer';
+import historicReducer from './reducers/historic/reducer';
 
 
 const store = configureStore({
   reducer: {
     mainUser: mainUserReducer,
     lobby: lobbyReducer,
-    game: gameReducer
+    game: gameReducer,
+    historic : historicReducer,
   }
 });
 

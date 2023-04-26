@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { OldGame } from '../../models/OldGame';
 import { setOldGamesAction } from './action';
 
-export interface oldGamesState {
+export interface HistoricState {
     oldGames: OldGame[]
 }
 
-const initialState: oldGamesState = {
+const initialState: HistoricState = {
     oldGames: []
 };
 

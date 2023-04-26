@@ -19,9 +19,9 @@ export const initializeDatabase = () => {
         `);
         tx.executeSql(`
             CREATE TABLE IF NOT EXISTS OldGames(
-                Id VARCHAR(10) NOT NULL,
+                GameId VARCHAR(10) NOT NULL,
                 Rounds INTEGER NOT NULL,
-                GameCreationDates VARCHAR(10) NOT NULL,
+                GameCreationDate VARCHAR(10) NOT NULL,
                 PlayersNames VARCHAR(500) NOT NULL
                 )
         `);

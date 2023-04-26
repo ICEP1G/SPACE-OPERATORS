@@ -1,8 +1,8 @@
 import { PayloadAction} from '@reduxjs/toolkit';
 import { OldGame } from '../../models//OldGame';
-import { oldGamesState } from './reducer';
+import { HistoricState } from './reducer';
 
-export const setOldGamesAction = ( state: oldGamesState, action: PayloadAction<OldGame[]>): oldGamesState =>
+export const setOldGamesAction = ( state: HistoricState, action: PayloadAction<OldGame[]>): HistoricState =>
 ({
     ...state,
     oldGames: action.payload

@@ -24,7 +24,9 @@ import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
 import GameLink from "../../components/GameLink";
 import { data_players } from "../../models/types/data_players";
-
+import moment from "moment";
+import { createOldGame } from "../../databaseObjects/OldGamesDAO";
+import { OldGame } from "../../models/OldGame";
 
 const InGame: React.FC = () => {
     const navigate = useNavigate();
@@ -64,6 +66,11 @@ const InGame: React.FC = () => {
                 console.log(dataIntegrity);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
+                if (dataIntegrity.data.integrity == 0) {
+                    // navigate("/GameOver");
+                    const date = moment().format('DD-MM-YYYY');
+                    createOldGame ( OldGame(gameState.gameId, gameState.turn, date, JSON.stringify(gameState.playersStatus)));
+                }
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);

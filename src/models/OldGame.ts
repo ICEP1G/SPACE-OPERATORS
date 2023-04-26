@@ -1,18 +1,18 @@
 
 export interface OldGame {
-    id: number,
-    rounds: string,
+    gameId: string,
+    rounds: number,
     gameCreationDate: string
     playersNames: string
 }
 
 export const OldGame = (
-    id: number,
-    rounds: string,
+    gameId: string,
+    rounds: number,
     gameCreationDate: string,
     playersNames: string
 ): OldGame => ({
-    id,
+    gameId,
     rounds,
     gameCreationDate,
     playersNames

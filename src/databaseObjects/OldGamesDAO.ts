@@ -8,11 +8,11 @@ const space_operators_db = SQLite.openDatabase('space_operators.db');
 // Get the User of the section
 export const GetAllGames = (): Promise<OldGame[]> => {
     return getSQLData(
-        'SELECT * FROM oldGame ORDER BY Id DESC',
+        'SELECT * FROM OldGames ORDER BY rowid DESC',
         [],
         (rows) => rows.map((row) =>
             OldGame(
-                row['Id'],
+                row['GameId'],
                 row['Rounds'],
                 row['GameCreationDate'],
                 row['PlayersNames']
@@ -24,8 +24,8 @@ export const GetAllGames = (): Promise<OldGame[]> => {
 // Get infos for history 
 export const createOldGame = (OldGame: OldGame): Promise<number> => {
     return executeSQL(
-        `INSERT INTO Users(Id, Rounds, GameCreationDate, PlayersNames)
+        `INSERT INTO OldGames(GameId, Rounds, GameCreationDate, PlayersNames)
         VALUES (?, ?, ?, ?)`,
-        [OldGame.id ,OldGame.rounds, OldGame.gameCreationDate, OldGame.playersNames]
+        [OldGame.gameId, OldGame.rounds, OldGame.gameCreationDate, OldGame.playersNames]
     );
 };

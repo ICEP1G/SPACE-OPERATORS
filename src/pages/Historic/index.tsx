@@ -7,13 +7,16 @@ import { useEffect, useState, useCallback } from 'react';
 import Modal from "react-native-modal";
 import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText, ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeader, GamePlayerModal, GamePlayerNameModal, GamePlayerLogoModal, PlayerListModal, GameIDModal, GameIDModalText, RoundModal, RoundModalText, ModalGameStat, Line } from "./styles"; 
 import { GetAllGames } from "../../databaseObjects/OldGamesDAO";
-import { useAppDispatch } from "../../store";
-import { setOldGames } from "../../reducers/historic/reducer";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { HistoricState, setOldGames } from "../../reducers/historic/reducer";
+import { faJar } from "@fortawesome/free-solid-svg-icons";
 
 const Historic: React.FC = () => {    
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const OldGameElement: any = [];
+    const historicState: HistoricState = useAppSelector((state) => state.historic);
     const [isModalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -25,11 +28,38 @@ const Historic: React.FC = () => {
         GetAllGames()
         .then((Games) => {
             if (Games.length > 0) {
-                // Add the new user to the reducer
                 dispatch(setOldGames(Games));
+                // console.log("historicState", JSON.stringify(historicState));
+
             }
         })
-    }, []);
+    }, []);    
+
+    // Display all oldGames in the history
+    historicState.oldGames.forEach((game, index) => {
+        OldGameElement.push(
+            <GameHistory>
+                <GameNameCdn>
+                    <SP_AestheticLine></SP_AestheticLine>
+                    <SP_InfoView transparent>
+                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Game {game.gameId}</Text>
+                    </SP_InfoView>
+                </GameNameCdn>
+                <TurnNumber>
+                    <TurnNumberText>Round {game.rounds}</TurnNumberText>
+                </TurnNumber>
+                <ShowMoreInfo>
+                    <SP_Button primary style={{width: 40, height: 40}} onPress={toggleModal}>
+                        <Image
+                            style={{width: 24, position: 'relative', left: -1}}
+                            source={require('../../../assets/icons/list-solid.png')}
+                            resizeMode="contain"
+                        />
+                    </SP_Button>
+                </ShowMoreInfo>
+            </GameHistory>
+        )
+    })
 
     return (
         <>
@@ -66,26 +96,7 @@ const Historic: React.FC = () => {
                         </ContentHeaderCtn>
 
                         <ContentScrollViewCtn>
-                            <GameHistory>
-                                <GameNameCdn>
-                                    <SP_AestheticLine></SP_AestheticLine>
-                                    <SP_InfoView transparent>
-                                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Game 1</Text>
-                                    </SP_InfoView>
-                                </GameNameCdn>
-                                <TurnNumber>
-                                    <TurnNumberText>Round 12</TurnNumberText>
-                                </TurnNumber>
-                                <ShowMoreInfo>
-                                    <SP_Button primary style={{width: 40, height: 40}} onPress={toggleModal}>
-                                        <Image
-                                            style={{width: 24, position: 'relative', left: -1}}
-                                            source={require('../../../assets/icons/list-solid.png')}
-                                            resizeMode="contain"
-                                        />
-                                    </SP_Button>
-                                </ShowMoreInfo>
-                            </GameHistory>
+                            {OldGameElement}
                         </ContentScrollViewCtn>
                     </HistoricContentCtn>
                 </HistoricMainCTN>
