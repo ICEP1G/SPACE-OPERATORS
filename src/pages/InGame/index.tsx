@@ -38,17 +38,16 @@ const InGame: React.FC = () => {
     // Allow to be passed to the children component to play an animation when the result is wrong
     const [roundFail, setRoundFail] = useState(false);
     const [playerLeave, setPlayerLeave] = useState(false);
+    const [endScreenVisible, setEndScreenVisible] = useState(false);
+    const [gameVictory, setGameVictory] = useState(false);
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
-    useEffect(() => {
-        console.log('players status : ' + JSON.stringify(gameState.playersStatus));
-    }, [gameState]);
 
+    // Handle socket response
     socket.onmessage = (event => {
         if (event.data != "ping") {
-            console.log(JSON.stringify(event.data));
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "operation") {
                 // Reset the results in the reducer each new operation
@@ -62,18 +61,23 @@ const InGame: React.FC = () => {
             if (objectResponse.type == "integrity") {
                 setRoundFail(true);
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
-                console.log(dataIntegrity);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
+                if (dataIntegrity.data.integrity == 0) {
+                    setGameVictory(false);
+                    setEndScreenVisible(true);
+                }
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                console.log("GamePlayerstatus - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
                 dispatch(setPlayersGame(dataPlayer.data.players));
                 setPlayerLeave(true);
                 setModalVisible(true);
             }
-
+            if (objectResponse.type == "victory") {
+                setGameVictory(true);
+                setEndScreenVisible(true);
+            }
         }
     });
 
@@ -84,8 +88,6 @@ const InGame: React.FC = () => {
         let switchResult: number[] = [...gameState.switchResult];
     
         const isSuccessful = VerifyIfRoundIsSuccessful(intendedResult, buttonResult, switchResult);
-        console.log('is successful ? : ' + isSuccessful);
-    
         const dataFinish: data_finish = data_finish("finish", {
             operator: gameState.id,
             success: isSuccessful
@@ -119,6 +121,9 @@ const InGame: React.FC = () => {
     return (
         <>
         <InGameWindow>
+
+            <ShipVictoryAnimation isVisible={endScreenVisible} isVictory={false}/>
+
             <BackGroundGameImageCtn
                 source={require('../../images/InGame_Background_Dot.png')}
                 resizeMode="cover"
@@ -165,7 +170,7 @@ const InGame: React.FC = () => {
 
             
 
-            {/* <GameCtn>
+            <GameCtn>
                 {gameState.role == "operator" ?
                 <ContentValidateCtn>
                     <ContentValidateInfo>
@@ -180,9 +185,8 @@ const InGame: React.FC = () => {
                 <GameBoard playerRole={gameState.role} />
 
                 
-            </GameCtn> */}
+            </GameCtn>
 
-            <ShipVictoryAnimation></ShipVictoryAnimation>
 
 
         </InGameWindow>
