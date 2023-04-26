@@ -79,19 +79,19 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
     return (
         <>
         <GameBoardWindow>
-            {/* {elementsWaitingArray}
+            {elementsWaitingArray}
             {elementsInstructorArray}
             <GameBoardCtnSplited>
                 {elementsOperatorArray}
-            </GameBoardCtnSplited> */}
+            </GameBoardCtnSplited>
 
-            <GameLinkWindow>
-                {/* <GameLink id={1} value={"perroquet"} valueType="string"/>
+            {/* <GameLinkWindow>
+                <GameLink id={1} value={"perroquet"} valueType="string"/>
                 <GameLink id={2} value={"#fff"} valueType="color"/>
                 <GameLink id={3} value={"#fff"} valueType="color"/>
-                <GameLink id={4} value={"oiseau"} valueType="string"/> */}
+                <GameLink id={4} value={"oiseau"} valueType="string"/>
                 <GameLink ></GameLink>
-            </GameLinkWindow>
+            </GameLinkWindow> */}
             
         </GameBoardWindow>
         </>

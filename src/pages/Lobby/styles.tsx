@@ -39,6 +39,17 @@ export const OperatorImage = styled.Image<OperatorImageProps>`
     z-index: 11;
 `;
 
+interface RoverImageProps {
+    isDisplayed?: boolean
+}
+export const RoverImage = styled.Image<RoverImageProps>`
+    position: absolute;
+    width: 20%;
+    height: 20%;
+    display: ${props => props.isDisplayed ? 'flex' : 'none'};
+    z-index: 11;
+`;
+
 
 //-----------------GAME INFO TOP CONTAINER------------------//
 

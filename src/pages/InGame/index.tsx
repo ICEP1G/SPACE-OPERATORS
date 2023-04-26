@@ -24,6 +24,7 @@ import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
 import GameLink from "../../components/GameLink";
 import { data_players } from "../../models/types/data_players";
+import ShipVictoryAnimation from "../../components/ShipVictoryAnimation";
 
 
 const InGame: React.FC = () => {
@@ -164,7 +165,7 @@ const InGame: React.FC = () => {
 
             
 
-            <GameCtn>
+            {/* <GameCtn>
                 {gameState.role == "operator" ?
                 <ContentValidateCtn>
                     <ContentValidateInfo>
@@ -177,8 +178,11 @@ const InGame: React.FC = () => {
                 : null}
                 
                 <GameBoard playerRole={gameState.role} />
+
                 
-            </GameCtn>
+            </GameCtn> */}
+
+            <ShipVictoryAnimation></ShipVictoryAnimation>
 
 
         </InGameWindow>

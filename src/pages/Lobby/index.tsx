@@ -6,7 +6,7 @@ import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, Te
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine, SP_TextLabel } from "../../styles_general";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
-import { AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, StatusButton, StatusButtonText } from "./styles";
+import { AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, RoverImage, StatusButton, StatusButtonText } from "./styles";
 import axios from 'axios';
 import { API_URL} from "../../services/WebSocket";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
@@ -204,6 +204,7 @@ const Lobby: React.FC = () => {
             resizeMode="contain"
             style={{bottom: '9%', left: '40%'}}
         />
+
 
         </LobbyWindow>
 
