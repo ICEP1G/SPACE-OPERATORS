@@ -13,7 +13,7 @@ import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
-import { GameState, setGameId } from "../../reducers/game/reducer";
+import { GameState, setGameId, setPlayersGame } from "../../reducers/game/reducer";
 import { Player } from "../../models/types/Player";
 import { data_start } from "../../models/types/data_start";
 
@@ -62,6 +62,7 @@ const Lobby: React.FC = () => {
             }
             if (objectResponse.type == "start") {
                 dispatch(setGameId(lobbyState.gameId));
+                dispatch(setPlayersGame(lobbyState.players))
                 navigate("/InGame");
             }
         }

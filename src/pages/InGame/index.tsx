@@ -5,7 +5,7 @@ import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, Te
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import space_operators_db from "../../database/space_operators_db";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { GameState, resetAllResultGame, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
+import { GameState, resetAllResultGame, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
 import InGameModal from "./index_modal";
@@ -17,13 +17,13 @@ import { data_operation } from "../../models/types/data_operation";
 import EmptyInfo from "../../components/EmptyInfo";
 import { data_integrity } from "../../models/types/data_integrity";
 import GameBoard from "../../components/GameBoard";
-import { resetAllResultGameAction } from "../../reducers/game/action";
 import { data_finish } from "../../models/types/data_finish";
 import ShipCockpit from "../../components/ShipCockpit";
 import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
 import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
 import GameLink from "../../components/GameLink";
+import { data_players } from "../../models/types/data_players";
 
 
 const InGame: React.FC = () => {
@@ -36,15 +36,18 @@ const InGame: React.FC = () => {
     const [modalVisible, setModalVisible] = useState(false);
     // Allow to be passed to the children component to play an animation when the result is wrong
     const [roundFail, setRoundFail] = useState(false);
+    const [playerLeave, setPlayerLeave] = useState(false);
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
     useEffect(() => {
+        console.log('players status : ' + JSON.stringify(gameState.playersStatus));
     }, [gameState]);
 
     socket.onmessage = (event => {
         if (event.data != "ping") {
+            console.log(JSON.stringify(event.data));
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "operation") {
                 // Reset the results in the reducer each new operation
@@ -56,11 +59,20 @@ const InGame: React.FC = () => {
                 dispatch(setGameOperation(dataOperation));
             }
             if (objectResponse.type == "integrity") {
-                // setRoundFail(true);
+                setRoundFail(true);
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 console.log(dataIntegrity);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
+                setRoundFail(false);
             }
+            if (objectResponse.type == "players") {
+                const dataPlayer: data_players = JSON.parse(event.data);
+                console.log("GamePlayerstatus - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
+                dispatch(setPlayersGame(dataPlayer.data.players));
+                setPlayerLeave(true);
+                setModalVisible(true);
+            }
+
         }
     });
 
@@ -116,6 +128,8 @@ const InGame: React.FC = () => {
             <InGameModal 
                 visible={modalVisible}
                 setModalVisible={setModalVisible}
+                playerLeaves={playerLeave}
+                setPlayerLeave={setPlayerLeave}
             />
 
             <GameInfoCtn>
