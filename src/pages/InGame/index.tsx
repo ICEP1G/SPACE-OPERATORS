@@ -17,7 +17,6 @@ import { data_operation } from "../../models/types/data_operation";
 import EmptyInfo from "../../components/EmptyInfo";
 import { data_integrity } from "../../models/types/data_integrity";
 import GameBoard from "../../components/GameBoard";
-import { resetAllResultGameAction } from "../../reducers/game/action";
 import { data_finish } from "../../models/types/data_finish";
 import ShipCockpit from "../../components/ShipCockpit";
 import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
