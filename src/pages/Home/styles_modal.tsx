@@ -17,7 +17,7 @@ export const ViewCtn = styled.Pressable<ViewCtnProps>`
     padding: 0% 8%;
     z-index: ${props => props.visible ? 30 : -10};
     background-color: black;
-    opacity: 0.8;
+    opacity: ${props => props.visible ? 0.8 : 0};
 `;
 
 // Modal container
@@ -30,7 +30,7 @@ export const ViewModal = styled.View<ViewModalProps>`
     align-self: center;
     top: 30%;
     z-index: ${props => props.visible ? 31 : -10};
-    opacity: 1;
+    opacity: ${props => props.visible ? 1 : 0};
 `;
 
 //------------------HEADER-------------------//

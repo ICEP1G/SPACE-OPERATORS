@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform } from "react-native"
+import { Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform } from "react-native"
 import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState, useRef } from "react";
@@ -17,10 +17,11 @@ import { API_URL} from "../../services/WebSocket";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
-import { LobbyState, setLobbyGameId, setLobbyPlayer } from "../../reducers/lobby/reducer";
+import { setLobbyGameId, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId } from "../../reducers/game/reducer";
 import ErrorMessage from "../../components/ErrorMessage";
 import { Player } from "../../models/types/Player";
+
 
 
 const Home: React.FC = () => {
@@ -179,7 +180,7 @@ const Home: React.FC = () => {
                     {editableName ? <EditLogo
                         source={require('../../../assets/icons/user-check.png')}
                         resizeMode="contain"
-                    /> :
+                    /> : 
                     <EditLogo
                         source={require('../../../assets/icons/user-edit.png')}
                         resizeMode="contain"

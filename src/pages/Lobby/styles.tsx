@@ -142,9 +142,10 @@ export const PlayerNameCtn = styled.View`
 `;
 
 export const AdminPlayer = styled.Image`
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-right: 8px;
+    margin-left: -2px;
 `;
 
 interface StatusButtonProps {

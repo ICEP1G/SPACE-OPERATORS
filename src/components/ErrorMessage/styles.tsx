@@ -14,6 +14,7 @@ export const MainCtn = styled.View<MainCtnProps>`
     justify-content: center;
     align-items: center;
     z-index: ${props => props.isVisible ? 50 : -50};
+    opacity: ${props => props.isVisible ? 1 : 0};
 `;
 
 export const ErrorBox = styled.View`
