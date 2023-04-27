@@ -69,7 +69,11 @@ const InGame: React.FC = () => {
                 if (dataIntegrity.data.integrity == 0) {
                     // navigate("/GameOver");
                     const date = moment().format('DD-MM-YYYY');
-                    createOldGame ( OldGame(gameState.gameId, gameState.turn, date, JSON.stringify(gameState.playersStatus)));
+                    const playerList: string[] = [];
+                    gameState.playersStatus.forEach(player => {
+                        playerList.push(player.name);
+                    });
+                    createOldGame ( OldGame(gameState.gameId, gameState.turn, date, JSON.stringify(playerList)));
                 }
             }
             if (objectResponse.type == "players") {

@@ -18,19 +18,26 @@ const Historic: React.FC = () => {
     const OldGameElement: any = [];
     const historicState: HistoricState = useAppSelector((state) => state.historic);
     const [isModalVisible, setModalVisible] = useState(false);
+    const [GameIDModal, setGameIDModal] = useState('');
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
+    };
+
+    const OpenModal = (id: string) => {
+        console.log("id",id);
+        setGameIDModal(id);
+        toggleModal();
     };
 
     // Get the old games, if it doesn't exist, display a message
     useEffect(() => {
         GetAllGames()
         .then((Games) => {
+            console.log(JSON.stringify(Games));
             if (Games.length > 0) {
+                console.log(Games);
                 dispatch(setOldGames(Games));
-                // console.log("historicState", JSON.stringify(historicState));
-
             }
         })
     }, []);    
@@ -49,21 +56,13 @@ const Historic: React.FC = () => {
                     <TurnNumberText>Round {game.rounds}</TurnNumberText>
                 </TurnNumber>
                 <ShowMoreInfo>
-                    <SP_Button primary style={{width: 40, height: 40}} onPress={toggleModal}>
+                    <SP_Button primary style={{width: 40, height: 40}} onPress={() => OpenModal(game.gameId)}>
                         <Image
                             style={{width: 24, position: 'relative', left: -1}}
                             source={require('../../../assets/icons/list-solid.png')}
                             resizeMode="contain"
                         />
                     </SP_Button>
-                    <HistoricModal
-                        visible={isModalVisible}
-                        toggleModal={toggleModal}
-                        gameId={game.gameId}
-                        turn={game.rounds}
-                        dateGame={game.gameCreationDate}
-                        players={game.playersNames}
-                    />
                 </ShowMoreInfo>
             </GameHistory>
         )
@@ -71,6 +70,12 @@ const Historic: React.FC = () => {
 
     return (
         <>
+        <HistoricModal
+            visible={isModalVisible}
+            gameId={GameIDModal}
+            toggleModal={toggleModal}
+        />
+
             <HistoricWindow style={{position: 'relative', width: '100%', height: '100%', flex: 1, flexDirection: 'column'}}>
                 <BackgroundImageCtn 
                     source={require('../../images/Historic_Background.jpg')}

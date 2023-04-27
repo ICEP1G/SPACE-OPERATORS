@@ -4,22 +4,32 @@ import { ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeade
 import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Button } from "react-native";
 import Modal from "react-native-modal";
 import { Player } from "../../models/types/Player";
+import { HistoricState } from "../../reducers/historic/reducer";
+import { useAppSelector } from "../../store";
+import { OldGame } from "../../models/OldGame";
 
 
 
 interface Props {
     visible: boolean,
     gameId: string,
-    turn: number,
-    dateGame: string,
-    players : string,    
     toggleModal: () => void,
 }
 
 const HistoricModal: React.FC<Props> = ({...Props}) => {
 
+    const historicState: HistoricState = useAppSelector((state) => state.historic);
+
+    const getParty: any = [];
     const playersTab: any = [];
-    const players: Player[] = JSON.parse(Props.players);
+
+    const singleGame: OldGame | undefined = historicState.oldGames.find((game) => game.gameId == Props.gameId);
+
+    // const players = JSON.parse(getParty[0].playersNames);
+    // console.log("players in the array" + JSON.stringify(players));
+
+    const players = JSON.parse(singleGame?.playersNames ?? "");
+
 
     players.forEach((player, index) => {
         playersTab.push(
@@ -34,7 +44,7 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                 </GamePlayerLogoModal>
                 <SP_InfoView transparent>
                     <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{player.name}</Text>
-                </SP_InfoView>
+                </SP_InfoView>  
             </GamePlayerNameModal>
         )
     })
@@ -46,7 +56,7 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                 <ModalContent>
                     <ModalContentHeader>
                         <ModalHeaderTitle>
-                            <ModalHeaderTitleText>{Props.dateGame}</ModalHeaderTitleText>
+                            <ModalHeaderTitleText>{getParty.dateGame}</ModalHeaderTitleText>
                         </ModalHeaderTitle>
                         <SP_Button primary style={{width: 48}} onPress={Props.toggleModal}>
                             <Image
@@ -60,10 +70,10 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                     <GamePlayerModal>
                         <ModalGameStat>
                             <GameIDModal>
-                                <GameIDModalText>NUMÉRO DE LA PARTIE : {Props.gameId}</GameIDModalText>
+                                <GameIDModalText>NUMÉRO DE LA PARTIE : {getParty.gameId}</GameIDModalText>
                             </GameIDModal>
                             <RoundModal>
-                                <RoundModalText>NOMBRE DE TOUR : {Props.turn}</RoundModalText>
+                                <RoundModalText>NOMBRE DE TOUR : {getParty.turn}</RoundModalText>
                             </RoundModal>
                         </ModalGameStat>
 
