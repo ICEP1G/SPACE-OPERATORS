@@ -8,7 +8,7 @@ import { MainUserState } from "../../reducers/mainUser/reducer";
 import { AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, RoverImage, StatusButton, StatusButtonText } from "./styles";
 import axios from 'axios';
 import { API_URL} from "../../services/WebSocket";
-import { socket, ws_GenericResponse } from "../../services/WebSocket";
+import { socket, createNewSocket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId, setPlayersGame } from "../../reducers/game/reducer";
@@ -79,7 +79,7 @@ const Lobby: React.FC = () => {
                         resizeMode="cover"
                         /> : ''
                         }   
-                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{player.name}</Text>
+                        <Text style={{color: Colors.text, fontSize: 17, fontFamily: 'roboto-regular'}}>{index === 0 ? (player.name.length <= 19 ? player.name : (player.name.substring(0,15) + "...")) : player.name}</Text>
                     </SP_InfoView>
                 </PlayerNameCtn>
                 <StatusButton isReady={player.status}>
@@ -119,7 +119,7 @@ const Lobby: React.FC = () => {
 
         <LobbyMainCtn>
             <GameInfoCtn>
-                <SP_Button primary notRound style={{width: 48}} onPress={() => navigate("/")}>
+                <SP_Button primary notRound style={{width: 48}} onPress={() => [socket.close(), createNewSocket(), navigate("/")]}>
                 <Image
                     style={{width: 24, position: 'relative', left: -1}}
                     source={require('../../../assets/icons/angle-double-left.png')}
