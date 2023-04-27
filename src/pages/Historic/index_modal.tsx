@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_AestheticLine, SP_LabelView, SP_TextLabel } from "../../styles_general";
-import { ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeader, GamePlayerModal, GamePlayerNameModal, GamePlayerLogoModal, PlayerListModal, GameIDModal, GameIDModalText, RoundModal, RoundModalText, ModalGameStat, Line } from "./styles_modal"; 
+import { ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeader, GamePlayerModal, GamePlayerNameModal, GamePlayerLogoModal, PlayerListModal, GameIDModal, GameIDModalText, GameIDValueText, RoundModal, RoundModalText, ModalGameStat, Line } from "./styles_modal"; 
 import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Button } from "react-native";
 import Modal from "react-native-modal";
 import { Player } from "../../models/types/Player";
@@ -57,7 +57,7 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                 <ModalContent>
                     <ModalContentHeader>
                         <ModalHeaderTitle>
-                            <ModalHeaderTitleText>{getParty.dateGame}</ModalHeaderTitleText>
+                            <ModalHeaderTitleText>{singleGame?.gameCreationDate}</ModalHeaderTitleText>
                         </ModalHeaderTitle>
                         <SP_Button primary notRound style={{width: 48, height: 47, borderTopRightRadius: 4}} onPress={Props.toggleModal}>
                             <Image
@@ -71,10 +71,10 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                     <GamePlayerModal>
                         <ModalGameStat>
                             <GameIDModal>
-                                <GameIDModalText>NUMÉRO DE LA PARTIE : {getParty.gameId}</GameIDModalText>
+                                <GameIDModalText>NUMÉRO DE PARTIE : </GameIDModalText><GameIDValueText>{singleGame?.gameId}</GameIDValueText>
                             </GameIDModal>
                             <RoundModal>
-                                <RoundModalText>NOMBRE DE TOUR : {getParty.turn}</RoundModalText>
+                                <RoundModalText>NOMBRE DE TOUR : </RoundModalText><GameIDValueText>{singleGame?.rounds}</GameIDValueText>
                             </RoundModal>
                         </ModalGameStat>
 
