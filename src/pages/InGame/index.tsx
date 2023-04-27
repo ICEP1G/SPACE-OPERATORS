@@ -76,7 +76,7 @@ const InGame: React.FC = () => {
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
-                console.log(dataIntegrity.data.integrity);
+                console.log("integrity : " + dataIntegrity.data.integrity);
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
@@ -88,7 +88,7 @@ const InGame: React.FC = () => {
                 console.log(objectResponse.type);
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);
                 console.log(JSON.stringify(dataDestroyed));
-                saveGameInDatabase(dataDestroyed.data.turn);
+                saveGameInDatabase(dataDestroyed.data.turns);
                 setGameVictory(false);
                 setEndScreenVisible(true);
             }

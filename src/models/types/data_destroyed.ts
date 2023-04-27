@@ -2,14 +2,14 @@
 export interface data_destroyed {
     type: string,
     data: {
-        turn: number
+        turns: number
     }
 }
 
 export const data_destroyed = (
     type: string,
     data: {
-        turn: number
+        turns: number
     }
 ): data_destroyed => ({
     type,
