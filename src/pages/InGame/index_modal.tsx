@@ -2,7 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-native"
 import { SP_Button, SP_TextButton } from "../../styles_general";
 import { ViewModal, HeaderCtn, HeaderView, HeaderText, HeaderButton, HeaderButtonIcon, ContentView, ViewCtn, ContentText } from "./styles_modal";
-import { socket } from "../../services/WebSocket";
+import { socket, createNewSocket } from "../../services/WebSocket";
 
 
 interface Props {
@@ -18,6 +18,8 @@ const InGameModal: React.FC<Props> = ({...Props}) => {
     const leaveGame = () => {
         Props.setModalVisible(false),
         navigate('/');
+        socket.close()
+        createNewSocket();
     };
 
     return (
