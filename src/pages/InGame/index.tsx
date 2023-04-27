@@ -17,7 +17,6 @@ import { data_operation } from "../../models/types/data_operation";
 import EmptyInfo from "../../components/EmptyInfo";
 import { data_integrity } from "../../models/types/data_integrity";
 import GameBoard from "../../components/GameBoard";
-import { resetAllResultGameAction } from "../../reducers/game/action";
 import { data_finish } from "../../models/types/data_finish";
 import ShipCockpit from "../../components/ShipCockpit";
 import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
@@ -25,7 +24,9 @@ import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
 import GameLink from "../../components/GameLink";
 import { data_players } from "../../models/types/data_players";
-
+import moment from "moment";
+import { createOldGame } from "../../databaseObjects/OldGamesDAO";
+import { OldGame } from "../../models/OldGame";
 
 const InGame: React.FC = () => {
     const navigate = useNavigate();
@@ -60,10 +61,20 @@ const InGame: React.FC = () => {
                 dispatch(setGameOperation(dataOperation));
             }
             if (objectResponse.type == "integrity") {
-                // setRoundFail(true);
+                setRoundFail(true);
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 console.log(dataIntegrity);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
+                setRoundFail(false);
+                if (dataIntegrity.data.integrity == 0) {
+                    // navigate("/GameOver");
+                    const date = moment().format('DD-MM-YYYY');
+                    const playerList: string[] = [];
+                    gameState.playersStatus.forEach(player => {
+                        playerList.push(player.name);
+                    });
+                    createOldGame ( OldGame(gameState.gameId, gameState.turn, date, JSON.stringify(playerList)));
+                }
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
