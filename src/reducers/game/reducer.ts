@@ -21,7 +21,6 @@ export interface GameState {
     switchResult: number[],
     shipIntegrity: number,
     playersStatus: Player[],
-
 }
 
 const initialState: GameState = {

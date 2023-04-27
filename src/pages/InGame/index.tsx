@@ -28,6 +28,7 @@ import ShipVictoryAnimation from "../../components/ShipVictoryAnimation";
 import moment from "moment";
 import { createOldGame } from "../../databaseObjects/OldGamesDAO";
 import { OldGame } from "../../models/OldGame";
+import { data_destroyed } from "../../models/types/data_destroyed";
 
 const InGame: React.FC = () => {
     const navigate = useNavigate();
@@ -46,6 +47,16 @@ const InGame: React.FC = () => {
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
+
+    // Save the game in the database (to be viewed in the history page)
+    const saveGameInDatabase = (turn: number) => {
+        const date = moment().format('DD-MM-YYYY');
+        const playerList: string[] = [];
+        gameState.playersStatus.forEach(player => {
+            playerList.push(player.name);
+        });
+        createOldGame(OldGame(gameState.gameId, turn, date, JSON.stringify(playerList)));
+    }
 
     // Handle socket response
     socket.onmessage = (event => {
@@ -66,19 +77,6 @@ const InGame: React.FC = () => {
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
                 console.log(dataIntegrity.data.integrity);
-                if (dataIntegrity.data.integrity == 0) {
-                   
-                if (dataIntegrity.data.integrity == 0) {
-                    // navigate("/GameOver");
-                    setGameVictory(false);
-                    setEndScreenVisible(true);
-                    const date = moment().format('DD-MM-YYYY');
-                    const playerList: string[] = [];
-                    gameState.playersStatus.forEach(player => {
-                        playerList.push(player.name);
-                    });
-                    createOldGame ( OldGame(gameState.gameId, gameState.turn, date, JSON.stringify(playerList)));
-                }
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
@@ -86,8 +84,17 @@ const InGame: React.FC = () => {
                 setPlayerLeave(true);
                 setModalVisible(true);
             }
+            if (objectResponse.type == "destroyed") {
+                console.log(objectResponse.type);
+                const dataDestroyed: data_destroyed = JSON.parse(event.data);
+                console.log(JSON.stringify(dataDestroyed));
+                saveGameInDatabase(dataDestroyed.data.turn);
+                setGameVictory(false);
+                setEndScreenVisible(true);
+            }
             if (objectResponse.type == "victory") {
                 console.log(objectResponse.type);
+                saveGameInDatabase(gameState.turn);
                 setGameVictory(true);
                 setEndScreenVisible(true);
             }
@@ -149,6 +156,7 @@ const InGame: React.FC = () => {
                 setModalVisible={setModalVisible}
                 playerLeaves={playerLeave}
                 setPlayerLeave={setPlayerLeave}
+                saveGameInDatabase={saveGameInDatabase}
             />
 
             <GameInfoCtn>

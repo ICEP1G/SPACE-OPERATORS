@@ -23,31 +23,32 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
     const getParty: any = [];
     const playersTab: any = [];
 
+    // Get the desired Game informations to display
     const singleGame: OldGame | undefined = historicState.oldGames.find((game) => game.gameId == Props.gameId);
 
-    // const players = JSON.parse(getParty[0].playersNames);
-    // console.log("players in the array" + JSON.stringify(players));
+    // Display the players name
+    if (singleGame !== undefined) {
+        const players: string[] = JSON.parse(singleGame.playersNames);
 
-    const players = JSON.parse(singleGame?.playersNames ?? "");
+        players.forEach((player, index) => {
+            playersTab.push(
+                <GamePlayerNameModal key={index}>
+                    <SP_AestheticLine></SP_AestheticLine>
+                    <GamePlayerLogoModal>
+                        <Image
+                            style={{width: 24, position: 'relative', left: -1}}
+                            source={require('../../../assets/icons/astronaut-icon.png')}
+                            resizeMode="contain"
+                        />
+                    </GamePlayerLogoModal>
+                    <SP_InfoView transparent>
+                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{player}</Text>
+                    </SP_InfoView>  
+                </GamePlayerNameModal>
+            )
+        });
+    }
 
-
-    players.forEach((player, index) => {
-        playersTab.push(
-            <GamePlayerNameModal>
-                <SP_AestheticLine></SP_AestheticLine>
-                <GamePlayerLogoModal>
-                    <Image
-                        style={{width: 24, position: 'relative', left: -1}}
-                        source={require('../../../assets/icons/astronaut-icon.png')}
-                        resizeMode="contain"
-                    />
-                </GamePlayerLogoModal>
-                <SP_InfoView transparent>
-                    <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{player.name}</Text>
-                </SP_InfoView>  
-            </GamePlayerNameModal>
-        )
-    })
 
     return (
         <>
@@ -58,9 +59,9 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                         <ModalHeaderTitle>
                             <ModalHeaderTitleText>{getParty.dateGame}</ModalHeaderTitleText>
                         </ModalHeaderTitle>
-                        <SP_Button primary style={{width: 48}} onPress={Props.toggleModal}>
+                        <SP_Button primary notRound style={{width: 48, height: 47, borderTopRightRadius: 4}} onPress={Props.toggleModal}>
                             <Image
-                                style={{width: 24, position: 'relative', left: -1}}
+                                style={{width: 20, position: 'relative', left: -1}}
                                 source={require('../../../assets/icons/cross.png')}
                                 resizeMode="contain"
                             />

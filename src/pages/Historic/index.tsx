@@ -5,7 +5,7 @@ import space_operators_db from "../../database/space_operators_db";
 import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Button } from "react-native"
 import { useEffect, useState, useCallback } from 'react';
 import HistoricModal from "./index_modal";
-import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText } from "./styles"; 
+import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText, TurnNumberValue } from "./styles"; 
 import { GetAllGames } from "../../databaseObjects/OldGamesDAO";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { HistoricState, setOldGames } from "../../reducers/historic/reducer";
@@ -25,7 +25,6 @@ const Historic: React.FC = () => {
     };
 
     const OpenModal = (id: string) => {
-        console.log("id",id);
         setGameIDModal(id);
         toggleModal();
     };
@@ -34,9 +33,8 @@ const Historic: React.FC = () => {
     useEffect(() => {
         GetAllGames()
         .then((Games) => {
-            console.log(JSON.stringify(Games));
+            console.log('database data : ' + JSON.stringify(Games));
             if (Games.length > 0) {
-                console.log(Games);
                 dispatch(setOldGames(Games));
             }
         })
@@ -45,7 +43,7 @@ const Historic: React.FC = () => {
     // Display all oldGames in the history
     historicState.oldGames.forEach((game, index) => {
         OldGameElement.push(
-            <GameHistory>
+            <GameHistory key={index}>
                 <GameNameCdn>
                     <SP_AestheticLine></SP_AestheticLine>
                     <SP_InfoView transparent>
@@ -53,12 +51,13 @@ const Historic: React.FC = () => {
                     </SP_InfoView>
                 </GameNameCdn>
                 <TurnNumber>
-                    <TurnNumberText>Round {game.rounds}</TurnNumberText>
+                    <TurnNumberText style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 18}}>Round : <TurnNumberValue>{game.rounds}</TurnNumberValue> </TurnNumberText>
+                    
                 </TurnNumber>
                 <ShowMoreInfo>
                     <SP_Button primary style={{width: 40, height: 40}} onPress={() => OpenModal(game.gameId)}>
                         <Image
-                            style={{width: 24, position: 'relative', left: -1}}
+                            style={{width: 20, position: 'relative', left: -1}}
                             source={require('../../../assets/icons/list-solid.png')}
                             resizeMode="contain"
                         />
@@ -76,14 +75,14 @@ const Historic: React.FC = () => {
             toggleModal={toggleModal}
         />
 
-            <HistoricWindow style={{position: 'relative', width: '100%', height: '100%', flex: 1, flexDirection: 'column'}}>
+            <HistoricWindow>
                 <BackgroundImageCtn 
                     source={require('../../images/Historic_Background.jpg')}
                     resizeMode="cover"
                 />
                 <HistoricMainCTN>
                     <HistoricHeader>
-                        <SP_Button primary style={{width: 48}} onPress={() => navigate("/")}>
+                        <SP_Button primary notRound style={{width: 48}} onPress={() => navigate("/")}>
                             <Image
                                 style={{width: 24, position: 'relative', left: -1}}
                                 source={require('../../../assets/icons/angle-double-left.png')}

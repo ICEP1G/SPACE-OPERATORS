@@ -141,3 +141,10 @@ export const TurnNumberText = styled.Text`
     font-family: 'roboto-medium';
     font-size: 20px;
 `;
+
+export const TurnNumberValue = styled.Text`
+    color: ${Colors.text};
+    font-family: 'roboto-bold';
+    font-size: 20px;
+    margin-left: 4px;
+`;

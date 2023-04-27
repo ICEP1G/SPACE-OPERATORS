@@ -7,8 +7,7 @@ export const ModalContent = styled.View`
     position: absolute;
     width: 100%;
     height: 50%;
-    left: 0px;
-    top: 25%;
+    top: 10%;
     background: rgba(80, 82, 83, 0.8);
     border: 1px solid rgba(143, 166, 155, 0.8);
     border-radius: 4px;
@@ -20,11 +19,13 @@ export const ModalContentHeader = styled.View`
     height: 48px;
     display: flex;
     flex-direction: row;
+    border-bottom-color: ${Colors.uiborder};
+    border-bottom-width: 1px;
 `;
 
 export const ModalHeaderTitle = styled.View`
     position: relative;
-    display: flex;
+    flex: 1;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -45,7 +46,7 @@ export const PlayerListModal = styled.View`
     display: flex;
     flex-direction: column;
     border-radius: 2px;
-    margin : 0 0 0 15%
+    margin : 0 0 0 15%;
 `;
 
 export const GamePlayerModal = styled.View`

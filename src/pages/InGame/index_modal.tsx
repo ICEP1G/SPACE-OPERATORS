@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-native"
 import { SP_Button, SP_TextButton } from "../../styles_general";
 import { ViewModal, HeaderCtn, HeaderView, HeaderText, HeaderButton, HeaderButtonIcon, ContentView, ViewCtn, ContentText } from "./styles_modal";
 import { socket, createNewSocket } from "../../services/WebSocket";
+import { GameState } from "../../reducers/game/reducer";
+import { useAppSelector } from "../../store";
+
 
 
 interface Props {
@@ -10,15 +13,19 @@ interface Props {
     setModalVisible: (modalVisible: boolean) => void,
     playerLeaves: boolean
     setPlayerLeave: (playerLeave: boolean) => void,
+    saveGameInDatabase: (turn: number) => void
 }
-
 const InGameModal: React.FC<Props> = ({...Props}) => {
     const navigate = useNavigate();
 
+    const gameState: GameState =
+        useAppSelector((state) => state.game)
+
     const leaveGame = () => {
-        Props.setModalVisible(false),
+        Props.saveGameInDatabase(gameState.turn);
+        Props.setModalVisible(false);
         navigate('/');
-        socket.close()
+        socket.close();
         createNewSocket();
     };
 
