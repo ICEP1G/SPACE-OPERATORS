@@ -7,8 +7,8 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/images/SPACEOPERATORS_logo_bold_strech.png",
-      "resizeMode": "contain",
+      "image": "./src/images/SPACEOPERATORS_logo_SplashScreen.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [

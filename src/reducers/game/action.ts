@@ -60,10 +60,15 @@ export const resetOperationGameAction = (state: GameState): GameState =>
     ...state,
     role: '',
     id: '',
-    duration: 0,
     description: '',
     elements: [],
     result: {}
+})
+
+export const resetDurationAction = (state: GameState): GameState => 
+({
+    ...state,
+    duration: 0
 })
 
 export const setPlayersGameAction = (state: GameState, action: PayloadAction<Player[]>): GameState =>

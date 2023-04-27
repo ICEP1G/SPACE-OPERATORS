@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import space_operators_db from '../../database/space_operators_db';
 import { UserPlayer } from '../../models/UserPlayer';
 import { Player } from '../../models/types/Player';
-import { setGameIdAction, setGameOperationAction, setGameShipIntegrityAction, addButtonResultToGameAction, resetAllResultGameAction, addSwitchResultToGameAction, removeSwitchResultToGameAction, resetOperationGameAction, setPlayersGameAction } from './action';
+import { setGameIdAction, setGameOperationAction, setGameShipIntegrityAction, addButtonResultToGameAction, resetAllResultGameAction, addSwitchResultToGameAction, removeSwitchResultToGameAction, resetOperationGameAction, setPlayersGameAction, resetDurationAction } from './action';
 import { data_operation } from '../../models/types/data_operation';
 import { Result } from '../../models/types/Result';
 import { Element } from '../../models/types/Element';
@@ -52,9 +52,10 @@ const reducer = createSlice({
         removeSwitchResultToGame: removeSwitchResultToGameAction,
         resetAllResultGame: resetAllResultGameAction,
         resetOperationGame: resetOperationGameAction,
-        setPlayersGame: setPlayersGameAction
+        setPlayersGame: setPlayersGameAction,
+        resetDuration: resetDurationAction
     },
 });
 
-export const { setGameId, setGameOperation, setGameShipIntegrity, addButtonResultToGame, resetAllResultGame, addSwitchResultToGame, removeSwitchResultToGame, resetOperationGame, setPlayersGame } = reducer.actions;
+export const { setGameId, setGameOperation, setGameShipIntegrity, addButtonResultToGame, resetAllResultGame, addSwitchResultToGame, removeSwitchResultToGame, resetOperationGame, setPlayersGame, resetDuration } = reducer.actions;
 export default reducer.reducer;

@@ -164,10 +164,14 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                         >
                     </InputPlayerName>
                     <SP_Button mini style={{width: 40}} onPress={toggleButtonEditableName}>
+                        {editableName ? <EditLogo
+                            source={require('../../../assets/icons/user-check.png')}
+                            resizeMode="contain"
+                        /> :
                         <EditLogo
                             source={require('../../../assets/icons/user-edit.png')}
                             resizeMode="contain"
-                        />
+                        />}
                     </SP_Button>
                 </PlayerNameCtn>
 

@@ -24,6 +24,7 @@ import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
 import GameLink from "../../components/GameLink";
 import { data_players } from "../../models/types/data_players";
+import ShipVictoryAnimation from "../../components/ShipVictoryAnimation";
 import moment from "moment";
 import { createOldGame } from "../../databaseObjects/OldGamesDAO";
 import { OldGame } from "../../models/OldGame";
@@ -39,17 +40,16 @@ const InGame: React.FC = () => {
     // Allow to be passed to the children component to play an animation when the result is wrong
     const [roundFail, setRoundFail] = useState(false);
     const [playerLeave, setPlayerLeave] = useState(false);
+    const [endScreenVisible, setEndScreenVisible] = useState(false);
+    const [gameVictory, setGameVictory] = useState(false);
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
-    useEffect(() => {
-        console.log('players status : ' + JSON.stringify(gameState.playersStatus));
-    }, [gameState]);
 
+    // Handle socket response
     socket.onmessage = (event => {
         if (event.data != "ping") {
-            console.log(JSON.stringify(event.data));
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "operation") {
                 // Reset the results in the reducer each new operation
@@ -63,11 +63,15 @@ const InGame: React.FC = () => {
             if (objectResponse.type == "integrity") {
                 setRoundFail(true);
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
-                console.log(dataIntegrity);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
+                console.log(dataIntegrity.data.integrity);
+                if (dataIntegrity.data.integrity == 0) {
+                   
                 if (dataIntegrity.data.integrity == 0) {
                     // navigate("/GameOver");
+                    setGameVictory(false);
+                    setEndScreenVisible(true);
                     const date = moment().format('DD-MM-YYYY');
                     const playerList: string[] = [];
                     gameState.playersStatus.forEach(player => {
@@ -78,12 +82,15 @@ const InGame: React.FC = () => {
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                console.log("GamePlayerstatus - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
                 dispatch(setPlayersGame(dataPlayer.data.players));
                 setPlayerLeave(true);
                 setModalVisible(true);
             }
-
+            if (objectResponse.type == "victory") {
+                console.log(objectResponse.type);
+                setGameVictory(true);
+                setEndScreenVisible(true);
+            }
         }
     });
 
@@ -94,8 +101,6 @@ const InGame: React.FC = () => {
         let switchResult: number[] = [...gameState.switchResult];
     
         const isSuccessful = VerifyIfRoundIsSuccessful(intendedResult, buttonResult, switchResult);
-        console.log('is successful ? : ' + isSuccessful);
-    
         const dataFinish: data_finish = data_finish("finish", {
             operator: gameState.id,
             success: isSuccessful
@@ -129,6 +134,9 @@ const InGame: React.FC = () => {
     return (
         <>
         <InGameWindow>
+
+            <ShipVictoryAnimation isVisible={endScreenVisible} isVictory={false}/>
+
             <BackGroundGameImageCtn
                 source={require('../../images/InGame_Background_Dot.png')}
                 resizeMode="cover"
@@ -188,8 +196,10 @@ const InGame: React.FC = () => {
                 : null}
                 
                 <GameBoard playerRole={gameState.role} />
+
                 
             </GameCtn>
+
 
 
         </InGameWindow>

@@ -1,14 +1,12 @@
 
-import { data_players } from "../models/types/data_players";
-import { data_connect } from "../models/types/data_connect";
-import { data_destroyed } from "../models/types/data_destroyed";
-import { data_start } from "../models/types/data_start"
-import { data_operation } from "../models/types/data_operation";
-import { data_integrity } from "../models/types/data_integrity";
-import { data_finish } from "../models/types/data_finish";
 
 export const API_URL: string = "https://space-operators.herokuapp.com/"
-export const socket: WebSocket = new WebSocket("ws://space-operators.herokuapp.com/");
+export let socket: WebSocket = new WebSocket("ws://space-operators.herokuapp.com/");
+
+export const createNewSocket = () => {
+    socket = new WebSocket("ws://space-operators.herokuapp.com/");
+    console.log("new WebSocket created");
+}
 
 // Basic functions
 socket.onopen = () => {

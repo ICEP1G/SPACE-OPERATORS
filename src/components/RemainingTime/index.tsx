@@ -36,10 +36,6 @@ const RemainingTime: React.FC<Props> = ({...Props}) => {
                 console.log(time);
             }
         }, 100)
-
-
-
-
     }, [gameState.duration])
 
 

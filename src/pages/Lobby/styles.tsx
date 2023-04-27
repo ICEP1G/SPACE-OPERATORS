@@ -39,6 +39,17 @@ export const OperatorImage = styled.Image<OperatorImageProps>`
     z-index: 11;
 `;
 
+interface RoverImageProps {
+    isDisplayed?: boolean
+}
+export const RoverImage = styled.Image<RoverImageProps>`
+    position: absolute;
+    width: 20%;
+    height: 20%;
+    display: ${props => props.isDisplayed ? 'flex' : 'none'};
+    z-index: 11;
+`;
+
 
 //-----------------GAME INFO TOP CONTAINER------------------//
 
@@ -131,9 +142,10 @@ export const PlayerNameCtn = styled.View`
 `;
 
 export const AdminPlayer = styled.Image`
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-right: 8px;
+    margin-left: -2px;
 `;
 
 interface StatusButtonProps {
