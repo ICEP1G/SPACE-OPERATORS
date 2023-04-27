@@ -23,7 +23,6 @@ import ErrorMessage from "../../components/ErrorMessage";
 import { Player } from "../../models/types/Player";
 
 
-
 const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -177,10 +176,14 @@ const Home: React.FC = () => {
                     >
                 </InputPlayerName>
                 <SP_Button style={{width: 48}} onPress={toggleButtonEditableName}>
+                    {editableName ? <EditLogo
+                        source={require('../../../assets/icons/user-check.png')}
+                        resizeMode="contain"
+                    /> :
                     <EditLogo
                         source={require('../../../assets/icons/user-edit.png')}
                         resizeMode="contain"
-                    />
+                    />}
                 </SP_Button>
             </PlayerNameCtn>
 

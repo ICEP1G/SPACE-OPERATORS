@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-native";
 
 interface Props {
     isVisible: boolean,
-    isVictory?: boolean,
+    isVictory: boolean,
 }
 const ShipVictoryAnimation: React.FC<Props> = ({...Props}) => {
     const navigate = useNavigate();

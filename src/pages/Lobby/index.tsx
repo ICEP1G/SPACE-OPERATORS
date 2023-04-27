@@ -1,16 +1,14 @@
 import * as React from "react";
-import { NativeRouter, Routes, Route, Link, useNavigate } from "react-router-native"
+import { useNavigate } from "react-router-native"
 import { useEffect, useState, useRef } from "react";
-import styled from "styled-components/native";
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
+import { Text, Image } from "react-native"
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine, SP_TextLabel } from "../../styles_general";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
+import { MainUserState } from "../../reducers/mainUser/reducer";
 import { AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, RoverImage, StatusButton, StatusButtonText } from "./styles";
 import axios from 'axios';
 import { API_URL} from "../../services/WebSocket";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId, setPlayersGame } from "../../reducers/game/reducer";

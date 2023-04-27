@@ -63,6 +63,7 @@ const InGame: React.FC = () => {
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
+                console.log(dataIntegrity.data.integrity);
                 if (dataIntegrity.data.integrity == 0) {
                     setGameVictory(false);
                     setEndScreenVisible(true);
@@ -75,6 +76,7 @@ const InGame: React.FC = () => {
                 setModalVisible(true);
             }
             if (objectResponse.type == "victory") {
+                console.log(objectResponse.type);
                 setGameVictory(true);
                 setEndScreenVisible(true);
             }

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect, useState, useRef } from "react";
 import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
 import { Colors } from "../../styles_general";
-import { GameState, resetAllResultGame, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
+import { GameState, resetAllResultGame, resetDuration, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { GameBoardCtnSplited, GameBoardWindow, GameLinkWindow } from "./styles";
 import Instructions from "../Instructions";
@@ -32,6 +32,7 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
         setTimeout(() => {
             dispatch(resetAllResultGame());
             dispatch(resetOperationGame());
+            dispatch(resetDuration());
         }, (gameState.duration * 1000));
     }, [gameState.duration]);
 
