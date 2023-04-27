@@ -112,7 +112,6 @@ export const SP_InfoView = styled.View<SP_InfoViewProps>`
     padding-top: ${props => props.maxi ? '4px' : 0};
     padding-bottom: ${props => props.maxi ? '4px' : 0};
     border-radius: ${props => props.straight ? 0 : '2px'};
-    background-color: #7B7B7B;
-    opacity: ${props => props.transparent ? "0.7" : "1"};
+    background-color: ${props => props.transparent ? 'rgba(123, 123, 123, 0.7)' : 'rgba(123, 123, 123, 1)'}
 `;
 
