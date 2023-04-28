@@ -1,8 +1,8 @@
 import * as React from "react";
-import { View, Image, StyleSheet, Animated, TouchableOpacity } from "react-native"
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
-import { useEffect, useState, useRef } from "react";
-import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
+import { View, StyleSheet, Animated, TouchableOpacity } from "react-native"
+import { SP_Button } from "../../styles_general";
+import { useState, useRef } from "react";
+import { Easing } from "react-native-reanimated"
 import { Defeat404, HeaderCtn, MessageText, TextButton, VictoryMedal, ViewCtn } from "./styles";
 import { useNavigate } from "react-router-native";
 

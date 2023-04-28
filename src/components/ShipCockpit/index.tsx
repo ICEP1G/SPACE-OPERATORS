@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Image, StyleSheet, Animated } from "react-native"
+import { Image, StyleSheet, Animated } from "react-native"
 import { useRef } from "react";
 
 

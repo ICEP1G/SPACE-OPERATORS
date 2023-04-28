@@ -1,18 +1,16 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { useEffect, useState, useRef } from "react";
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions, Animated} from "react-native"
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
-import space_operators_db from "../../database/space_operators_db";
+import { useState, useRef } from "react";
+import { Text, Image } from "react-native"
+import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { GameState, resetAllResultGame, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
+import { GameState, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
 import InGameModal from "./index_modal";
 import PlayerRole from "../../components/PlayerRole";
 import PlayerOperatorName from "../../components/PlayerOperatorName";
 import RemainingTime from "../../components/RemainingTime";
-import { useSelector } from "react-redux";
 import { data_operation } from "../../models/types/data_operation";
 import EmptyInfo from "../../components/EmptyInfo";
 import { data_integrity } from "../../models/types/data_integrity";
@@ -22,7 +20,6 @@ import ShipCockpit from "../../components/ShipCockpit";
 import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
 import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
-import GameLink from "../../components/GameLink";
 import { data_players } from "../../models/types/data_players";
 import ShipVictoryAnimation from "../../components/ShipVictoryAnimation";
 import moment from "moment";
@@ -68,7 +65,6 @@ const InGame: React.FC = () => {
                 dispatch(resetOperationGame());
                 // then send the operation data for the round to the reducer
                 const dataOperation: data_operation = JSON.parse(event.data);
-                console.log('dataOperation : ' + JSON.stringify(dataOperation));
                 dispatch(setGameOperation(dataOperation));
             }
             if (objectResponse.type == "integrity") {
@@ -76,7 +72,6 @@ const InGame: React.FC = () => {
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
-                console.log("integrity : " + dataIntegrity.data.integrity);
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
@@ -85,15 +80,12 @@ const InGame: React.FC = () => {
                 setModalVisible(true);
             }
             if (objectResponse.type == "destroyed") {
-                console.log(objectResponse.type);
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);
-                console.log(JSON.stringify(dataDestroyed));
                 saveGameInDatabase(dataDestroyed.data.turns);
                 setGameVictory(false);
                 setEndScreenVisible(true);
             }
             if (objectResponse.type == "victory") {
-                console.log(objectResponse.type);
                 saveGameInDatabase(gameState.turn);
                 setGameVictory(true);
                 setEndScreenVisible(true);

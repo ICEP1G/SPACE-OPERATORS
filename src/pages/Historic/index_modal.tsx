@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_AestheticLine, SP_LabelView, SP_TextLabel } from "../../styles_general";
+import { Colors, SP_Button, SP_InfoView, SP_AestheticLine } from "../../styles_general";
 import { ModalContent, ModalHeaderTitle, ModalHeaderTitleText, ModalContentHeader, GamePlayerModal, GamePlayerNameModal, GamePlayerLogoModal, PlayerListModal, GameIDModal, GameIDModalText, GameIDValueText, RoundModal, RoundModalText, ModalGameStat, Line } from "./styles_modal"; 
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Button } from "react-native";
+import { View, Text, Image } from "react-native";
 import Modal from "react-native-modal";
-import { Player } from "../../models/types/Player";
 import { HistoricState } from "../../reducers/historic/reducer";
 import { useAppSelector } from "../../store";
 import { OldGame } from "../../models/OldGame";

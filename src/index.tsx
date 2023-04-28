@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NativeRouter, Route, Routes } from 'react-router-native';
 import { Provider } from 'react-redux';
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions, useWindowDimensions, StatusBar, Platform, SafeAreaView as SafeAreaViewIOS} from "react-native"
+import { useWindowDimensions, Platform, SafeAreaView as SafeAreaViewIOS} from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { initializeDatabase } from "./database/space_operators_db";
 import Home from "./pages/Home/index";

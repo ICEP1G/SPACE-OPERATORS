@@ -1,8 +1,6 @@
 import * as React from "react";
-import { View, Image, StyleSheet, Animated } from "react-native"
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
-import { useEffect, useState, useRef } from "react";
-import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
+import { Image, StyleSheet, Animated } from "react-native"
+import { useEffect, useRef } from "react";
 
 
 const ShipImage: React.FC = () => {

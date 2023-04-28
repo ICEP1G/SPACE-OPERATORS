@@ -1,9 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { View, StyleSheet, PanResponder, Animated, TouchableOpacity, Text } from 'react-native';
-import { GameLinkButtonLeft, GameLinkCtn } from './styles';
-import { Colors } from "../../styles_general";
-import { Mapping } from 'react-native-reanimated';
-
+import React, { useRef } from 'react';
+import { View, StyleSheet, PanResponder, Animated } from 'react-native';
 
 
 const GameLink: React.FC = () => {

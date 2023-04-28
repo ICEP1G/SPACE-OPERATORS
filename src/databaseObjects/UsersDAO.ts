@@ -1,5 +1,5 @@
 import { User } from '../models/User';
-import space_operator_db, { executeSQL, getSQLData } from '../database/space_operators_db' 
+import { executeSQL, getSQLData } from '../database/space_operators_db' 
 
 
 // Get the User of the section

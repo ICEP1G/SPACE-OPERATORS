@@ -1,12 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import space_operators_db from '../../database/space_operators_db';
-import { UserPlayer } from '../../models/UserPlayer';
+import { createSlice } from '@reduxjs/toolkit';
 import { Player } from '../../models/types/Player';
 import { setGameIdAction, setGameOperationAction, setGameShipIntegrityAction, addButtonResultToGameAction, resetAllResultGameAction, addSwitchResultToGameAction, removeSwitchResultToGameAction, resetOperationGameAction, setPlayersGameAction, resetDurationAction } from './action';
-import { data_operation } from '../../models/types/data_operation';
 import { Result } from '../../models/types/Result';
 import { Element } from '../../models/types/Element';
-import { ResultButtons } from '../../models/types/ResultButtons';
 
 export interface GameState {
     gameId: string,

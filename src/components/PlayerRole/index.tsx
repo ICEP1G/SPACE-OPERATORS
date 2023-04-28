@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
+import { View, StyleSheet } from "react-native"
 import { SP_AestheticLine, SP_InfoView, SP_LabelView, SP_TextLabel } from "../../styles_general";
 
 interface Props {

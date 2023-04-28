@@ -1,17 +1,12 @@
 import * as React from "react";
 import { useEffect, useState, useRef } from "react";
-import { View, ScrollView, Text, Image, StyleSheet, Button, TouchableOpacity, TextInput, Dimensions} from "react-native"
-import { Colors } from "../../styles_general";
 import { GameState, resetAllResultGame, resetDuration, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { GameBoardCtnSplited, GameBoardWindow, GameLinkWindow } from "./styles";
 import Instructions from "../Instructions";
 import GameButton from "../GameButton";
 import GameSwitch from "../GameSwitch";
-import { Element } from "../../models/types/Element";
 import WaitingLoader from "../WaitingLoader";
-import GameLink from "../GameLink";
-import { PanResponder } from "react-native";
 
 
 interface Props {

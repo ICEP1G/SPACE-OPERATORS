@@ -1,8 +1,4 @@
 import * as SQLite from 'expo-sqlite';
-import { actualUser, createUser } from '../databaseObjects/UsersDAO';
-import { User } from '../models/User';
-import uuid from 'react-native-uuid';
-import { randomUserName } from "../services/RandomNameGenerator";
 
 const space_operators_db = SQLite.openDatabase('space_operators.db');
 

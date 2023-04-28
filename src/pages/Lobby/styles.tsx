@@ -1,8 +1,5 @@
 import styled from "styled-components/native";
 import { Colors } from "../../styles_general";
-import { useFonts } from "expo-font";
-import { SafeAreaView } from "react-native-safe-area-context";
-
 
 export const LobbyWindow = styled.View`
     position: relative;
@@ -42,11 +39,12 @@ export const OperatorImage = styled.Image<OperatorImageProps>`
 interface RoverImageProps {
     isDisplayed?: boolean
 }
-export const RoverImage = styled.Image<RoverImageProps>`
+export const RoverImage = styled.Image`
     position: absolute;
-    width: 20%;
-    height: 20%;
-    display: ${props => props.isDisplayed ? 'flex' : 'none'};
+    width: 35%;
+    height: 35%;
+    display: flex;
+    top : 480px;
     z-index: 11;
 `;
 
