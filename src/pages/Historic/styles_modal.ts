@@ -32,6 +32,7 @@ export const ModalHeaderTitle = styled.View`
     background-color: ${Colors.secondary};
     padding: 8px;
     width: 88%;
+    border-top-left-radius: 4px;
 
 `;
 
@@ -67,7 +68,7 @@ export const GameIDModal = styled.View`
     flex-direction: row;
     align-items: center;
     padding: 4px;
-    margin : 0 0 0 5%;
+    margin : 0 2% 2% 5%;
 `;
 
 export const GameIDModalText = styled.Text`
@@ -80,6 +81,7 @@ export const GameIDValueText = styled.Text`
     color: ${Colors.text};
     font-family: 'roboto-bold';
     font-size: 20px;
+    margin : 0 0 0 2%;
 `;
 
 

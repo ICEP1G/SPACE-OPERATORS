@@ -99,7 +99,7 @@ const Historic: React.FC = () => {
                             <ContentHeaderText>HISTORIQUE DES PARTIES</ContentHeaderText>
                             <Image
                                 style={{width: 24, position: 'relative', left: -1}}
-                                source={require('../../../assets/icons/astronaut-icon.png')}
+                                source={require('../../../assets/icons/meteo.png')}
                                 resizeMode="contain"
                             />
                         </ContentHeaderCtn>
