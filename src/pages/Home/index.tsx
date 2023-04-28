@@ -1,12 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-<<<<<<< HEAD
 import { Text, StyleSheet, BackHandler } from "react-native"
 import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton } from "./styles";
-=======
-import { Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform, ScrollView } from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
->>>>>>> 27452aca63e0fc342fbe3c1b814317e40ac7d155
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState } from "react";
 import { User } from "../../models/User";
