@@ -82,8 +82,6 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
 
                         <PlayerListModal>
                             {playersTab}
-                            {playersTab}
-                            {playersTab}
                         </PlayerListModal>
                     </GamePlayerModal>
                 </ModalContent>
