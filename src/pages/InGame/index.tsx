@@ -151,13 +151,16 @@ const InGame: React.FC = () => {
 
             <ShipCockpit roundFail={roundFail} />
 
-            <InGameModal 
-                visible={modalVisible}
-                setModalVisible={setModalVisible}
-                playerLeaves={playerLeave}
-                setPlayerLeave={setPlayerLeave}
-                saveGameInDatabase={saveGameInDatabase}
-            />
+            {modalVisible ? 
+                <InGameModal 
+                    visible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    playerLeaves={playerLeave}
+                    setPlayerLeave={setPlayerLeave}
+                    saveGameInDatabase={saveGameInDatabase}
+                /> : null
+        }
+            
 
             <GameInfoCtn>
                 <GameStateCtn>

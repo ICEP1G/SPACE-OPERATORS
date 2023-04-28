@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform } from "react-native"
+import { Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform, ScrollView } from "react-native"
 import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState, useRef } from "react";
@@ -134,6 +134,7 @@ const Home: React.FC = () => {
     }
     return (
         <>
+        
         <BackgroundImageCtn 
             source={require('../../images/MainMenu_Background_Left_Planet.png')}
             resizeMode="cover"
@@ -145,6 +146,7 @@ const Home: React.FC = () => {
             source={require('../../images/SPACEOPERATORS_logo_bold_strech.png')}
             resizeMode="contain"
         />
+
 
         <HomeModal
             visible={modalVisible}
@@ -212,6 +214,7 @@ const Home: React.FC = () => {
         </HomeMainCtn>
         
         <ErrorMessage isDisplayed={errorBoxVisible} errorMessage={errorBoxMessage}></ErrorMessage>
+
         </>
     )
 };

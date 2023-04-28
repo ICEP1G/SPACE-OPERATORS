@@ -130,7 +130,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
     return (
         <>
         {/* <ViewModal visible={Props.visible}> */}
-        <ViewModal visible={Props.visible}>
+        <ViewModal visible={Props.visible} >
         <Animated.View style={[style.ViewModal, position.getLayout()]}>
 
             <HeaderCtn>
