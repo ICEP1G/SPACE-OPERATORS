@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Image, StyleSheet, Animated } from "react-native"
 import { useRef } from "react";
+import ShipCockpitBackground from "../ShipCockpitBackground";
 
 
 interface Props {
@@ -69,10 +70,11 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
                 resizeMode="cover"
             />
         </Animated.View>
-        <Image style={styles.PlanetBackGround} 
+        <ShipCockpitBackground />
+        {/* <Image style={styles.PlanetBackGround} 
             source={require('../../images/InGame_Background_CockpitPlanet.jpg')}
             resizeMode="cover"
-        />
+        /> */}
         </>
     )
 }

@@ -1,9 +1,17 @@
 import * as React from "react";
+<<<<<<< HEAD
 import { View, StyleSheet, Animated, TouchableOpacity } from "react-native"
 import { SP_Button } from "../../styles_general";
 import { useState, useRef } from "react";
 import { Easing } from "react-native-reanimated"
 import { Defeat404, HeaderCtn, MessageText, TextButton, VictoryMedal, ViewCtn } from "./styles";
+=======
+import { View, Image, StyleSheet, Animated, TouchableOpacity } from "react-native"
+import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
+import { useEffect, useState, useRef } from "react";
+import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
+import {  } from "./styles";
+>>>>>>> 27452aca63e0fc342fbe3c1b814317e40ac7d155
 import { useNavigate } from "react-router-native";
 
 
@@ -19,6 +27,8 @@ const ShipVictoryAnimation: React.FC<Props> = ({...Props}) => {
     const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
     const size = useRef(new Animated.Value(350)).current;
     const positionRevert = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+
+    const sizeEndMessage = useRef(new Animated.Value(0)).current;
 
     // Create an animation to make the ship moving far away
     const StartAnimation = () => {
@@ -44,6 +54,12 @@ const ShipVictoryAnimation: React.FC<Props> = ({...Props}) => {
                 toValue: { x: -1200, y: -700},
                 duration: 800,
                 useNativeDriver: false
+            }),
+            // Grow the ending message
+            Animated.timing(sizeEndMessage, {
+                toValue: 400,
+                duration: 2000,
+                useNativeDriver: false
             })
         ]).start();
     }
@@ -60,6 +76,7 @@ const ShipVictoryAnimation: React.FC<Props> = ({...Props}) => {
     }
 
     const sizeShip = {width: size};
+    const sizeEndingMessage = {width: sizeEndMessage}
 
     const styles = StyleSheet.create({
         ViewCtn: {
@@ -83,6 +100,12 @@ const ShipVictoryAnimation: React.FC<Props> = ({...Props}) => {
             marginLeft: 1000,
             zIndex: 60,
         },
+
+        EndingMessage: {
+            position: "absolute",
+            alignSelf: 'center',
+            zIndex: 100
+        }
     })
 
 
@@ -101,35 +124,12 @@ const ShipVictoryAnimation: React.FC<Props> = ({...Props}) => {
             <TouchableOpacity style={{position: 'absolute', width: 40, height: 40, backgroundColor: 'blue'}} onPress={StartAnimation}></TouchableOpacity>
             <TouchableOpacity style={{position: 'absolute', right: 60, width: 40, height: 40, backgroundColor: 'red'}} onPress={resetValues}></TouchableOpacity>
 
-            <ViewCtn visible={messageVisible}>
-                <HeaderCtn><MessageText>{Props.isVictory ? "VICTOIRE" : "DÉFAITE"}</MessageText></HeaderCtn>
-                
-                {Props.isVictory ?
-                    <VictoryMedal 
-                    source={require('../../images/Victory_Medal.png')}
-                    resizeMode="contain"
-                    />
-                    :
-                    <Defeat404 
-                    source={require('../../images/Defeat_404.png')}
-                    resizeMode="contain"
-                    />
-                }
-                
-                <SP_Button primary text 
-                    style={{marginBottom: 16, marginTop: -38, width: '85%'}}
-                    onPress={() => navigate('/')}
-                    >
-                        <TextButton>REVENIR AU MENU PRINCIPAL</TextButton>
-                    </SP_Button>
-                <SP_Button text 
-                    style={{marginBottom: 32, width: '85%'}}
-                    onPress={() => navigate('/Historic')}
-                    >
-                        <TextButton>HISTORIQUE DES PARTIES</TextButton>
-                    </SP_Button>
 
-            </ViewCtn>
+            <Animated.Image
+                style={[styles.EndingMessage, sizeEndingMessage]}
+                source={require('../../../assets/icons/poo-solid.svg')}
+                resizeMode="contain"
+            />
         </View>
         
         </>
