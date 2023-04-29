@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Animated} from "react-native"
+import { StyleSheet, Animated} from "react-native"
 import { Colors, SP_AestheticLine } from "../../styles_general";
 import { WaitingLoaderContent, WaitingLoaderCtn, WaitingLoaderRectangleCtn, WaitingLoaderText } from "./styles";
 

@@ -5,7 +5,6 @@ export let socket: WebSocket = new WebSocket("ws://space-operators.herokuapp.com
 
 export const createNewSocket = () => {
     socket = new WebSocket("ws://space-operators.herokuapp.com/");
-    console.log("new WebSocket created");
 }
 
 // Basic functions

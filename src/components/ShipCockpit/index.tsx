@@ -1,6 +1,7 @@
 import * as React from "react";
-import { View, Image, StyleSheet, Animated } from "react-native"
+import { Image, StyleSheet, Animated } from "react-native"
 import { useRef } from "react";
+import ShipCockpitBackground from "../ShipCockpitBackground";
 
 
 interface Props {
@@ -68,11 +69,13 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
                 source={require('../../images/InGame_Background_Cockpit.png')}
                 resizeMode="cover"
             />
+            <ShipCockpitBackground />
         </Animated.View>
-        <Image style={styles.PlanetBackGround} 
+        
+        {/* <Image style={styles.PlanetBackGround} 
             source={require('../../images/InGame_Background_CockpitPlanet.jpg')}
             resizeMode="cover"
-        />
+        /> */}
         </>
     )
 }
@@ -83,7 +86,8 @@ const styles = StyleSheet.create({
         position: "relative",
         width: '100%',
         height: '22%',
-        zIndex: 15
+        display: 'flex',
+        zIndex: 12
     },
     CockPitImage: {
         position: "absolute",

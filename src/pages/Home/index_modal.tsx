@@ -1,17 +1,15 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated } from "react-native"
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_AestheticLine, SP_LabelView, SP_TextLabel } from "../../styles_general";
-import { useEffect, useState, useRef } from "react";
-import { MainUserState, updateMainUser } from "../../reducers/mainUser/reducer";
+import { StyleSheet, Animated } from "react-native"
+import { Colors, SP_Button, SP_TextButton, SP_AestheticLine, SP_LabelView, SP_TextLabel } from "../../styles_general";
+import { useState, useRef } from "react";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { SlideInDown, SlideInUp, Easing, useSharedValue, useAnimatedStyle, withSpring, withRepeat } from "react-native-reanimated"
 import { ContentView, GameIdCtn, GameIdInput, HeaderButton, HeaderButtonIcon, HeaderCtn, HeaderText, HeaderView, ViewCtn, ViewModal, PlayerNameCtn, InputPlayerName, EditLogo, ModalErrorMessage } from "./styles_modal";
 import { data_connect } from "../../models/types/data_connect";
 import { ws_GenericResponse } from "../../services/WebSocket";
 import { socket } from "../../services/WebSocket";
 import { LobbyState, setLobbyPlayer, setLobbyGameId } from "../../reducers/lobby/reducer";
-import { GameState, setGameId } from "../../reducers/game/reducer";
+import { GameState } from "../../reducers/game/reducer";
 import { data_players } from "../../models/types/data_players";
 
 
@@ -130,7 +128,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
     return (
         <>
         {/* <ViewModal visible={Props.visible}> */}
-        <ViewModal visible={Props.visible}>
+        <ViewModal visible={Props.visible} >
         <Animated.View style={[style.ViewModal, position.getLayout()]}>
 
             <HeaderCtn>

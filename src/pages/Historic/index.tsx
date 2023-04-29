@@ -1,15 +1,13 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
-import space_operators_db from "../../database/space_operators_db";
-import { View, ScrollView, Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Button } from "react-native"
+import { Colors, SP_Button, SP_InfoView, SP_AestheticLine } from "../../styles_general";
+import { Text, Image } from "react-native"
 import { useEffect, useState, useCallback } from 'react';
 import HistoricModal from "./index_modal";
 import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText, TurnNumberValue } from "./styles"; 
 import { GetAllGames } from "../../databaseObjects/OldGamesDAO";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { HistoricState, setOldGames } from "../../reducers/historic/reducer";
-import { faJar } from "@fortawesome/free-solid-svg-icons";
 
 const Historic: React.FC = () => {    
 
@@ -33,7 +31,6 @@ const Historic: React.FC = () => {
     useEffect(() => {
         GetAllGames()
         .then((Games) => {
-            console.log('database data : ' + JSON.stringify(Games));
             if (Games.length > 0) {
                 dispatch(setOldGames(Games));
             }
@@ -99,7 +96,7 @@ const Historic: React.FC = () => {
                             <ContentHeaderText>HISTORIQUE DES PARTIES</ContentHeaderText>
                             <Image
                                 style={{width: 24, position: 'relative', left: -1}}
-                                source={require('../../../assets/icons/astronaut-icon.png')}
+                                source={require('../../../assets/icons/meteo.png')}
                                 resizeMode="contain"
                             />
                         </ContentHeaderCtn>

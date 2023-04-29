@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { Text, Image, StyleSheet, BackHandler, TextInput, RefreshControl, Animated, Platform } from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, BottomCtn } from "./styles";
+import { Text, StyleSheet, BackHandler } from "react-native"
+import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { User } from "../../models/User";
 import { MainUserState, updateMainUser, setMainUser } from "../../reducers/mainUser/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
@@ -18,10 +18,8 @@ import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_connect } from "../../models/types/data_connect";
 import { data_players } from "../../models/types/data_players";
 import { setLobbyGameId, setLobbyPlayer } from "../../reducers/lobby/reducer";
-import { GameState, setGameId } from "../../reducers/game/reducer";
+import { GameState } from "../../reducers/game/reducer";
 import ErrorMessage from "../../components/ErrorMessage";
-import { Player } from "../../models/types/Player";
-
 
 
 const Home: React.FC = () => {
@@ -92,7 +90,6 @@ const Home: React.FC = () => {
         .then((response) => {
             const gameId: string = response.data.id;
             dispatch(setLobbyGameId(gameId));
-            console.log("gameId : " + gameId)
             const dataConnect: data_connect = data_connect("connect", {
                 gameId: gameId,
                 playerId: mainUserUuid,
@@ -134,6 +131,7 @@ const Home: React.FC = () => {
     }
     return (
         <>
+        
         <BackgroundImageCtn 
             source={require('../../images/MainMenu_Background_Left_Planet.png')}
             resizeMode="cover"
@@ -145,6 +143,7 @@ const Home: React.FC = () => {
             source={require('../../images/SPACEOPERATORS_logo_bold_strech.png')}
             resizeMode="contain"
         />
+
 
         <HomeModal
             visible={modalVisible}
@@ -212,6 +211,7 @@ const Home: React.FC = () => {
         </HomeMainCtn>
         
         <ErrorMessage isDisplayed={errorBoxVisible} errorMessage={errorBoxMessage}></ErrorMessage>
+
         </>
     )
 };

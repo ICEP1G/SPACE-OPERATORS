@@ -4,9 +4,9 @@ import { Colors } from "../../styles_general";
 //--------------------Modal---------------------//
 export const ModalContent = styled.View`
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 95%;
-    height: 50%;
+    height: 70%;
     top: 10%;
     left: 2%;
     background: rgba(80, 82, 83, 0.8);
@@ -32,6 +32,7 @@ export const ModalHeaderTitle = styled.View`
     background-color: ${Colors.secondary};
     padding: 8px;
     width: 88%;
+    border-top-left-radius: 4px;
 
 `;
 
@@ -42,7 +43,7 @@ export const ModalHeaderTitleText = styled.Text`
     margin : 0 0 0 5%;
 `;
 
-export const PlayerListModal = styled.View`
+export const PlayerListModal = styled.ScrollView`
     width: 110%;
     height: 42px;
     display: flex;
@@ -52,7 +53,7 @@ export const PlayerListModal = styled.View`
 
 export const GamePlayerModal = styled.View`
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
 `;
 
@@ -67,7 +68,7 @@ export const GameIDModal = styled.View`
     flex-direction: row;
     align-items: center;
     padding: 4px;
-    margin : 0 0 0 5%;
+    margin : 0 2% 2% 5%;
 `;
 
 export const GameIDModalText = styled.Text`
@@ -80,6 +81,7 @@ export const GameIDValueText = styled.Text`
     color: ${Colors.text};
     font-family: 'roboto-bold';
     font-size: 20px;
+    margin : 0 0 0 2%;
 `;
 
 
@@ -97,7 +99,7 @@ export const RoundModalText = styled.Text`
 
 export const GamePlayerNameModal = styled.View`
     width: 80%;
-    height: 100%;
+    height: 42px;
     display: flex;
     flex-direction: row;
     margin : 1% 0 1% 0;

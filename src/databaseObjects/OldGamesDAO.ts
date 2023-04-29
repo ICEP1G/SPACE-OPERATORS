@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 import { OldGame } from '../models/OldGame';
-import space_operator_db, { executeSQL, getSQLData } from '../database/space_operators_db' 
+import { executeSQL, getSQLData } from '../database/space_operators_db' 
 
 
 const space_operators_db = SQLite.openDatabase('space_operators.db');

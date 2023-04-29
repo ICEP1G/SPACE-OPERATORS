@@ -1,8 +1,5 @@
 import styled from "styled-components/native";
 import { Colors } from "../../styles_general";
-import { useFonts } from "expo-font";
-
-
 
 // Layer view to darken the index page
 interface ViewCtnProps {

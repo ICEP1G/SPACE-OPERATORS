@@ -1,8 +1,6 @@
 import { PayloadAction} from '@reduxjs/toolkit';
 import { GameState } from './reducer';
 import { data_operation } from '../../models/types/data_operation';
-import { data_integrity } from '../../models/types/data_integrity';
-import { Element } from '../../models/types/Element';
 import { Player } from '../../models/types/Player';
 
 export const setGameIdAction = (state: GameState, action: PayloadAction<string>): GameState =>

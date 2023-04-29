@@ -1,20 +1,18 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Text, Image } from "react-native"
-import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine, SP_TextLabel } from "../../styles_general";
+import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { MainUserState } from "../../reducers/mainUser/reducer";
-import { AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, RoverImage, StatusButton, StatusButtonText } from "./styles";
+import { RoverImage, AdminPlayer, BackgroundImageCtn, ContentFooterCtn, ContentFooterInfo, ContentFooterText, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, FooterButtonReady, GameIdText, GameInfoCtn, GameInfoLabel, GameInfoLabelText, LobbyContentCtn, LobbyLaunchButton, LobbyMainCtn, LobbyWindow, OperatorImage, PlayerNameCtn, PlayerStatusCtn, StatusButton, StatusButtonText } from "./styles";
 import axios from 'axios';
 import { API_URL} from "../../services/WebSocket";
 import { socket, createNewSocket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
 import { GameState, setGameId, setPlayersGame } from "../../reducers/game/reducer";
-import { Player } from "../../models/types/Player";
 import { data_start } from "../../models/types/data_start";
-
 
 const Lobby: React.FC = () => {
     const navigate = useNavigate();
@@ -31,15 +29,12 @@ const Lobby: React.FC = () => {
         useAppSelector((state) => state.game);
 
     useEffect(() => {
-        console.log("LobbyPage - Lobby state reducer : " + JSON.stringify(lobbyState.players))
         let playerReady = 0;
         lobbyState.players.forEach((player, index) => {
             if (player.status == true) {
                 playerReady++;
             }
         })
-        console.log(playerReady);
-        console.log(lobbyState.players.length);
         if (playerReady == lobbyState.players.length) {
             setLaunchButtonPressable(true)
         }
@@ -55,7 +50,6 @@ const Lobby: React.FC = () => {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                console.log("lobbyPage - dataPlayer.data.players : " + JSON.stringify(dataPlayer.data.players))
                 dispatch(setLobbyPlayer(dataPlayer.data.players))
             }
             if (objectResponse.type == "start") {
@@ -201,6 +195,12 @@ const Lobby: React.FC = () => {
             source={require('../../images/Lobby_Player.png')}
             resizeMode="contain"
             style={{bottom: '9%', left: '40%'}}
+        />
+
+        <RoverImage
+            source={require('../../images/rover.png')}
+            resizeMode="contain"
+            style={{bottom: '11%', left: '20%'}}
         />
 
 

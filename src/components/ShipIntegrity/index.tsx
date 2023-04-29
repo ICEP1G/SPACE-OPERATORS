@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useEffect, useState, useRef } from "react";
-import { View, Text, StyleSheet, Animated} from "react-native"
+import { useEffect, useRef } from "react";
+import { View, StyleSheet, Animated} from "react-native"
 import { Colors } from "../../styles_general";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { GameState } from "../../reducers/game/reducer";
