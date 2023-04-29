@@ -6,6 +6,8 @@ import ShipCockpitBackground from "../ShipCockpitBackground";
 
 interface Props {
     roundFail: boolean
+    endingGameVictory?: boolean,
+    endingGameDefeat?: boolean
 }
 const ShipCockpit: React.FC<Props> = ({...Props}) => {
 
@@ -69,13 +71,8 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
                 source={require('../../images/InGame_Background_Cockpit.png')}
                 resizeMode="cover"
             />
-            <ShipCockpitBackground />
+            <ShipCockpitBackground endingGameDefeat={Props.endingGameDefeat} endingGameVictory={Props.endingGameVictory}  />
         </Animated.View>
-        
-        {/* <Image style={styles.PlanetBackGround} 
-            source={require('../../images/InGame_Background_CockpitPlanet.jpg')}
-            resizeMode="cover"
-        /> */}
         </>
     )
 }

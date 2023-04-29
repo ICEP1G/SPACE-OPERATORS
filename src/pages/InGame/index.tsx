@@ -40,6 +40,8 @@ const InGame: React.FC = () => {
     const [playerLeave, setPlayerLeave] = useState(false);
     const [endScreenVisible, setEndScreenVisible] = useState(false);
     const [gameVictory, setGameVictory] = useState(false);
+    const [endingGameDefeat, setEndingGameDefeat] = useState(false)
+    const [endingGameVictory, setEndingGameVictory] = useState(false)
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
@@ -82,13 +84,16 @@ const InGame: React.FC = () => {
             if (objectResponse.type == "destroyed") {
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);
                 saveGameInDatabase(dataDestroyed.data.turns);
-                setGameVictory(false);
-                setEndScreenVisible(true);
+                // setGameVictory(false);
+                setEndingGameDefeat(true);
+                // setEndScreenVisible(true);
             }
             if (objectResponse.type == "victory") {
                 saveGameInDatabase(gameState.turn);
-                setGameVictory(true);
-                setEndScreenVisible(true);
+                // setGameVictory(true);
+                setEndingGameVictory(true)
+                // setGameVictory(true);
+                // setEndScreenVisible(true);
             }
         }
     });
@@ -134,9 +139,13 @@ const InGame: React.FC = () => {
         <>
         <InGameWindow>
 
-            <ShipVictoryAnimation isVisible={endScreenVisible} isVictory={false}/>
+            {/* <ShipVictoryAnimation isVisible={endScreenVisible} isVictory={false}/> */}
 
-            <ShipCockpit roundFail={roundFail} />
+            <ShipCockpit 
+                roundFail={roundFail} 
+                endingGameDefeat={endingGameDefeat}
+                endingGameVictory={endingGameVictory}
+            />
 
             <InGameModal 
                 visible={modalVisible}
