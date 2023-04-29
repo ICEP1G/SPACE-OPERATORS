@@ -197,13 +197,6 @@ const Lobby: React.FC = () => {
             style={{bottom: '9%', left: '40%'}}
         />
 
-        <RoverImage
-            source={require('../../images/rover.png')}
-            resizeMode="contain"
-            style={{bottom: '11%', left: '20%'}}
-        />
-
-
         </LobbyWindow>
 
         </>

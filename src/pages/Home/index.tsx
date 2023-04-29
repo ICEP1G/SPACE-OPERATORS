@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
 import { Text, StyleSheet, BackHandler } from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton } from "./styles";
+import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, HomeWindow } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState } from "react";
 import { User } from "../../models/User";
@@ -131,6 +131,7 @@ const Home: React.FC = () => {
     }
     return (
         <>
+        <HomeWindow>
         
         <BackgroundImageCtn 
             source={require('../../images/MainMenu_Background_Left_Planet.png')}
@@ -211,6 +212,8 @@ const Home: React.FC = () => {
         </HomeMainCtn>
         
         <ErrorMessage isDisplayed={errorBoxVisible} errorMessage={errorBoxMessage}></ErrorMessage>
+
+        </HomeWindow>
 
         </>
     )
