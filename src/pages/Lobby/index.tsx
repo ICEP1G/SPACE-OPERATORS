@@ -167,25 +167,25 @@ const Lobby: React.FC = () => {
 
 
         <OperatorImage 
-            isDisplayed={lobbyState.players[0] ? true : false}
+            isDisplayed={lobbyState.players[1] ? true : false}
             source={require('../../images/Lobby_Player.png')}
             resizeMode="contain"
             style={{bottom: '11%', left: '63%'}}
         />
         <OperatorImage 
-            isDisplayed={lobbyState.players[0] ? true : false}
+            isDisplayed={lobbyState.players[2] ? true : false}
             source={require('../../images/Lobby_Player.png')}
             resizeMode="contain"
             style={{bottom: '8%', left: '86%'}}
         />
         <OperatorImage 
-            isDisplayed={lobbyState.players[0] ? true : false}
+            isDisplayed={lobbyState.players[3] ? true : false}
             source={require('../../images/Lobby_Player.png')}
             resizeMode="contain"
             style={{bottom: '13%', left: '50%'}}
         />
         <OperatorImage 
-            isDisplayed={lobbyState.players[0] ? true : false}
+            isDisplayed={lobbyState.players[4] ? true : false}
             source={require('../../images/Lobby_Player.png')}
             resizeMode="contain"
             style={{bottom: '4%', left: '76%'}}

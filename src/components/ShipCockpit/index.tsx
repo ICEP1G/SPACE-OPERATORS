@@ -69,8 +69,9 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
                 source={require('../../images/InGame_Background_Cockpit.png')}
                 resizeMode="cover"
             />
+            <ShipCockpitBackground />
         </Animated.View>
-        <ShipCockpitBackground />
+        
         {/* <Image style={styles.PlanetBackGround} 
             source={require('../../images/InGame_Background_CockpitPlanet.jpg')}
             resizeMode="cover"
@@ -85,7 +86,8 @@ const styles = StyleSheet.create({
         position: "relative",
         width: '100%',
         height: '22%',
-        zIndex: 15
+        display: 'flex',
+        zIndex: 12
     },
     CockPitImage: {
         position: "absolute",

@@ -3,19 +3,23 @@ import { Colors } from "../../styles_general";
 
 export const InGameWindow = styled.View`
     position: relative;
-    width: 100%;
-    height: 100%;
     flex: 1;
     flex-direction: column;
 `;
 
 //---------------------BACKGROUND----------------------//
 
+export const GameParentContainer = styled.View`
+    position: relative;
+    flex: 1;
+    z-index: 15;
+`
+
 export const BackGroundGameImageCtn = styled.Image`
     position: absolute;
     width: 100%;
-    height: 110%;
-    z-index: 10;
+    height: 100%;
+    z-index: 15;
 `;
 
 //----------------------GAME-INFO---------------------//

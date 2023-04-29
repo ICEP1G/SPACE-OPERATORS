@@ -6,7 +6,7 @@ import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
 import { GameState, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady } from "./styles";
+import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady, GameParentContainer } from "./styles";
 import InGameModal from "./index_modal";
 import PlayerRole from "../../components/PlayerRole";
 import PlayerOperatorName from "../../components/PlayerOperatorName";
@@ -136,74 +136,70 @@ const InGame: React.FC = () => {
 
             <ShipVictoryAnimation isVisible={endScreenVisible} isVictory={false}/>
 
-            <BackGroundGameImageCtn
-                source={require('../../images/InGame_Background_Dot.png')}
-                resizeMode="cover"
-            />
-
             <ShipCockpit roundFail={roundFail} />
 
-            {modalVisible ? 
-                <InGameModal 
-                    visible={modalVisible}
-                    setModalVisible={setModalVisible}
-                    playerLeaves={playerLeave}
-                    setPlayerLeave={setPlayerLeave}
-                    saveGameInDatabase={saveGameInDatabase}
-                /> : null
-        }
+            <InGameModal 
+                visible={modalVisible}
+                setModalVisible={setModalVisible}
+                playerLeaves={playerLeave}
+                setPlayerLeave={setPlayerLeave}
+                saveGameInDatabase={saveGameInDatabase}
+            />
+
+            <GameParentContainer>
+
+                <BackGroundGameImageCtn
+                    source={require('../../images/InGame_Background_Dot.png')}
+                    resizeMode="cover"
+                />
             
+                <GameInfoCtn>
+                    <GameStateCtn>
+                        <SP_Button primary notRound style={{width: 48}} onPress={() => setModalVisible(true)}>
+                            <Image style={{width: 28, left: -1}}
+                                source={require('../../../assets/icons/sign-out-alt.png')}
+                                resizeMode="contain"
+                            />
+                        </SP_Button>
+                        <GameStateInfo>
+                            <RoundCtn>
+                                <Text style={{fontSize: 18, fontFamily: 'roboto-regular', color: Colors.text, marginRight: 8, bottom: 1}}>TOUR :</Text>
+                                <Text style={{fontSize: 20, fontFamily: 'roboto-medium', color: Colors.text, bottom: 1}}>{gameState.turn}</Text>
+                            </RoundCtn>
+                            <ShipIntegrity />
+                        </GameStateInfo>
+                    </GameStateCtn>
 
-            <GameInfoCtn>
-                <GameStateCtn>
-                    <SP_Button primary notRound style={{width: 48}} onPress={() => setModalVisible(true)}>
-                        <Image style={{width: 28, left: -1}}
-                            source={require('../../../assets/icons/sign-out-alt.png')}
-                            resizeMode="contain"
-                        />
-                    </SP_Button>
-                    <GameStateInfo>
-                        <RoundCtn>
-                            <Text style={{fontSize: 18, fontFamily: 'roboto-regular', color: Colors.text, marginRight: 8, bottom: 1}}>TOUR :</Text>
-                            <Text style={{fontSize: 20, fontFamily: 'roboto-medium', color: Colors.text, bottom: 1}}>{gameState.turn}</Text>
-                        </RoundCtn>
-                        <ShipIntegrity />
-                    </GameStateInfo>
-                </GameStateCtn>
+                    <GamePlayerInfoCtn>
 
-                <GamePlayerInfoCtn>
+                        <GamePlayerInfoFirstCtn>
+                            <GamePlayerInfo>{roleElement}</GamePlayerInfo>
+                            <GamePlayerInfo>{nameIdElement}</GamePlayerInfo>
+                        </GamePlayerInfoFirstCtn>
 
-                    <GamePlayerInfoFirstCtn>
-                        <GamePlayerInfo>{roleElement}</GamePlayerInfo>
-                        <GamePlayerInfo>{nameIdElement}</GamePlayerInfo>
-                    </GamePlayerInfoFirstCtn>
+                        <GamePlayerInfoSecondCtn>
+                            {remainingTimeElement}
+                        </GamePlayerInfoSecondCtn>
+                    </GamePlayerInfoCtn>
+                </GameInfoCtn>
 
-                    <GamePlayerInfoSecondCtn>
-                        {remainingTimeElement}
-                    </GamePlayerInfoSecondCtn>
-                </GamePlayerInfoCtn>
-            </GameInfoCtn>
 
-            
-
-            <GameCtn>
-                {gameState.role == "operator" ?
-                <ContentValidateCtn>
-                    <ContentValidateInfo>
-                        <ContentValidateText>VALIDER LES ACTIONS DU TOUR</ContentValidateText>
-                    </ContentValidateInfo>
-                    <ValidateButtonReady onPress={finishTurn}>
-                        <SP_TextButton italic >OK</SP_TextButton>
-                    </ValidateButtonReady>
-                </ContentValidateCtn>
-                : null}
+                <GameCtn>
+                    {gameState.role == "operator" ?
+                    <ContentValidateCtn>
+                        <ContentValidateInfo>
+                            <ContentValidateText>VALIDER LES ACTIONS DU TOUR</ContentValidateText>
+                        </ContentValidateInfo>
+                        <ValidateButtonReady onPress={finishTurn}>
+                            <SP_TextButton italic >OK</SP_TextButton>
+                        </ValidateButtonReady>
+                    </ContentValidateCtn>
+                    : null}
                 
-                <GameBoard playerRole={gameState.role} />
+                    <GameBoard playerRole={gameState.role} />
+                </GameCtn>
 
-                
-            </GameCtn>
-
-
+            </GameParentContainer>
 
         </InGameWindow>
         </>
