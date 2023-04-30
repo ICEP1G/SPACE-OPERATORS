@@ -499,7 +499,7 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
         setTimeout(() => {
             setDotOpacity(1);
         }, 2200)
-    }, [])
+    }, []);
 
 
     //-------------//
@@ -760,11 +760,11 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
     const planet4Size = {width: planet4SizeWidth, height: planet4SizeHeight};
 
 
-
     //-----------------------------------------------------------------------------//
     //-------------------------------DEFEAT-SCREEN---------------------------------//
     //-----------------------------------------------------------------------------//
 
+    // The big asteroid
     const asteroidDefeatSizeWidth = useRef(new Animated.Value(0)).current;
     const asteroidDefeatSizeHeight = useRef(new Animated.Value(0)).current;
 
@@ -786,6 +786,69 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
 
     const asteroidDefeatSize = {width: asteroidDefeatSizeWidth, height: asteroidDefeatSizeHeight};
 
+
+    //-----------------------------------------------------------------------------//
+    //-------------------------------VICTORY-SCREEN--------------------------------//
+    //-----------------------------------------------------------------------------//
+
+    // Planet Earth
+    const planetEarthSizeWidth = useRef(new Animated.Value(0)).current;
+    const planetEarthSizeHeight = useRef(new Animated.Value(0)).current;
+    const planetEarthPosition = useRef(new Animated.ValueXY({x: 0, y:0})).current;
+
+    // the Moon
+    const planetMoonSizeWidth = useRef(new Animated.Value(0)).current;
+    const planetMoonSizeHeight = useRef(new Animated.Value(0)).current;
+    const planetMoonPosition = useRef(new Animated.ValueXY({x: 0, y:0})).current;
+
+    // Hide the dots and asteroids
+    useEffect(() => {
+        if (Props.endingGameVictory == true) {
+            setDotOpacity(0);
+        }
+    }, [Props.endingGameVictory])
+
+    // Trigger the victory ending animation
+    if (Props.endingGameVictory) {
+        // Display Earth and the Moon
+        Animated.parallel([
+            // Earth
+            Animated.timing(planetEarthSizeWidth, {
+                toValue: 280,
+                duration: 2000,
+                useNativeDriver: false
+            }),
+            Animated.timing(planetEarthSizeHeight, {
+                toValue: 280,
+                duration: 2000,
+                useNativeDriver: false
+            }),
+            Animated.timing(planetEarthPosition, {
+                toValue: {x: -250, y: -30},
+                duration: 2000,
+                useNativeDriver: false,
+            }),
+            // Moon
+            Animated.timing(planetMoonSizeWidth, {
+                toValue: 28,
+                duration: 2000,
+                useNativeDriver: false
+            }),
+            Animated.timing(planetMoonSizeHeight, {
+                toValue: 28,
+                duration: 2000,
+                useNativeDriver: false
+                }),
+            Animated.timing(planetMoonPosition, {
+                toValue: {x: 75, y: -35},
+                duration: 2000,
+                useNativeDriver: false,
+            })
+        ]).start();
+    }
+
+    const planetEarthSize = {width: planetEarthSizeWidth, height: planetEarthSizeHeight};
+    const planetMoonSize = {width: planetMoonSizeWidth, height: planetMoonSizeHeight};
 
 
     //---------------------STYLES--------------------//
@@ -863,11 +926,25 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
                 />
 
 
+
                 {Props.endingGameDefeat ?
                 <Animated.Image style={[{position: 'relative', marginTop: -10, marginLeft: -40, width: 10, height: 10}, asteroidDefeatSize]}
                 source={require("../../images/asteroid1.png")}
                 resizeMode="contain"
                 /> : null}
+
+
+                {Props.endingGameVictory ?
+                <Animated.Image style={[styles.AnimationElement, planetEarthSize, planetEarthPosition.getLayout()]}
+                source={require("../../images/planet_earth.png")}
+                resizeMode="contain"
+                /> : null}
+                {Props.endingGameVictory ?
+                <Animated.Image style={[styles.AnimationElement, planetMoonSize, planetMoonPosition.getLayout()]}
+                source={require("../../images/the_moon.png")}
+                resizeMode="contain"
+                /> : null}
+                
 
 
                 <View style={{opacity: dotOpacity}}>
