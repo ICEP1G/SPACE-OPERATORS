@@ -3,6 +3,8 @@ import { View, Image, StyleSheet, Animated } from "react-native"
 import { useEffect, useRef } from "react";
 import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { useFonts } from "expo-font";
+import { useNavigate } from "react-router-native";
+import { createNewSocket, socket } from "../../services/WebSocket";
 
 
 interface Props {
@@ -10,11 +12,14 @@ interface Props {
     isDefeat?: boolean
 }
 const EndingGame: React.FC<Props> = ({...Props}) => {
+    const navigate = useNavigate();
 
-    const defeatArray: any = []
-    const victoryArray: any = []
+    const defeatArray: any = [];
+    const victoryArray: any = [];
+    const buttonsArray: any = [];
 
-    // Defeat
+    //--------------DEFEAT--------------//
+
     const defeatPooSizeWidth = useRef(new Animated.Value(0)).current;
     const defeatTextOpacity = useRef(new Animated.Value(0)).current;
 
@@ -33,12 +38,37 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
                 })
             ])
         ).start();
-    }, [])
+    }, []);
 
     const defeatPooSize = {width: defeatPooSizeWidth};
     const TextOpacityDefeat = {opacity: defeatTextOpacity};
 
-    
+    //-------------VICTORY--------------//
+
+    const victoryLaurelSizeWidth = useRef(new Animated.Value(0)).current;
+    const victoryLaurelTextOpacity = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(victoryLaurelSizeWidth, {
+                    toValue: 230,
+                    duration: 800,
+                    useNativeDriver: false
+                }),
+                Animated.timing(victoryLaurelTextOpacity, {
+                    toValue: 1,
+                    duration: 1800,
+                    useNativeDriver: true
+                })
+            ])
+        ).start();
+    }, []);
+
+    const victoryLaurelSize = {width: victoryLaurelSizeWidth};
+    const victoryLaurelDefeat = {opacity: victoryLaurelTextOpacity};
+
+    //---------------STYLE---------------//
 
     const styles = StyleSheet.create({
         ViewWindow: {
@@ -51,68 +81,80 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
             borderColor: Colors.uiborder,
             borderTopWidth: 1
         },
-        
         ViewCtn: {
             position: 'relative',
             display: 'flex',
             width: '100%',
-            height: '70%',
+            height: '74%',
             alignItems: 'center',
             backgroundColor: Colors.secondary,
             borderWidth: 1,
             borderRadius: 4,
             borderColor: Colors.uiborder,
         },
-        ImageCtn: {
-            position: 'relative',
-            display: "flex",
-            width: '100%',
-            height: '30%'
-        },
         ImageElement: {
             position: 'relative',
-            marginTop: '20%',
-            marginBottom: '6%'
+            marginTop: '16%',
+            marginBottom: '7%'
         },
         TextElement: {
             color: Colors.uiborder,
-            fontSize: 64,
+            fontSize: 62,
             fontFamily: 'roboto-medium',
         },
         ButtonCtn: {
             position: "relative",
             width: '100%',
-            height: 120,
+            height: 140,
             display: 'flex',
             justifyContent: "space-evenly",
-            marginTop: '10%'
+            marginTop: '5%'
         }
-    })
+    });
 
-    
-    victoryArray.push(
-        <View style={styles.ViewCtn}>
+
+    // Defeat
+    defeatArray.push(
+        <View key={1} style={styles.ViewCtn}>
             <View >
-                <Animated.Image key={1} style={[styles.ImageElement, defeatPooSize]}
+                <Animated.Image style={[styles.ImageElement, defeatPooSize]}
                 source={require("../../images/poo-solid_uiborder_230.png")}
                 resizeMode="contain"
                 />
             </View>
-            <Animated.Text key={2} style={[styles.TextElement, TextOpacityDefeat]}>DÉFAITE</Animated.Text>
+            <Animated.Text style={[styles.TextElement, TextOpacityDefeat]}>DÉFAITE</Animated.Text>
         </View>
-    )
+    );
+
+    // Victory
+    victoryArray.push(
+        <View key={2} style={styles.ViewCtn}>
+            <View >
+                <Animated.Image style={[styles.ImageElement, victoryLaurelSize]}
+                source={require("../../images/space_traveler_uiborder_230.png")}
+                resizeMode="contain"
+                />
+            </View>
+            <Animated.Text style={[styles.TextElement, TextOpacityDefeat]}>VICTOIRE</Animated.Text>
+        </View>
+    );
+
+    // Buttons
+    if (Props.isDefeat || Props.isVictory) {
+        buttonsArray.push(
+            <View key={3} style={styles.ButtonCtn}>
+                <SP_Button primary onPress={() => [navigate('/'), socket.close(), createNewSocket()]}><SP_TextButton>MENU PRINCIPALE</SP_TextButton></SP_Button>
+                <SP_Button onPress={() => [navigate('/Historic'), socket.close(), createNewSocket()]}><SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton></SP_Button>
+            </View>
+        );
+    }
 
     return (
         <>
         <View style={styles.ViewWindow}>
-
-            {Props.isDefeat ? victoryArray : victoryArray}
-
-
-            <View style={styles.ButtonCtn}>
-                <SP_Button primary><SP_TextButton>MENU PRINCIPALE</SP_TextButton></SP_Button>
-                <SP_Button><SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton></SP_Button>
-            </View>
+            {Props.isDefeat ? defeatArray : null}
+            {Props.isVictory ? victoryArray : null}
+            {buttonsArray}
         </View>
         </>
     )

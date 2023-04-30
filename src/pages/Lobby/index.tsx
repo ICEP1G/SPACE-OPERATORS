@@ -25,8 +25,6 @@ const Lobby: React.FC = () => {
          useAppSelector((state) => state.mainUser);
     const lobbyState: LobbyState = 
         useAppSelector((state) => state.lobby);
-    const gameState: GameState = 
-        useAppSelector((state) => state.game);
 
     useEffect(() => {
         let playerReady = 0;
@@ -36,10 +34,10 @@ const Lobby: React.FC = () => {
             }
         })
         if (playerReady == lobbyState.players.length) {
-            setLaunchButtonPressable(true)
+            setLaunchButtonPressable(true);
         }
         else {
-            setLaunchButtonPressable(false)
+            setLaunchButtonPressable(false);
         }
     }, [lobbyState])
 
@@ -50,11 +48,11 @@ const Lobby: React.FC = () => {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                dispatch(setLobbyPlayer(dataPlayer.data.players))
+                dispatch(setLobbyPlayer(dataPlayer.data.players));
             }
             if (objectResponse.type == "start") {
                 dispatch(setGameId(lobbyState.gameId));
-                dispatch(setPlayersGame(lobbyState.players))
+                dispatch(setPlayersGame(lobbyState.players));
                 navigate("/InGame");
             }
         }

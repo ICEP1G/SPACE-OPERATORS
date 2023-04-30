@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Text, Image } from "react-native"
 import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
@@ -21,12 +21,12 @@ import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
 import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
 import { data_players } from "../../models/types/data_players";
-import ShipVictoryAnimation from "../../components/ShipVictoryAnimation";
 import moment from "moment";
 import { createOldGame } from "../../databaseObjects/OldGamesDAO";
 import { OldGame } from "../../models/OldGame";
 import { data_destroyed } from "../../models/types/data_destroyed";
 import EndingGame from "../../components/EndingGame";
+
 
 const InGame: React.FC = () => {
     const navigate = useNavigate();
@@ -36,11 +36,9 @@ const InGame: React.FC = () => {
     const remainingTimeElement: any = [];
 
     const [modalVisible, setModalVisible] = useState(false);
-    // Allow to be passed to the children component to play an animation when the result is wrong
     const [roundFail, setRoundFail] = useState(false);
     const [playerLeave, setPlayerLeave] = useState(false);
-    const [endScreenVisible, setEndScreenVisible] = useState(false);
-    const [gameVictory, setGameVictory] = useState(false);
+    
     const [endingGameDefeat, setEndingGameDefeat] = useState(false)
     const [endingGameVictory, setEndingGameVictory] = useState(false)
 
@@ -118,7 +116,6 @@ const InGame: React.FC = () => {
     }
 
 
-
     // Display the component Role if there is an info about it
     if (gameState.role == "operator" || gameState.role == "instructor") {
         roleElement.push(<PlayerRole key={1} role={gameState.role}/>)
@@ -141,7 +138,6 @@ const InGame: React.FC = () => {
         <>
         <InGameWindow>
 
-            {/* <ShipVictoryAnimation isVisible={endScreenVisible} isVictory={false}/> */}
 
             <ShipCockpit 
                 roundFail={roundFail} 
@@ -159,7 +155,7 @@ const InGame: React.FC = () => {
 
             <GameParentContainer>
 
-                <EndingGame />
+                <EndingGame isDefeat={endingGameDefeat} isVictory={endingGameVictory} />
 
                 <BackGroundGameImageCtn
                     source={require('../../images/InGame_Background_Dot.png')}

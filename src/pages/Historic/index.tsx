@@ -44,11 +44,11 @@ const Historic: React.FC = () => {
                 <GameNameCdn>
                     <SP_AestheticLine></SP_AestheticLine>
                     <SP_InfoView transparent>
-                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Game {game.gameId}</Text>
+                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Id : {game.gameId}</Text>
                     </SP_InfoView>
                 </GameNameCdn>
                 <TurnNumber>
-                    <TurnNumberText style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 18}}>Round : <TurnNumberValue>{game.rounds}</TurnNumberValue> </TurnNumberText>
+                    <TurnNumberText style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 18}}>Tours : <TurnNumberValue>{game.rounds}</TurnNumberValue> </TurnNumberText>
                     
                 </TurnNumber>
                 <ShowMoreInfo>
@@ -61,22 +61,25 @@ const Historic: React.FC = () => {
                     </SP_Button>
                 </ShowMoreInfo>
             </GameHistory>
-        )
-    })
+        );
+    });
 
     return (
         <>
-        <HistoricModal
-            visible={isModalVisible}
-            gameId={GameIDModal}
-            toggleModal={toggleModal}
-        />
+        
 
             <HistoricWindow>
                 <BackgroundImageCtn 
                     source={require('../../images/Historic_Background.jpg')}
                     resizeMode="cover"
                 />
+
+                <HistoricModal
+                    visible={isModalVisible}
+                    gameId={GameIDModal}
+                    toggleModal={toggleModal}
+                />
+
                 <HistoricMainCTN>
                     <HistoricHeader>
                         <SP_Button primary notRound style={{width: 48}} onPress={() => navigate("/")}>

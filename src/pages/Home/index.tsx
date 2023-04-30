@@ -64,7 +64,7 @@ const Home: React.FC = () => {
                 setMainUserUuid(mainUser[0].uuid);
                 setMainUserName(mainUser[0].name);
             }
-        })
+        });
     }, []);
     
     // Lock or unlock the input Name
@@ -113,7 +113,7 @@ const Home: React.FC = () => {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                dispatch(setLobbyPlayer(dataPlayer.data.players))
+                dispatch(setLobbyPlayer(dataPlayer.data.players));
                 navigate("/Lobby");
             }
         }
@@ -141,7 +141,7 @@ const Home: React.FC = () => {
             <ShipImage/>
         </ShipCtn>
         <AppLogo
-            source={require('../../images/SPACEOPERATORS_logo_bold_strech.png')}
+            source={require('../../images/SPACEOPERATORS_logo.png')}
             resizeMode="contain"
         />
 
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 3
     }
-})
+});
 
 
 

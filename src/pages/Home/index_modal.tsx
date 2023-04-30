@@ -33,16 +33,12 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
 
     const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;;
 
-    const lobbyState: LobbyState = 
-        useAppSelector((state) => state.lobby);
-    const gameState: GameState = 
-        useAppSelector((state) => state.game);
-        
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
         setEditableName(!editableName);
       };
 
+    // Shacking window animation
     const showErrorFeedbackAnimation = () => {
         Animated.sequence([
             Animated.timing(position, {
@@ -68,6 +64,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         ]).start();
     }
 
+    // Trigger the animation and display the error message
     const showErrorFeedback = (errorMessage: string) => {
         setErrorMessage(errorMessage);
         setDisplayError(true);
@@ -108,6 +105,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         });
     }
 
+    //---------------------STYLES--------------------//
 
     const style = StyleSheet.create({
         ViewModal: {
@@ -122,12 +120,10 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
             zIndex: Props.visible ? 31 : -10,
             opacity: 1
         }
-    })
-
+    });
 
     return (
         <>
-        {/* <ViewModal visible={Props.visible}> */}
         <ViewModal visible={Props.visible} >
         <Animated.View style={[style.ViewModal, position.getLayout()]}>
 
@@ -184,7 +180,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
 
         </Animated.View>
         </ViewModal>
-        {/* </ViewModal> */}
+
         <ViewCtn visible={Props.visible}>
         </ViewCtn>
         </>

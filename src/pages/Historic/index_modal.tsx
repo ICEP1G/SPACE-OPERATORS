@@ -44,7 +44,7 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                         <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{player}</Text>
                     </SP_InfoView>  
                 </GamePlayerNameModal>
-            )
+            );
         });
     }
 
@@ -60,7 +60,7 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                         </ModalHeaderTitle>
                         <SP_Button primary notRound style={{width: 48, height: 47, borderTopRightRadius: 4}} onPress={Props.toggleModal}>
                             <Image
-                                style={{width: 20, position: 'relative', left: -1}}
+                                style={{width: 18, position: 'relative', left: -1}}
                                 source={require('../../../assets/icons/cross.png')}
                                 resizeMode="contain"
                             />
@@ -68,12 +68,13 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                     </ModalContentHeader>
 
                     <GamePlayerModal>
+
                         <ModalGameStat>
                             <GameIDModal>
                                 <GameIDModalText>NUMÉRO DE PARTIE : </GameIDModalText><GameIDValueText>{singleGame?.gameId}</GameIDValueText>
                             </GameIDModal>
                             <RoundModal>
-                                <RoundModalText>NOMBRE DE TOUR : </RoundModalText><GameIDValueText>{singleGame?.rounds}</GameIDValueText>
+                                <RoundModalText>NOMBRE DE TOUR : </RoundModalText><GameIDValueText style={{top: -3}}>{singleGame?.rounds}</GameIDValueText>
                             </RoundModal>
                         </ModalGameStat>
 
@@ -82,6 +83,7 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                         <PlayerListModal>
                             {playersTab}
                         </PlayerListModal>
+
                     </GamePlayerModal>
                 </ModalContent>
                 </View>

@@ -38,12 +38,11 @@ export const HistoricHeader = styled.View`
 
 export const HistoricHeaderTitle = styled.View`
     position: relative;
-    display: flex;
+    flex: 1;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     background-color: ${Colors.secondary};
-    padding: 8px 140px;
 `;
 
 export const HistoricHeaderTitleText = styled.Text`
@@ -145,6 +144,6 @@ export const TurnNumberText = styled.Text`
 export const TurnNumberValue = styled.Text`
     color: ${Colors.text};
     font-family: 'roboto-bold';
-    font-size: 20px;
+    font-size: 18px;
     margin-left: 4px;
 `;
