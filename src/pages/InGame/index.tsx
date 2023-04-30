@@ -26,6 +26,7 @@ import moment from "moment";
 import { createOldGame } from "../../databaseObjects/OldGamesDAO";
 import { OldGame } from "../../models/OldGame";
 import { data_destroyed } from "../../models/types/data_destroyed";
+import EndingGame from "../../components/EndingGame";
 
 const InGame: React.FC = () => {
     const navigate = useNavigate();
@@ -157,6 +158,8 @@ const InGame: React.FC = () => {
             />
 
             <GameParentContainer>
+
+                <EndingGame />
 
                 <BackGroundGameImageCtn
                     source={require('../../images/InGame_Background_Dot.png')}
