@@ -138,7 +138,6 @@ const InGame: React.FC = () => {
         <>
         <InGameWindow>
 
-
             <ShipCockpit 
                 roundFail={roundFail} 
                 endingGameDefeat={endingGameDefeat}

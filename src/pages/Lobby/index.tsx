@@ -11,7 +11,7 @@ import { API_URL} from "../../services/WebSocket";
 import { socket, createNewSocket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
-import { GameState, setGameId, setPlayersGame } from "../../reducers/game/reducer";
+import { setGameId, setPlayersGame } from "../../reducers/game/reducer";
 import { data_start } from "../../models/types/data_start";
 
 const Lobby: React.FC = () => {
@@ -71,7 +71,9 @@ const Lobby: React.FC = () => {
                         resizeMode="cover"
                         /> : ''
                         }   
-                        <Text style={{color: Colors.text, fontSize: 17, fontFamily: 'roboto-regular'}}>{index === 0 ? (player.name.length <= 19 ? player.name : (player.name.substring(0,15) + "...")) : player.name}</Text>
+                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{index === 0 ? 
+                            (player.name.length <= 17 ? player.name : (player.name.substring(0,15) + "...")) 
+                            : (player.name.length <= 20 ? player.name : (player.name.substring(0,20) + "..."))}</Text>
                     </SP_InfoView>
                 </PlayerNameCtn>
                 <StatusButton isReady={player.status}>

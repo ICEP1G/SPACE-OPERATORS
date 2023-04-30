@@ -151,11 +151,13 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
 
     return (
         <>
+        {(Props.isDefeat || Props.isVictory) ? 
         <View style={styles.ViewWindow}>
             {Props.isDefeat ? defeatArray : null}
             {Props.isVictory ? victoryArray : null}
             {buttonsArray}
         </View>
+        : null}
         </>
     )
 };

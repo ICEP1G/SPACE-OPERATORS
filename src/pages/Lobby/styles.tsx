@@ -48,7 +48,6 @@ export const RoverImage = styled.Image`
     z-index: 11;
 `;
 
-
 //-----------------GAME INFO TOP CONTAINER------------------//
 
 export const GameInfoCtn = styled.View`
@@ -140,8 +139,8 @@ export const PlayerNameCtn = styled.View`
 `;
 
 export const AdminPlayer = styled.Image`
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     margin-right: 8px;
     margin-left: -2px;
 `;
