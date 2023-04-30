@@ -24,7 +24,7 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
     const defeatTextOpacity = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        Animated.loop(
+        if (Props.isDefeat) {
             Animated.sequence([
                 Animated.timing(defeatPooSizeWidth, {
                     toValue: 230,
@@ -36,9 +36,9 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
                     duration: 1800,
                     useNativeDriver: true
                 })
-            ])
-        ).start();
-    }, []);
+            ]).start();
+        }
+    }, [Props.isDefeat]);
 
     const defeatPooSize = {width: defeatPooSizeWidth};
     const TextOpacityDefeat = {opacity: defeatTextOpacity};
@@ -46,27 +46,27 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
     //-------------VICTORY--------------//
 
     const victoryLaurelSizeWidth = useRef(new Animated.Value(0)).current;
-    const victoryLaurelTextOpacity = useRef(new Animated.Value(0)).current;
+    const victoryTextOpacity = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        Animated.loop(
+        if (Props.isVictory) {
             Animated.sequence([
                 Animated.timing(victoryLaurelSizeWidth, {
                     toValue: 230,
                     duration: 800,
                     useNativeDriver: false
                 }),
-                Animated.timing(victoryLaurelTextOpacity, {
+                Animated.timing(victoryTextOpacity, {
                     toValue: 1,
                     duration: 1800,
                     useNativeDriver: true
                 })
-            ])
-        ).start();
-    }, []);
+            ]).start();
+        }
+    }, [Props.isVictory]);
 
     const victoryLaurelSize = {width: victoryLaurelSizeWidth};
-    const victoryLaurelDefeat = {opacity: victoryLaurelTextOpacity};
+    const textVictoryOpacity = {opacity: victoryTextOpacity};
 
     //---------------STYLE---------------//
 
@@ -135,7 +135,7 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
                 resizeMode="contain"
                 />
             </View>
-            <Animated.Text style={[styles.TextElement, TextOpacityDefeat]}>VICTOIRE</Animated.Text>
+            <Animated.Text style={[styles.TextElement, textVictoryOpacity]}>VICTOIRE</Animated.Text>
         </View>
     );
 

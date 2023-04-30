@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Text, Image } from "react-native"
 import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { GameState, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
+import { GameState, resetAllGame, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady, GameParentContainer } from "./styles";
 import InGameModal from "./index_modal";
@@ -73,10 +73,6 @@ const InGame: React.FC = () => {
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));
                 setRoundFail(false);
-                console.log(dataIntegrity.data);
-                if (dataIntegrity.data.integrity == 90) {
-                    setEndingGameVictory(true);
-                }
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
@@ -88,12 +84,12 @@ const InGame: React.FC = () => {
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);
                 saveGameInDatabase(dataDestroyed.data.turns);
                 setEndingGameDefeat(true);
-                console.log(dataDestroyed.data);
+                dispatch(resetAllGame());
             }
             if (objectResponse.type == "victory") {
                 saveGameInDatabase(gameState.turn);
                 setEndingGameVictory(true);
-                console.log(objectResponse.data);
+                dispatch(resetAllGame());
             }
         }
     });

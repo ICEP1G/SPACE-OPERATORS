@@ -838,7 +838,7 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
                 toValue: 28,
                 duration: 2000,
                 useNativeDriver: false
-                }),
+            }),
             Animated.timing(planetMoonPosition, {
                 toValue: {x: 75, y: -35},
                 duration: 2000,

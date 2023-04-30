@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-native"
 import { SP_Button, SP_TextButton } from "../../styles_general";
 import { ViewModal, HeaderCtn, HeaderView, HeaderText, HeaderButton, HeaderButtonIcon, ContentView, ViewCtn, ContentText } from "./styles_modal";
 import { socket, createNewSocket } from "../../services/WebSocket";
-import { GameState } from "../../reducers/game/reducer";
-import { useAppSelector } from "../../store";
+import { GameState, resetAllGame } from "../../reducers/game/reducer";
+import { useAppDispatch, useAppSelector } from "../../store";
 
 
 
@@ -17,6 +17,7 @@ interface Props {
 }
 const InGameModal: React.FC<Props> = ({...Props}) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const gameState: GameState =
         useAppSelector((state) => state.game)
@@ -24,6 +25,7 @@ const InGameModal: React.FC<Props> = ({...Props}) => {
     const leaveGame = () => {
         Props.saveGameInDatabase(gameState.turn);
         Props.setModalVisible(false);
+        dispatch(resetAllGame());
         navigate('/');
         socket.close();
         createNewSocket();
