@@ -127,12 +127,13 @@ export const TurnNumber = styled.View`
     position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    border-radius: 2px;
     background-color: ${Colors.secondary};
-    width: 32%;
-    padding: 8px;
-    margin: 0px 8px 0px 8px;
+    width: 36%;
+    padding: 4px 16px;
+    margin: 0px 8px;
 `;
 
 export const TurnNumberText = styled.Text`

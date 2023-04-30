@@ -141,7 +141,7 @@ export const PlayerNameCtn = styled.View`
 export const AdminPlayer = styled.Image`
     width: 20px;
     height: 20px;
-    margin-right: 8px;
+    margin-right: 9px;
     margin-left: -2px;
 `;
 

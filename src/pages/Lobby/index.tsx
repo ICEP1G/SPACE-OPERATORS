@@ -70,10 +70,10 @@ const Lobby: React.FC = () => {
                         source={require('../../../assets/icons/crown.png')}
                         resizeMode="cover"
                         /> : ''
-                        }   
-                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{index === 0 ? 
+                        } 
+                        <Text style={{color: Colors.text, fontSize: 17, fontFamily: 'roboto-regular'}}>{index === 0 ? 
                             (player.name.length <= 17 ? player.name : (player.name.substring(0,15) + "...")) 
-                            : (player.name.length <= 20 ? player.name : (player.name.substring(0,20) + "..."))}</Text>
+                            : (player.name.length <= 21 ? player.name : (player.name.substring(0,20) + "..."))}</Text>
                     </SP_InfoView>
                 </PlayerNameCtn>
                 <StatusButton isReady={player.status}>

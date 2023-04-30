@@ -37,7 +37,7 @@ const InGame: React.FC = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [roundFail, setRoundFail] = useState(false);
-    const [playerLeave, setPlayerLeave] = useState(false);
+    const [playerLeave, setPlayerLeave] = useState('');
     
     const [endingGameDefeat, setEndingGameDefeat] = useState(false)
     const [endingGameVictory, setEndingGameVictory] = useState(false)
@@ -77,8 +77,18 @@ const InGame: React.FC = () => {
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
                 dispatch(setPlayersGame(dataPlayer.data.players));
-                setPlayerLeave(true);
                 setModalVisible(true);
+                if (dataPlayer.data.players.length < 2) {
+                    setPlayerLeave('LastPlayer');
+                }
+                else {
+                    setPlayerLeave('PlayerLeave');
+                }
+                // prevent the modal to be displayed if it's the end of the game
+                // if (endingGameDefeat === false || endingGameVictory === false) {
+                //     setPlayerLeave(true);
+                //     setModalVisible(true);
+                // }
             }
             if (objectResponse.type == "destroyed") {
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);

@@ -8,6 +8,7 @@ import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeader
 import { GetAllGames } from "../../databaseObjects/OldGamesDAO";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { HistoricState, setOldGames } from "../../reducers/historic/reducer";
+import moment from "moment";
 
 const Historic: React.FC = () => {    
 
@@ -40,34 +41,43 @@ const Historic: React.FC = () => {
     // Display all oldGames in the history
     historicState.oldGames.forEach((game, index) => {
         OldGameElement.push(
-            <GameHistory key={index}>
-                <GameNameCdn>
-                    <SP_AestheticLine></SP_AestheticLine>
-                    <SP_InfoView transparent>
-                        <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Id : {game.gameId}</Text>
-                    </SP_InfoView>
-                </GameNameCdn>
+            <GameHistory key={index}>                
+                <SP_AestheticLine></SP_AestheticLine>
+                <SP_InfoView transparent>
+                    {(() => {
+                        switch (game.gameCreationDate) {
+                            case (moment().format('DD-MM-YYYY')):
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Aujourd'hui</Text>
+                            case (moment().subtract(1, 'days').format('DD-MM-YYYY')):
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Hier</Text>
+                            case (moment().subtract(7, 'days').format('DD-MM-YYYY')):
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Une semaine</Text>
+                            case (moment().subtract(30, 'days').format('DD-MM-YYYY')):
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Un mois</Text>
+                            default:
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{game.gameCreationDate.replace(/-/g, "/")}</Text>
+                        }
+                    }) ()}
+                </SP_InfoView>
+                
                 <TurnNumber>
-                    <TurnNumberText style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 18}}>Tours : <TurnNumberValue>{game.rounds}</TurnNumberValue> </TurnNumberText>
-                    
+                    <TurnNumberText style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 18}}>Tours :</TurnNumberText>
+                    <TurnNumberValue>{game.rounds}</TurnNumberValue>
                 </TurnNumber>
-                <ShowMoreInfo>
-                    <SP_Button primary style={{width: 40, height: 40}} onPress={() => OpenModal(game.gameId)}>
-                        <Image
-                            style={{width: 20, position: 'relative', left: -1}}
-                            source={require('../../../assets/icons/list-solid.png')}
-                            resizeMode="contain"
-                        />
-                    </SP_Button>
-                </ShowMoreInfo>
+
+                <SP_Button primary style={{width: 40, height: 40}} onPress={() => OpenModal(game.gameId)}>
+                    <Image
+                        style={{width: 20, position: 'relative', left: -1}}
+                        source={require('../../../assets/icons/list-solid.png')}
+                        resizeMode="contain"
+                    />
+                </SP_Button>
             </GameHistory>
         );
     });
 
     return (
         <>
-        
-
             <HistoricWindow>
                 <BackgroundImageCtn 
                     source={require('../../images/Historic_Background.jpg')}

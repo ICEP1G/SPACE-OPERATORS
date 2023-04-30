@@ -714,12 +714,12 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
                     Animated.delay(12000),
                     Animated.parallel([
                         Animated.timing(planet3SizeWidth, {
-                            toValue: 400,
+                            toValue: 350,
                             duration: 15000,
                             useNativeDriver: false
                         }),
                         Animated.timing(planet3SizeHeight, {
-                            toValue: 400,
+                            toValue: 350,
                             duration: 15000,
                             useNativeDriver: false
                         }),
@@ -752,7 +752,7 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
                 ])
             ).start();
         }, 18000)
-    }, [])
+    }, [Props.endingGameVictory]);
 
     const planet1Size = {width: planet1SizeWidth, height: planet1SizeHeight};
     const planet2Size = {width: planet2SizeWidth, height: planet2SizeHeight};
@@ -801,7 +801,7 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
     const planetMoonSizeHeight = useRef(new Animated.Value(0)).current;
     const planetMoonPosition = useRef(new Animated.ValueXY({x: 0, y:0})).current;
 
-    // Hide the dots and asteroids
+    // Hide the dots, asteroids and planets
     useEffect(() => {
         if (Props.endingGameVictory == true) {
             setDotOpacity(0);
@@ -907,26 +907,6 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
                     resizeMode="contain"
                 />
 
-
-                <Animated.Image style={[styles.AnimationElement, planet1Size, planet1Position.getLayout()]}
-                    source={require("../../images/planet_blue_blur.png")}
-                    resizeMode="contain"
-                />
-                <Animated.Image style={[styles.AnimationElement, planet2Size, planet2Position.getLayout()]}
-                    source={require("../../images/planet_white.png")}
-                    resizeMode="contain"
-                />
-                <Animated.Image style={[styles.AnimationElement, planet3Size, planet3Position.getLayout()]}
-                    source={require("../../images/planet_purple_blur.png")}
-                    resizeMode="contain"
-                />
-                <Animated.Image style={[styles.AnimationElement, planet4Size, planet4Position.getLayout()]}
-                    source={require("../../images/planet_pluto_blur.png")}
-                    resizeMode="contain"
-                />
-
-
-
                 {Props.endingGameDefeat ?
                 <Animated.Image style={[{position: 'relative', marginTop: -10, marginLeft: -40, width: 10, height: 10}, asteroidDefeatSize]}
                 source={require("../../images/asteroid1.png")}
@@ -949,6 +929,24 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
 
                 <View style={{opacity: dotOpacity}}>
 
+                <Animated.Image style={[styles.AnimationElement, planet1Size, planet1Position.getLayout()]}
+                    source={require("../../images/planet_blue_blur.png")}
+                    resizeMode="contain"
+                />
+                <Animated.Image style={[styles.AnimationElement, planet2Size, planet2Position.getLayout()]}
+                    source={require("../../images/planet_white.png")}
+                    resizeMode="contain"
+                />
+                <Animated.Image style={[styles.AnimationElement, planet3Size, planet3Position.getLayout()]}
+                    source={require("../../images/planet_purple_blur.png")}
+                    resizeMode="contain"
+                />
+                <Animated.Image style={[styles.AnimationElement, planet4Size, planet4Position.getLayout()]}
+                    source={require("../../images/planet_pluto_blur.png")}
+                    resizeMode="contain"
+                />
+
+
                 <Animated.Image style={[styles.AnimationElement, asteroid1Size, asteroid1Position.getLayout(), {transform: [{rotate}] }]}
                     source={require("../../images/asteroid1.png")}
                     resizeMode="contain"
@@ -965,6 +963,7 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
                     source={require("../../images/asteroid2.png")}
                     resizeMode="contain"
                 />
+
 
                 <Animated.View style={[styles.SpaceDotLight, {marginLeft: -10, marginTop: 10}, innerDot1Animation.getLayout()]}></Animated.View>
                 <Animated.View style={[styles.SpaceDot, {marginLeft: -10, marginTop: -10}, innerDot2Animation.getLayout()]}></Animated.View>

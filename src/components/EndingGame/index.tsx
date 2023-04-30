@@ -25,18 +25,20 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
 
     useEffect(() => {
         if (Props.isDefeat) {
-            Animated.sequence([
-                Animated.timing(defeatPooSizeWidth, {
-                    toValue: 230,
-                    duration: 800,
-                    useNativeDriver: false
-                }),
-                Animated.timing(defeatTextOpacity, {
-                    toValue: 1,
-                    duration: 1800,
-                    useNativeDriver: true
-                })
-            ]).start();
+            setTimeout(() => {
+                Animated.sequence([
+                    Animated.timing(defeatPooSizeWidth, {
+                        toValue: 230,
+                        duration: 1000,
+                        useNativeDriver: false
+                    }),
+                    Animated.timing(defeatTextOpacity, {
+                        toValue: 1,
+                        duration: 1800,
+                        useNativeDriver: true
+                    })
+                ]).start();
+            }, 1700);
         }
     }, [Props.isDefeat]);
 
@@ -50,18 +52,20 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
 
     useEffect(() => {
         if (Props.isVictory) {
-            Animated.sequence([
-                Animated.timing(victoryLaurelSizeWidth, {
-                    toValue: 230,
-                    duration: 800,
-                    useNativeDriver: false
-                }),
-                Animated.timing(victoryTextOpacity, {
-                    toValue: 1,
-                    duration: 1800,
-                    useNativeDriver: true
-                })
-            ]).start();
+            setTimeout(() => {
+                Animated.sequence([
+                    Animated.timing(victoryLaurelSizeWidth, {
+                        toValue: 230,
+                        duration: 1000,
+                        useNativeDriver: false
+                    }),
+                    Animated.timing(victoryTextOpacity, {
+                        toValue: 1,
+                        duration: 1800,
+                        useNativeDriver: true
+                    })
+                ]).start();
+            }, 1700);
         }
     }, [Props.isVictory]);
 
@@ -163,5 +167,3 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
 };
 
 export default EndingGame;
-
-// , planetMoonSize, planetMoonPosition.getLayout() //

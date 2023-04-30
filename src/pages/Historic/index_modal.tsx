@@ -56,7 +56,7 @@ const HistoricModal: React.FC<Props> = ({...Props}) => {
                 <ModalContent>
                     <ModalContentHeader>
                         <ModalHeaderTitle>
-                            <ModalHeaderTitleText>{singleGame?.gameCreationDate}</ModalHeaderTitleText>
+                            <ModalHeaderTitleText>{singleGame?.gameCreationDate.replace(/-/g, "/")}</ModalHeaderTitleText>
                         </ModalHeaderTitle>
                         <SP_Button primary notRound style={{width: 48, height: 47, borderTopRightRadius: 4}} onPress={Props.toggleModal}>
                             <Image

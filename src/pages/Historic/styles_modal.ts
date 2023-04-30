@@ -9,7 +9,7 @@ export const ModalContent = styled.View`
     height: 70%;
     align-self: center;
     top: 10%;
-    background: rgba(80, 82, 83, 0.8);
+    background: rgba(80, 82, 83, 1);
     border: 1px solid rgba(143, 166, 155, 0.8);
     border-radius: 4px;
 `;
@@ -81,8 +81,8 @@ export const GameIDModalText = styled.Text`
 
 export const GameIDValueText = styled.Text`
     color: ${Colors.text};
-    font-family: 'roboto-bold';
-    font-size: 20px;
+    font-family: 'roboto-medium';
+    font-size: 21px;
     margin : 0 0 0 2%;
 `;
 
