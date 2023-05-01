@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-native"
 import { useState, useEffect } from "react";
 import { Text, Image } from "react-native"
 import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
-import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { GameState, resetAllGame, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
+import { createNewSocket, socket, ws_GenericResponse } from "../../services/WebSocket";
+import { GameState, resetAllGame, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayerAtStart, setPlayersGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady, GameParentContainer } from "./styles";
 import InGameModal from "./index_modal";
@@ -26,6 +26,8 @@ import { createOldGame } from "../../databaseObjects/OldGamesDAO";
 import { OldGame } from "../../models/OldGame";
 import { data_destroyed } from "../../models/types/data_destroyed";
 import EndingGame from "../../components/EndingGame";
+import { UserPlayer } from "../../models/UserPlayer";
+import { Player } from "../../models/types/Player";
 
 
 const InGame: React.FC = () => {
@@ -39,28 +41,39 @@ const InGame: React.FC = () => {
     const [roundFail, setRoundFail] = useState(false);
     const [playerLeave, setPlayerLeave] = useState('');
     
-    const [endingGameDefeat, setEndingGameDefeat] = useState(false)
-    const [endingGameVictory, setEndingGameVictory] = useState(false)
+    const [endingGameDefeat, setEndingGameDefeat] = useState(false);
+    const [endingGameVictory, setEndingGameVictory] = useState(false);
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
-        
+
+    // Check the list of the remaining players and tell the reducer which players left the game
     useEffect(() => {
-        console.log('player at start : ' + JSON.stringify(gameState.playersAtStart));
-    }, []);
+        const playerList: UserPlayer[] = [...gameState.playersAtStart];
+
+        const updatedPlayerList = playerList.map(player => {
+            if (gameState.playersStatus.find((p) => p.name == player.name)) {
+                return {...player, hasLeave: false};
+            }
+            else { return {...player, hasLeave: true}; }
+        })
+        dispatch(setPlayerAtStart(updatedPlayerList));
+    }, [gameState.playersStatus]);
 
 
     // Save the game in the database (to be viewed in the history page)
     const saveGameInDatabase = (turn: number) => {
         const date = moment().format('DD-MM-YYYY');
         const time = moment().format('HH:mm');
-        const playerList: string[] = [];
-        gameState.playersStatus.forEach(player => {
-            playerList.push(player.name);
-        });
-        createOldGame(OldGame(gameState.gameId, turn, date, time, JSON.stringify(playerList)));
+        // const playerList: string[] = [];
+        // // gameState.playersStatus.forEach(player => {
+        // //     playerList.push(player.name);
+        // // });
+
+        createOldGame(OldGame(gameState.gameId, turn, date, time, JSON.stringify(gameState.playersAtStart)));
     }
+    
 
     // Handle socket response
     socket.onmessage = (event => {
@@ -82,24 +95,24 @@ const InGame: React.FC = () => {
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                dispatch(setPlayersGame(dataPlayer.data.players));
-                setModalVisible(true);
-                if (dataPlayer.data.players.length < 2) {
-                    setPlayerLeave('LastPlayer');
+                if (endingGameDefeat === false && endingGameVictory === false) {
+                    console.log(endingGameDefeat + ' | ' + endingGameVictory);
+                    console.log("ça passe quand même");
+                    dispatch(setPlayersGame(dataPlayer.data.players));
+                    setModalVisible(true);
+                    if (dataPlayer.data.players.length < 2) {
+                        setPlayerLeave('LastPlayer');
+                    }
+                    else {
+                        setPlayerLeave('PlayerLeave');
+                    }
                 }
-                else {
-                    setPlayerLeave('PlayerLeave');
-                }
-                // prevent the modal to be displayed if it's the end of the game
-                // if (endingGameDefeat === false || endingGameVictory === false) {
-                //     setPlayerLeave(true);
-                //     setModalVisible(true);
-                // }
             }
             if (objectResponse.type == "destroyed") {
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);
                 saveGameInDatabase(dataDestroyed.data.turns);
                 setEndingGameDefeat(true);
+                console.log('ending game defeat : ' + endingGameDefeat);
                 dispatch(resetAllGame());
             }
             if (objectResponse.type == "victory") {
@@ -107,6 +120,7 @@ const InGame: React.FC = () => {
                 setEndingGameVictory(true);
                 dispatch(resetAllGame());
             }
+            
         }
     });
 

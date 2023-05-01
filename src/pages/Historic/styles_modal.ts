@@ -8,7 +8,7 @@ export const ModalContent = styled.View`
     width: 95%;
     height: 70%;
     align-self: center;
-    top: 7%;
+    top: 6%;
     background: rgba(80, 82, 83, 1);
     border: 1px solid rgba(143, 166, 155, 0.8);
     border-radius: 4px;
@@ -112,7 +112,7 @@ export const GamePlayerLogoModal = styled.View`
     align-items: center;
     background-color: ${Colors.secondary};
     width: 42px;
-    margin: 0px 4px 0px 2px;
+    margin: 0px 4px 0px 0px;
     border-radius: 2px;
 `;
 

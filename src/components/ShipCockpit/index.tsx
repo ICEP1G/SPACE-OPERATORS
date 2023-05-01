@@ -96,7 +96,7 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
                 }),
             ])
         ).start();
-    }, []);
+    });
 
 
     return (

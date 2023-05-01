@@ -34,7 +34,7 @@ const initialState: GameState = {
     switchResult: [],
     shipIntegrity: 100,
     playersStatus: [],
-    playersAtStart: []
+    playersAtStart: [],
 };
 
     

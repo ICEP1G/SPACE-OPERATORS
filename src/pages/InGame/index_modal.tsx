@@ -24,12 +24,12 @@ const InGameModal: React.FC<Props> = ({...Props}) => {
 
     // save the game then leave it by navigating to the Home page and trigger a message to be displayed to others players
     const leaveGame = () => {
+        socket.close();
+        createNewSocket();
         Props.saveGameInDatabase(gameState.turn);
         Props.setModalVisible(false);
         dispatch(resetAllGame());
         navigate('/');
-        socket.close();
-        createNewSocket();
     };
 
     return (
