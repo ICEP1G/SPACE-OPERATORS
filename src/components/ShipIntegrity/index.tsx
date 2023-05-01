@@ -61,7 +61,7 @@ const ShipIntegrity: React.FC = () => {
         <>
         <View style={styles.integrityCtn}>
             <Animated.View style={[styles.integrityBar, {opacity}]}></Animated.View>
-            <Animated.Text style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 11, position: 'absolute', alignSelf: 'center', left: '22%'}}>INTÉGRITÉ DU VAISSEAU</Animated.Text>
+            <Animated.Text style={{color: Colors.text, fontFamily: 'roboto-medium', fontSize: 11, position: 'absolute', alignSelf: 'center', left: '22%'}}>INTÉGRITÉ DU VAISSEAU</Animated.Text>
         </View>
         </>
     )

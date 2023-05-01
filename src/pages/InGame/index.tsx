@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
 import { useState, useEffect } from "react";
-import { Text, Image } from "react-native"
+import { Text, Image, StyleSheet } from "react-native"
 import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
-import { createNewSocket, socket, ws_GenericResponse } from "../../services/WebSocket";
-import { GameState, resetAllGame, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayerAtStart, setPlayersGame } from "../../reducers/game/reducer";
+import { socket, ws_GenericResponse } from "../../services/WebSocket";
+import { GameState, resetAllGame, resetAllResultGame, resetOperationGame, setDateAndTimeGame, setGameOperation, setGameShipIntegrity, setPlayerAtStart, setPlayersGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady, GameParentContainer } from "./styles";
 import InGameModal from "./index_modal";
@@ -27,8 +27,6 @@ import { OldGame } from "../../models/OldGame";
 import { data_destroyed } from "../../models/types/data_destroyed";
 import EndingGame from "../../components/EndingGame";
 import { UserPlayer } from "../../models/UserPlayer";
-import { Player } from "../../models/types/Player";
-
 
 const InGame: React.FC = () => {
     const navigate = useNavigate();
@@ -47,6 +45,13 @@ const InGame: React.FC = () => {
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
+    // Add the date and time of the game when starting
+    useEffect(() => {
+        const dateAndTime: string[] = [];
+        dateAndTime.push(moment().format('DD-MM-YYYY'));
+        dateAndTime.push(moment().format('HH:mm'));
+        dispatch(setDateAndTimeGame(dateAndTime));
+    }, []);
 
     // Check the list of the remaining players and tell the reducer which players left the game
     useEffect(() => {
@@ -64,14 +69,7 @@ const InGame: React.FC = () => {
 
     // Save the game in the database (to be viewed in the history page)
     const saveGameInDatabase = (turn: number) => {
-        const date = moment().format('DD-MM-YYYY');
-        const time = moment().format('HH:mm');
-        // const playerList: string[] = [];
-        // // gameState.playersStatus.forEach(player => {
-        // //     playerList.push(player.name);
-        // // });
-
-        createOldGame(OldGame(gameState.gameId, turn, date, time, JSON.stringify(gameState.playersAtStart)));
+        createOldGame(OldGame(gameState.gameId, turn -1, gameState.dateStart, gameState.timeStart, JSON.stringify(gameState.playersAtStart)));
     }
     
 
@@ -95,9 +93,8 @@ const InGame: React.FC = () => {
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
+                // Display the modal if a player leave but doesn't if it's the end of the game
                 if (endingGameDefeat === false && endingGameVictory === false) {
-                    console.log(endingGameDefeat + ' | ' + endingGameVictory);
-                    console.log("ça passe quand même");
                     dispatch(setPlayersGame(dataPlayer.data.players));
                     setModalVisible(true);
                     if (dataPlayer.data.players.length < 2) {
@@ -112,7 +109,6 @@ const InGame: React.FC = () => {
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);
                 saveGameInDatabase(dataDestroyed.data.turns);
                 setEndingGameDefeat(true);
-                console.log('ending game defeat : ' + endingGameDefeat);
                 dispatch(resetAllGame());
             }
             if (objectResponse.type == "victory") {
@@ -120,7 +116,6 @@ const InGame: React.FC = () => {
                 setEndingGameVictory(true);
                 dispatch(resetAllGame());
             }
-            
         }
     });
 
@@ -175,7 +170,6 @@ const InGame: React.FC = () => {
                 setModalVisible={setModalVisible}
                 playerLeaves={playerLeave}
                 setPlayerLeave={setPlayerLeave}
-                saveGameInDatabase={saveGameInDatabase}
             />
 
             <GameParentContainer>

@@ -97,3 +97,10 @@ export const resetAllGameAction = (state: GameState): GameState =>
     shipIntegrity: 100,
     playersStatus: [],
 });
+
+export const setDateAndTimeGameAction = (state: GameState, action: PayloadAction<string[]>): GameState =>
+({
+    ...state,
+    dateStart: action.payload[0],
+    timeStart: action.payload[1]
+});

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useEffect, useState, useRef } from "react";
-import { View, Text, StyleSheet, Animated, Image} from "react-native"
-import { Dot1, Dot2 } from "./styles";
+import { View, StyleSheet, Animated, Image} from "react-native"
 import { Easing } from "react-native-reanimated";
 
 

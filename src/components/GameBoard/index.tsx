@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useEffect, useState, useRef } from "react";
-import { GameState, resetAllResultGame, resetDuration, resetOperationGame, setGameId, setGameOperation, setGameShipIntegrity } from "../../reducers/game/reducer";
+import { useEffect } from "react";
+import { GameState, resetAllResultGame, resetDuration, resetOperationGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { GameBoardCtnSplited, GameBoardWindow, GameLinkWindow } from "./styles";
+import { GameBoardCtnSplited, GameBoardWindow } from "./styles";
 import Instructions from "../Instructions";
 import GameButton from "../GameButton";
 import GameSwitch from "../GameSwitch";
@@ -37,7 +37,7 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
         if (gameState.role === "instructor") {
             elementsInstructorArray.push(
                 <Instructions key={1} operatorName={gameState.id} operationDescription={gameState.description} />
-            )
+            );
         }
         // Display Operator components
         else if (gameState.role === "operator") {
@@ -50,7 +50,7 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
                 });
             }
             // Display switches components
-            else {
+            else if (gameState.elements[0].type === "switch") {
                 gameState.elements.forEach((element, index) => {
                     elementsOperatorArray.push(
                         <GameSwitch key={index} id={element.id} value={element.value} valueType={element.valueType} />
@@ -62,13 +62,13 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
         else {
             elementsWaitingArray.push(
                 <WaitingLoader key={1} />
-            )
+            );
         }
     }  
     else {
         elementsWaitingArray.push(
             <WaitingLoader key={1} />
-        )
+        );
     } 
     
 
@@ -80,15 +80,6 @@ const GameBoard: React.FC<Props> = ({...Props}) => {
             <GameBoardCtnSplited>
                 {elementsOperatorArray}
             </GameBoardCtnSplited>
-
-            {/* <GameLinkWindow>
-                <GameLink id={1} value={"perroquet"} valueType="string"/>
-                <GameLink id={2} value={"#fff"} valueType="color"/>
-                <GameLink id={3} value={"#fff"} valueType="color"/>
-                <GameLink id={4} value={"oiseau"} valueType="string"/>
-                <GameLink ></GameLink>
-            </GameLinkWindow> */}
-            
         </GameBoardWindow>
         </>
     )

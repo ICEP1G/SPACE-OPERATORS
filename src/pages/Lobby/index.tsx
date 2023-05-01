@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
 import { useEffect, useState } from "react";
-import { Text, Image } from "react-native"
+import { Text, Image, StyleSheet } from "react-native"
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { MainUserState } from "../../reducers/mainUser/reducer";
@@ -104,7 +104,7 @@ const Lobby: React.FC = () => {
                         /> : ''
                         } 
                         <Text style={{color: Colors.text, fontSize: 17, fontFamily: 'roboto-regular'}}>{index === 0 ? 
-                            (player.name.length <= 17 ? player.name : (player.name.substring(0,15) + "...")) 
+                            (player.name.length <= 18 ? player.name : (player.name.substring(0,16) + "...")) 
                             : (player.name.length <= 21 ? player.name : (player.name.substring(0,20) + "..."))}</Text>
                     </SP_InfoView>
                 </PlayerNameCtn>
@@ -168,12 +168,18 @@ const Lobby: React.FC = () => {
 
             {
                 lobbyState.players[0].name == mainUserState.MainUser[0].name ?
+                (lobbyState.players.length > 1 ?
                 <LobbyLaunchButton
                     isPressable={launchButtonPressable}
                     onPress={LaunchGame}
                     >
-                    <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
-                </LobbyLaunchButton>
+                    <SP_TextButton italic style={styles.shadow}>DEMARRER LA PARTIE</SP_TextButton>
+                </LobbyLaunchButton> :
+                <LobbyLaunchButton
+                    isPressable={false}
+                    >
+                    <SP_TextButton italic style={styles.shadow}>DEMARRER LA PARTIE</SP_TextButton>
+                </LobbyLaunchButton>)
                 : ''
             }
         </LobbyMainCtn>
@@ -215,5 +221,18 @@ const Lobby: React.FC = () => {
         </>
     )
 };
+
+const styles = StyleSheet.create({
+    shadow:{
+        shadowColor: "#000",
+        shadowOffset: {
+	    width: 0,
+	    height: 2,
+        },
+        shadowOpacity: 0.82,
+        shadowRadius: 2,
+        elevation: 3
+    }
+});
 
 export default Lobby

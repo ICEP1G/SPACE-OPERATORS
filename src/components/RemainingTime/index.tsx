@@ -11,9 +11,7 @@ interface Props {
 }
 
 const RemainingTime: React.FC<Props> = ({...Props}) => {
-    const dispatch = useAppDispatch();
-
-    const [timing, setTiming] = useState(0)
+    const [timing, setTiming] = useState(0);
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
@@ -35,8 +33,7 @@ const RemainingTime: React.FC<Props> = ({...Props}) => {
                 setTiming(0);
             }
         }, 100)
-    }, [gameState.duration])
-
+    }, [gameState.duration]);
 
     return (
         <>
@@ -62,4 +59,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default RemainingTime
+export default RemainingTime;

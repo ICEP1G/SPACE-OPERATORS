@@ -2,6 +2,9 @@ import React, { useRef } from 'react';
 import { View, StyleSheet, PanResponder, Animated } from 'react-native';
 
 
+//-------------------------------------THIS COMPONENT ISN'T WORKING--------------------------------------//
+//-----------------------------------IT WILL MAYBE CAME IN A FUTUR DLC-----------------------------------//
+
 const GameLink: React.FC = () => {
 
     // Get the current value of the targeted element
@@ -16,9 +19,6 @@ const GameLink: React.FC = () => {
             },
         }),
     ).current;
-
-
-
 
 
     return (
@@ -110,9 +110,6 @@ const styles = StyleSheet.create({
 //   </View>
 // );
 // };
-
-
-
 
 
 

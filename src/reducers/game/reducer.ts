@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Player } from '../../models/types/Player';
-import { setGameIdAction, setPlayerAtStartAction, setGameOperationAction, setGameShipIntegrityAction, addButtonResultToGameAction, resetAllResultGameAction, addSwitchResultToGameAction, removeSwitchResultToGameAction, resetOperationGameAction, setPlayersGameAction, resetDurationAction, resetAllGameAction } from './action';
+import { setGameIdAction, setPlayerAtStartAction, setGameOperationAction, setGameShipIntegrityAction, addButtonResultToGameAction, resetAllResultGameAction, addSwitchResultToGameAction, removeSwitchResultToGameAction, resetOperationGameAction, setPlayersGameAction, resetDurationAction, resetAllGameAction, setDateAndTimeGameAction } from './action';
 import { Result } from '../../models/types/Result';
 import { Element } from '../../models/types/Element';
 import { UserPlayer } from '../../models/UserPlayer';
@@ -18,7 +18,9 @@ export interface GameState {
     switchResult: number[],
     shipIntegrity: number,
     playersStatus: Player[],
-    playersAtStart: UserPlayer[]
+    playersAtStart: UserPlayer[],
+    dateStart: string,
+    timeStart: string
 }
 
 const initialState: GameState = {
@@ -35,6 +37,8 @@ const initialState: GameState = {
     shipIntegrity: 100,
     playersStatus: [],
     playersAtStart: [],
+    dateStart: '',
+    timeStart: ''
 };
 
     
@@ -53,9 +57,10 @@ const reducer = createSlice({
         setPlayersGame: setPlayersGameAction,
         resetDuration: resetDurationAction,
         resetAllGame: resetAllGameAction,
-        setPlayerAtStart: setPlayerAtStartAction
+        setPlayerAtStart: setPlayerAtStartAction,
+        setDateAndTimeGame: setDateAndTimeGameAction
     },
 });
 
-export const { setGameId, setPlayerAtStart, setGameOperation, setGameShipIntegrity, addButtonResultToGame, resetAllResultGame, addSwitchResultToGame, removeSwitchResultToGame, resetOperationGame, setPlayersGame, resetDuration, resetAllGame } = reducer.actions;
+export const { setGameId, setPlayerAtStart, setGameOperation, setGameShipIntegrity, addButtonResultToGame, resetAllResultGame, addSwitchResultToGame, removeSwitchResultToGame, resetOperationGame, setPlayersGame, resetDuration, resetAllGame, setDateAndTimeGame } = reducer.actions;
 export default reducer.reducer;
