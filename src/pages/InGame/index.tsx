@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Text, Image } from "react-native"
 import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
@@ -45,15 +45,21 @@ const InGame: React.FC = () => {
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
+        
+    useEffect(() => {
+        console.log('player at start : ' + JSON.stringify(gameState.playersAtStart));
+    }, []);
+
 
     // Save the game in the database (to be viewed in the history page)
     const saveGameInDatabase = (turn: number) => {
         const date = moment().format('DD-MM-YYYY');
+        const time = moment().format('HH:mm');
         const playerList: string[] = [];
         gameState.playersStatus.forEach(player => {
             playerList.push(player.name);
         });
-        createOldGame(OldGame(gameState.gameId, turn, date, JSON.stringify(playerList)));
+        createOldGame(OldGame(gameState.gameId, turn, date, time, JSON.stringify(playerList)));
     }
 
     // Handle socket response
