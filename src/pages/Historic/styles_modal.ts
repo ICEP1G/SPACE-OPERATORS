@@ -8,7 +8,7 @@ export const ModalContent = styled.View`
     width: 95%;
     height: 70%;
     align-self: center;
-    top: 10%;
+    top: 7%;
     background: rgba(80, 82, 83, 1);
     border: 1px solid rgba(143, 166, 155, 0.8);
     border-radius: 4px;

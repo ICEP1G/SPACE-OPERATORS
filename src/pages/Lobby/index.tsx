@@ -11,12 +11,15 @@ import { API_URL} from "../../services/WebSocket";
 import { socket, createNewSocket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
-import { setGameId, setPlayersGame } from "../../reducers/game/reducer";
+import { GameState, setGameId, setPlayersGame, setPlayerAtStart } from "../../reducers/game/reducer";
 import { data_start } from "../../models/types/data_start";
+import { setPlayerAtStartAction } from "../../reducers/game/action";
+import { UserPlayer } from "../../models/UserPlayer";
 
 const Lobby: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const userPlayerArray: UserPlayer[] = [];
     const playerElement: any = [];
 
     const [launchButtonPressable, setLaunchButtonPressable] = useState(false);
@@ -25,6 +28,8 @@ const Lobby: React.FC = () => {
          useAppSelector((state) => state.mainUser);
     const lobbyState: LobbyState = 
         useAppSelector((state) => state.lobby);
+    const gameState: GameState = 
+        useAppSelector((state) => state.game);
 
     useEffect(() => {
         let playerReady = 0;
@@ -41,6 +46,13 @@ const Lobby: React.FC = () => {
         }
     }, [lobbyState])
 
+    // Create the array of all players who has join the lobby for the InGame page
+    const addPlayerToGameAtStart = () => {
+        lobbyState.players.forEach((player) => {
+            userPlayerArray.push(UserPlayer(player.name, false))
+        });
+    }
+
 
     // Parse the message to the right data everytime a message is return from the WebSocket
     socket.onmessage = (event => {
@@ -53,10 +65,30 @@ const Lobby: React.FC = () => {
             if (objectResponse.type == "start") {
                 dispatch(setGameId(lobbyState.gameId));
                 dispatch(setPlayersGame(lobbyState.players));
+                addPlayerToGameAtStart();
+                dispatch(setPlayerAtStart(userPlayerArray))
                 navigate("/InGame");
             }
         }
     });
+
+    // Tell the API that to set the player status to ready
+    const setStatusReady = () => {
+        axios.post(API_URL + "ready/" + mainUserState.MainUser[0].uuid)
+        .then((response) => {
+        })
+        .catch((error) => {
+        })
+    };
+
+    // Tell the WebSocket to start the game
+    const LaunchGame = () => {
+        const dataStart: data_start = data_start("start", {
+            gameId: lobbyState.gameId
+        });
+        socket.send(JSON.stringify(dataStart));
+    }
+
 
     // Display each player name in the lobby and update their status when they're ready
     lobbyState.players.forEach((player, index) => {
@@ -81,26 +113,7 @@ const Lobby: React.FC = () => {
                 </StatusButton>
             </PlayerStatusCtn>
         );
-
     })
-
-    // Tell the API that to set the player status to ready
-    const setStatusReady = () => {
-        axios.post(API_URL + "ready/" + mainUserState.MainUser[0].uuid)
-        .then((response) => {
-        })
-        .catch((error) => {
-        })
-    };
-
-    // Tell the WebSocket to start the game
-    const LaunchGame = () => {
-        const dataStart: data_start = data_start("start", {
-            gameId: lobbyState.gameId
-        });
-        socket.send(JSON.stringify(dataStart));
-    }
-
 
     return (
         <>

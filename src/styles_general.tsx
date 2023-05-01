@@ -53,7 +53,7 @@ export const SP_AestheticLine = styled.View<SP_AestheticLineProps>`
     height: 100%;
     background-color: ${props => props.secondary ? "#8FA69B" : "#DE583A"};
     border-radius: ${(props) => props.maxi ? "2.5px" : "1.5px"};
-    margin-right: ${(props) => props.maxi ? "6px" : "3px"};
+    margin-right: ${(props) => props.maxi ? "6px" : "4px"};
 `;
 
 // Label container
@@ -107,7 +107,7 @@ export const SP_InfoView = styled.View<SP_InfoViewProps>`
     flex-direction: row;
     justify-content: ${props => props.centerContent ? 'center' : 'flex-start'};
     align-items: center;
-    padding-left: ${props => props.centerContent ? '0' : '10px'};
+    padding-left: ${props => props.centerContent ? '0' : '12px'};
     padding-top: ${props => props.maxi ? '4px' : 0};
     padding-bottom: ${props => props.maxi ? '4px' : 0};
     border-radius: ${props => props.straight ? 0 : '2px'};

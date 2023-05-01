@@ -15,6 +15,7 @@ export const GetAllGames = (): Promise<OldGame[]> => {
                 row['GameId'],
                 row['Rounds'],
                 row['GameCreationDate'],
+                row['GameCreationTime'],
                 row['PlayersNames']
             ))
     );
@@ -24,8 +25,8 @@ export const GetAllGames = (): Promise<OldGame[]> => {
 // Get infos for history 
 export const createOldGame = (OldGame: OldGame): Promise<number> => {
     return executeSQL(
-        `INSERT INTO OldGames(GameId, Rounds, GameCreationDate, PlayersNames)
-        VALUES (?, ?, ?, ?)`,
-        [OldGame.gameId, OldGame.rounds, OldGame.gameCreationDate, OldGame.playersNames]
+        `INSERT INTO OldGames(GameId, Rounds, GameCreationDate, GameCreationTime, PlayersNames)
+        VALUES (?, ?, ?, ?, ?)`,
+        [OldGame.gameId, OldGame.rounds, OldGame.gameCreationDate, OldGame.gameCreationTime, OldGame.playersNames]
     );
 };

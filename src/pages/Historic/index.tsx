@@ -4,7 +4,7 @@ import { Colors, SP_Button, SP_InfoView, SP_AestheticLine } from "../../styles_g
 import { Text, Image } from "react-native"
 import { useEffect, useState, useCallback } from 'react';
 import HistoricModal from "./index_modal";
-import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, TurnNumber, TurnNumberText, TurnNumberValue } from "./styles"; 
+import { HistoricWindow, BackgroundImageCtn, HistoricHeaderTitle, HistoricHeaderTitleText, HistoricHeader, HistoricMainCTN, HistoricContentCtn, ContentHeaderCtn, ContentHeaderText, ContentScrollViewCtn, GameHistory, GameNameCdn, ShowMoreInfo, WinLooseCtn } from "./styles"; 
 import { GetAllGames } from "../../databaseObjects/OldGamesDAO";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { HistoricState, setOldGames } from "../../reducers/historic/reducer";
@@ -43,29 +43,35 @@ const Historic: React.FC = () => {
         OldGameElement.push(
             <GameHistory key={index}>                
                 <SP_AestheticLine></SP_AestheticLine>
-                <SP_InfoView transparent>
+                <WinLooseCtn>
+                    {game.rounds >= 20 ? 
+                        <Image style={{width: 28, height: 28}}
+                            source={require('../../../assets/icons/win_medal_orange.png')}
+                        /> :
+                        <Image style={{width: 20, height: 20}}
+                            source={require('../../../assets/icons/poo_white.png')}
+                        />
+                        }
+                </WinLooseCtn>
+                <SP_InfoView transparent style={{paddingLeft: 12}} >
                     {(() => {
                         switch (game.gameCreationDate) {
                             case (moment().format('DD-MM-YYYY')):
-                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Aujourd'hui</Text>
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Aujourd'hui à {game.gameCreationTime}</Text>
                             case (moment().subtract(1, 'days').format('DD-MM-YYYY')):
-                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Hier</Text>
-                            case (moment().subtract(7, 'days').format('DD-MM-YYYY')):
-                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Une semaine</Text>
-                            case (moment().subtract(30, 'days').format('DD-MM-YYYY')):
-                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Un mois</Text>
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Hier à {game.gameCreationTime}</Text>
                             default:
-                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>{game.gameCreationDate.replace(/-/g, "/")}</Text>
+                                return <Text style={{color: Colors.text, fontSize: 18, fontFamily: 'roboto-regular'}}>Le {game.gameCreationDate.replace(/-/g, "/")} à {game.gameCreationTime}</Text>
                         }
                     }) ()}
                 </SP_InfoView>
                 
-                <TurnNumber>
+                {/* <TurnNumber>
                     <TurnNumberText style={{color: Colors.text, fontFamily: 'roboto-regular', fontSize: 18}}>Tours :</TurnNumberText>
                     <TurnNumberValue>{game.rounds}</TurnNumberValue>
-                </TurnNumber>
+                </TurnNumber> */}
 
-                <SP_Button primary style={{width: 40, height: 40}} onPress={() => OpenModal(game.gameId)}>
+                <SP_Button primary style={{width: 42, height: 42, marginLeft: 12}} onPress={() => OpenModal(game.gameId)}>
                     <Image
                         style={{width: 20, position: 'relative', left: -1}}
                         source={require('../../../assets/icons/list-solid.png')}

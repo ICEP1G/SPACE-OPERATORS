@@ -123,28 +123,45 @@ export const ShowMoreInfoText = styled.Text`
     font-family: 'roboto-bold';
 `;
 
-export const TurnNumber = styled.View`
-    position: relative;
+
+export const WinLooseCtn = styled.View`
+    width: 42px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    border-radius: 2px;
     background-color: ${Colors.secondary};
-    width: 36%;
-    padding: 4px 16px;
-    margin: 0px 8px;
+    margin-right: 5px;
+    border-radius: 2px;
 `;
 
-export const TurnNumberText = styled.Text`
-    color: ${Colors.text};
-    font-family: 'roboto-medium';
-    font-size: 20px;
+export const WinLooseImage = styled.Image`
+    width: 20;
+    height: 20;
 `;
 
-export const TurnNumberValue = styled.Text`
-    color: ${Colors.text};
-    font-family: 'roboto-bold';
-    font-size: 18px;
-    margin-left: 4px;
-`;
+// export const TurnNumber = styled.View`
+//     position: relative;
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     align-items: center;
+//     border-radius: 2px;
+//     background-color: ${Colors.secondary};
+//     width: 36%;
+//     padding: 4px 16px;
+//     margin: 0px 8px;
+// `;
+
+// export const TurnNumberText = styled.Text`
+//     color: ${Colors.text};
+//     font-family: 'roboto-medium';
+//     font-size: 20px;
+// `;
+
+// export const TurnNumberValue = styled.Text`
+//     color: ${Colors.text};
+//     font-family: 'roboto-bold';
+//     font-size: 18px;
+//     margin-left: 4px;
+// `;

@@ -2,12 +2,19 @@ import { PayloadAction} from '@reduxjs/toolkit';
 import { GameState } from './reducer';
 import { data_operation } from '../../models/types/data_operation';
 import { Player } from '../../models/types/Player';
+import { UserPlayer } from '../../models/UserPlayer';
 
 export const setGameIdAction = (state: GameState, action: PayloadAction<string>): GameState =>
 ({
     ...state,
     gameId: action.payload
 });
+
+export const setPlayerAtStartAction = (state: GameState, action: PayloadAction<UserPlayer[]>): GameState =>
+({
+    ...state,
+    playersAtStart: action.payload
+})
 
 export const setGameOperationAction = (state: GameState, action: PayloadAction<data_operation>): GameState =>
 ({

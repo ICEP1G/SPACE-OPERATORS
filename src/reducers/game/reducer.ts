@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Player } from '../../models/types/Player';
-import { setGameIdAction, setGameOperationAction, setGameShipIntegrityAction, addButtonResultToGameAction, resetAllResultGameAction, addSwitchResultToGameAction, removeSwitchResultToGameAction, resetOperationGameAction, setPlayersGameAction, resetDurationAction, resetAllGameAction } from './action';
+import { setGameIdAction, setPlayerAtStartAction, setGameOperationAction, setGameShipIntegrityAction, addButtonResultToGameAction, resetAllResultGameAction, addSwitchResultToGameAction, removeSwitchResultToGameAction, resetOperationGameAction, setPlayersGameAction, resetDurationAction, resetAllGameAction } from './action';
 import { Result } from '../../models/types/Result';
 import { Element } from '../../models/types/Element';
+import { UserPlayer } from '../../models/UserPlayer';
 
 export interface GameState {
     gameId: string,
@@ -17,6 +18,7 @@ export interface GameState {
     switchResult: number[],
     shipIntegrity: number,
     playersStatus: Player[],
+    playersAtStart: UserPlayer[]
 }
 
 const initialState: GameState = {
@@ -32,6 +34,7 @@ const initialState: GameState = {
     switchResult: [],
     shipIntegrity: 100,
     playersStatus: [],
+    playersAtStart: []
 };
 
     
@@ -49,9 +52,10 @@ const reducer = createSlice({
         resetOperationGame: resetOperationGameAction,
         setPlayersGame: setPlayersGameAction,
         resetDuration: resetDurationAction,
-        resetAllGame: resetAllGameAction
+        resetAllGame: resetAllGameAction,
+        setPlayerAtStart: setPlayerAtStartAction
     },
 });
 
-export const { setGameId, setGameOperation, setGameShipIntegrity, addButtonResultToGame, resetAllResultGame, addSwitchResultToGame, removeSwitchResultToGame, resetOperationGame, setPlayersGame, resetDuration, resetAllGame } = reducer.actions;
+export const { setGameId, setPlayerAtStart, setGameOperation, setGameShipIntegrity, addButtonResultToGame, resetAllResultGame, addSwitchResultToGame, removeSwitchResultToGame, resetOperationGame, setPlayersGame, resetDuration, resetAllGame } = reducer.actions;
 export default reducer.reducer;
