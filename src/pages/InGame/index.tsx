@@ -69,9 +69,12 @@ const InGame: React.FC = () => {
 
     // Save the game in the database (to be viewed in the history page)
     const saveGameInDatabase = (turn: number) => {
-        createOldGame(OldGame(gameState.gameId, turn -1, gameState.dateStart, gameState.timeStart, JSON.stringify(gameState.playersAtStart)));
+        createOldGame(OldGame(gameState.gameId, turn, gameState.dateStart, gameState.timeStart, JSON.stringify(gameState.playersAtStart)));
     }
     
+    useEffect(() => {
+        console.log('reducer ship integrity :' + JSON.stringify(gameState.shipIntegrity));
+    }, [gameState.shipIntegrity])
 
     // Handle socket response
     socket.onmessage = (event => {
@@ -86,6 +89,7 @@ const InGame: React.FC = () => {
                 dispatch(setGameOperation(dataOperation));
             }
             if (objectResponse.type == "integrity") {
+                console.log(JSON.stringify(objectResponse.data));
                 setRoundFail(true);
                 const dataIntegrity: data_integrity = JSON.parse(event.data);
                 dispatch(setGameShipIntegrity(dataIntegrity.data.integrity));

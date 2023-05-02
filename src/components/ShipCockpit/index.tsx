@@ -70,130 +70,50 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
         Props.roundFail = false;
     }
 
-    // Animate the cockpit to feel it moving a little bit
-    // React.useEffect(() => {
-    //     Animated.loop(
-    //         Animated.sequence([
-    //             Animated.timing(position, {
-    //                 toValue: { x: 1, y: -1 },
-    //                 duration: 1000,
-    //                 useNativeDriver: false,
-    //             }),
-    //             Animated.timing(position, {
-    //                 toValue: { x: 1, y: 0 },
-    //                 duration: 1000,
-    //                 useNativeDriver: false,
-    //             }),
-    //             Animated.timing(position, {
-    //                 toValue: { x: -1, y: -1 },
-    //                 duration: 1000,
-    //                 useNativeDriver: false,
-    //             }),
-    //             Animated.timing(position, {
-    //                 toValue: { x: 0, y: 0 },
-    //                 duration: 1000,
-    //                 useNativeDriver: false,
-    //             }),
-    //         ])
-    //     ).start();
-    // });
-
-    // const lightAlarm = useRef(new Animated.Value(0)).current;
-
-    // useEffect(() => {
-    //     if (gameState.shipIntegrity <= 20) {
-    //         Animated.loop(
-    //             Animated.sequence([
-    //                 Animated.timing(lightAlarm, {
-    //                     toValue: 0.1,
-    //                     duration: 1500,
-    //                     useNativeDriver: true
-    //                 }),
-    //                 Animated.timing(lightAlarm, {
-    //                     toValue: 0,
-    //                     duration: 1500,
-    //                     useNativeDriver: true
-    //                 })
-    //             ])
-    //         ).start();
-    //     }
-    // });
-
-    // const alarmFading = {opacity: lightAlarm};
-
-
     return (
         <>
         <Animated.View style={[styles.AnimatedView, position.getLayout()]} >
             {(() => {
-                if (gameState.shipIntegrity > 80) {
-                    return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit.png')}
-                                resizeMode="cover"
-                                fadeDuration={0}
-                                />
-                }
-                else if (gameState.shipIntegrity <= 80)
-                    return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_80.png')}
-                                resizeMode="cover"
-                                fadeDuration={0}
-                                />
-                else if (gameState.shipIntegrity <= 60)
-                    return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_60.png')}
-                                resizeMode="cover"
-                                fadeDuration={0}
-                                />
-                else if (gameState.shipIntegrity <= 40)
-                    return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_40.png')}
-                                resizeMode="cover"
-                                fadeDuration={0}
-                                />
-                else if (gameState.shipIntegrity <= 20)
+                if (gameState.shipIntegrity <= 0) {
                     return <Image style={styles.CockPitImage}
                             source={require('../../images/InGame_Background_Cockpit_20.png')}
                             resizeMode="cover"
                             fadeDuration={0}
                             />
-                // switch (gameState.shipIntegrity) {
-                //     case 80:
-                //         return <Image style={styles.CockPitImage}
-                //                 source={require('../../images/InGame_Background_Cockpit_80.png')}
-                //                 resizeMode="cover"
-                //                 fadeDuration={0}
-                //                 />
-                //     case 60:
-                //         return <Image style={styles.CockPitImage}
-                //                 source={require('../../images/InGame_Background_Cockpit_60.png')}
-                //                 resizeMode="cover"
-                //                 fadeDuration={0}
-                //                 />
-                //     case 40:
-                //         return <Image style={styles.CockPitImage}
-                //                 source={require('../../images/InGame_Background_Cockpit_40.png')}
-                //                 resizeMode="cover"
-                //                 fadeDuration={0}
-                //                 />
-                //     case 20:
-                //         return <Image style={styles.CockPitImage}
-                //                 source={require('../../images/InGame_Background_Cockpit_20.png')}
-                //                 resizeMode="cover"
-                //                 fadeDuration={0}
-                //                 />
-                //     default:
-                //         return <Image style={styles.CockPitImage}
-                //                 source={require('../../images/InGame_Background_Cockpit.png')}
-                //                 resizeMode="cover"
-                //                 fadeDuration={0}
-                //                 />
-                // }
+                }
+                else if (gameState.shipIntegrity <= 20) {
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_20.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                }
+                else if (gameState.shipIntegrity <= 40)
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_40.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                else if (gameState.shipIntegrity <= 60)
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_60.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                else if (gameState.shipIntegrity <= 80)
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_80.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                else {
+                    return <Image style={styles.CockPitImage}
+                        source={require('../../images/InGame_Background_Cockpit.png')}
+                        resizeMode="cover"
+                        fadeDuration={0}
+                        />
+                }
             }) ()}
-            {/* <Image style={styles.CockPitImage}
-                source={require('../../images/InGame_Background_Cockpit.png')}
-                resizeMode="cover"
-            /> */}
             <ShipCockpitBackground endingGameDefeat={Props.endingGameDefeat} endingGameVictory={Props.endingGameVictory}  />
         </Animated.View>
         </>
