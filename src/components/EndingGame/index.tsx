@@ -89,7 +89,7 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
             position: 'relative',
             display: 'flex',
             width: '100%',
-            height: '74%',
+            height: '66%',
             alignItems: 'center',
             backgroundColor: Colors.secondary,
             borderWidth: 1,

@@ -71,32 +71,32 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
     }
 
     // Animate the cockpit to feel it moving a little bit
-    React.useEffect(() => {
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(position, {
-                    toValue: { x: 1, y: -1 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(position, {
-                    toValue: { x: 1, y: 0 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(position, {
-                    toValue: { x: -1, y: -1 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(position, {
-                    toValue: { x: 0, y: 0 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-            ])
-        ).start();
-    });
+    // React.useEffect(() => {
+    //     Animated.loop(
+    //         Animated.sequence([
+    //             Animated.timing(position, {
+    //                 toValue: { x: 1, y: -1 },
+    //                 duration: 1000,
+    //                 useNativeDriver: false,
+    //             }),
+    //             Animated.timing(position, {
+    //                 toValue: { x: 1, y: 0 },
+    //                 duration: 1000,
+    //                 useNativeDriver: false,
+    //             }),
+    //             Animated.timing(position, {
+    //                 toValue: { x: -1, y: -1 },
+    //                 duration: 1000,
+    //                 useNativeDriver: false,
+    //             }),
+    //             Animated.timing(position, {
+    //                 toValue: { x: 0, y: 0 },
+    //                 duration: 1000,
+    //                 useNativeDriver: false,
+    //             }),
+    //         ])
+    //     ).start();
+    // });
 
 
     return (
