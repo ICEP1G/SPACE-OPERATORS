@@ -128,32 +128,32 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
             {(() => {
                 if (gameState.shipIntegrity > 80) {
                     return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_pristine.png')}
+                                source={require('../../images/InGame_Background_Cockpit.png')}
                                 resizeMode="cover"
                                 fadeDuration={0}
                                 />
                 }
                 else if (gameState.shipIntegrity <= 80)
                     return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_80_damaged.png')}
+                                source={require('../../images/InGame_Background_Cockpit_80.png')}
                                 resizeMode="cover"
                                 fadeDuration={0}
                                 />
                 else if (gameState.shipIntegrity <= 60)
                     return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_60_damaged.png')}
+                                source={require('../../images/InGame_Background_Cockpit_60.png')}
                                 resizeMode="cover"
                                 fadeDuration={0}
                                 />
                 else if (gameState.shipIntegrity <= 40)
                     return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_40_damaged.png')}
+                                source={require('../../images/InGame_Background_Cockpit_40.png')}
                                 resizeMode="cover"
                                 fadeDuration={0}
                                 />
                 else if (gameState.shipIntegrity <= 20)
                     return <Image style={styles.CockPitImage}
-                            source={require('../../images/InGame_Background_Cockpit_20_damaged.png')}
+                            source={require('../../images/InGame_Background_Cockpit_20.png')}
                             resizeMode="cover"
                             fadeDuration={0}
                             />
