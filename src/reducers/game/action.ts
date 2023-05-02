@@ -2,12 +2,19 @@ import { PayloadAction} from '@reduxjs/toolkit';
 import { GameState } from './reducer';
 import { data_operation } from '../../models/types/data_operation';
 import { Player } from '../../models/types/Player';
+import { UserPlayer } from '../../models/UserPlayer';
 
 export const setGameIdAction = (state: GameState, action: PayloadAction<string>): GameState =>
 ({
     ...state,
     gameId: action.payload
 });
+
+export const setPlayerAtStartAction = (state: GameState, action: PayloadAction<UserPlayer[]>): GameState =>
+({
+    ...state,
+    playersAtStart: action.payload
+})
 
 export const setGameOperationAction = (state: GameState, action: PayloadAction<data_operation>): GameState =>
 ({
@@ -25,25 +32,25 @@ export const setGameShipIntegrityAction = (state: GameState, action: PayloadActi
 ({
     ...state,
     shipIntegrity: action.payload
-})
+});
 
 export const addButtonResultToGameAction = (state: GameState, action: PayloadAction<number>): GameState =>
 ({
     ...state,
     buttonResult: state.buttonResult.concat(action.payload)
-})
+});
 
 export const addSwitchResultToGameAction = (state: GameState, action: PayloadAction<number>): GameState =>
 ({
     ...state,
     switchResult: state.switchResult.concat(action.payload)
-})
+});
 
 export const removeSwitchResultToGameAction = (state: GameState, action: PayloadAction<number>): GameState =>
 ({
     ...state,
     switchResult: state.switchResult.filter(nb => nb !== action.payload)
-})
+});
 
 
 export const resetAllResultGameAction = (state: GameState): GameState =>
@@ -51,7 +58,7 @@ export const resetAllResultGameAction = (state: GameState): GameState =>
     ...state,
     buttonResult: [],
     switchResult: []
-})
+});
 
 export const resetOperationGameAction = (state: GameState): GameState => 
 ({
@@ -61,16 +68,39 @@ export const resetOperationGameAction = (state: GameState): GameState =>
     description: '',
     elements: [],
     result: {}
-})
+});
 
 export const resetDurationAction = (state: GameState): GameState => 
 ({
     ...state,
     duration: 0
-})
+});
 
 export const setPlayersGameAction = (state: GameState, action: PayloadAction<Player[]>): GameState =>
 ({
     ...state,
     playersStatus: action.payload
+});
+
+export const resetAllGameAction = (state: GameState): GameState =>
+({
+    ...state,
+    turn: 0,
+    role: '',
+    id: '',
+    duration: 0,
+    description: '',
+    elements: [],
+    result: {},
+    buttonResult: [],
+    switchResult: [],
+    shipIntegrity: 100,
+    playersStatus: [],
+});
+
+export const setDateAndTimeGameAction = (state: GameState, action: PayloadAction<string[]>): GameState =>
+({
+    ...state,
+    dateStart: action.payload[0],
+    timeStart: action.payload[1]
 });

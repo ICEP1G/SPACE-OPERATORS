@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
 import { Text, StyleSheet, BackHandler } from "react-native"
-import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton } from "./styles";
+import { HomeMainCtn, AppLogo, BackgroundImageCtn, ShipCtn, IdCtnView, PlayerNameCtn, InputPlayerName, EditLogo, ButtonsContainer, LeaveButton, TextLeaveButton, HomeWindow } from "./styles";
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelSquareView, SP_AestheticLine } from "../../styles_general";
 import { useEffect, useState } from "react";
 import { User } from "../../models/User";
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
                 setMainUserUuid(mainUser[0].uuid);
                 setMainUserName(mainUser[0].name);
             }
-        })
+        });
     }, []);
     
     // Lock or unlock the input Name
@@ -113,7 +113,7 @@ const Home: React.FC = () => {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                dispatch(setLobbyPlayer(dataPlayer.data.players))
+                dispatch(setLobbyPlayer(dataPlayer.data.players));
                 navigate("/Lobby");
             }
         }
@@ -131,6 +131,7 @@ const Home: React.FC = () => {
     }
     return (
         <>
+        <HomeWindow>
         
         <BackgroundImageCtn 
             source={require('../../images/MainMenu_Background_Left_Planet.png')}
@@ -140,7 +141,7 @@ const Home: React.FC = () => {
             <ShipImage/>
         </ShipCtn>
         <AppLogo
-            source={require('../../images/SPACEOPERATORS_logo_bold_strech.png')}
+            source={require('../../images/SPACEOPERATORS_logo.png')}
             resizeMode="contain"
         />
 
@@ -156,7 +157,7 @@ const Home: React.FC = () => {
 
         <IdCtnView>
             <SP_AestheticLine/>
-            <SP_LabelSquareView mini style={{marginRight: 3}}>
+            <SP_LabelSquareView mini style={[{marginRight: 3}, styles.shadow]}>
                 <Text style={{color: Colors.text, fontSize: 14, fontFamily: 'roboto-bold'}}>ID</Text>
             </SP_LabelSquareView>
             <SP_InfoView transparent centerContent>
@@ -168,7 +169,7 @@ const Home: React.FC = () => {
             <PlayerNameCtn style={styles.shadow}>
                 <SP_AestheticLine maxi/>
                 <InputPlayerName 
-                    style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }}
+                    style={[{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }, styles.shadow]}
                     editable={editableName}
                     defaultValue={mainUserName}
                     onChangeText={setMainUserName}
@@ -191,16 +192,16 @@ const Home: React.FC = () => {
                 <SP_Button primary 
                     style={{borderWidth: 1.5, borderColor: '#C7532F'}}
                     onPress={() => setModalVisible(true)}>
-                    <SP_TextButton >REJOINDRE UNE PARTIE</SP_TextButton>
+                    <SP_TextButton style={styles.shadow} >REJOINDRE UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button
                     style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
                     onPress={() => api_createGame()}
                     >
-                    <SP_TextButton>CREER UNE PARTIE</SP_TextButton>
+                    <SP_TextButton style={styles.shadow}>CREER UNE PARTIE</SP_TextButton>
                 </SP_Button>
                 <SP_Button 
-                    style={{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}}
+                    style={[{marginTop: 12, borderWidth: 1.5, borderColor: Colors.input}, styles.shadow]}
                     onPress={() => navigate("/Historic")}>
                     <SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton>
                 </SP_Button>
@@ -212,11 +213,11 @@ const Home: React.FC = () => {
         
         <ErrorMessage isDisplayed={errorBoxVisible} errorMessage={errorBoxMessage}></ErrorMessage>
 
+        </HomeWindow>
+
         </>
     )
 };
-
-
 
 const styles = StyleSheet.create({
     shadow:{
@@ -229,9 +230,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 3
     }
-})
-
-
-
+});
 
 export default Home;

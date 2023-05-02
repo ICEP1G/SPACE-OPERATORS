@@ -33,16 +33,12 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
 
     const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;;
 
-    const lobbyState: LobbyState = 
-        useAppSelector((state) => state.lobby);
-    const gameState: GameState = 
-        useAppSelector((state) => state.game);
-        
     // Lock or unlock the input Name
     const toggleButtonEditableName = () => {
         setEditableName(!editableName);
       };
 
+    // Shacking window animation
     const showErrorFeedbackAnimation = () => {
         Animated.sequence([
             Animated.timing(position, {
@@ -68,6 +64,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         ]).start();
     }
 
+    // Trigger the animation and display the error message
     const showErrorFeedback = (errorMessage: string) => {
         setErrorMessage(errorMessage);
         setDisplayError(true);
@@ -108,6 +105,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
         });
     }
 
+    //---------------------STYLES--------------------//
 
     const style = StyleSheet.create({
         ViewModal: {
@@ -122,12 +120,10 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
             zIndex: Props.visible ? 31 : -10,
             opacity: 1
         }
-    })
-
+    });
 
     return (
         <>
-        {/* <ViewModal visible={Props.visible}> */}
         <ViewModal visible={Props.visible} >
         <Animated.View style={[style.ViewModal, position.getLayout()]}>
 
@@ -143,25 +139,26 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
 
             <ContentView>
                 <GameIdCtn>
-                    <SP_AestheticLine/>
-                    <SP_LabelView><SP_TextLabel maxi style={{fontSize: 18}}>PARTIE ID</SP_TextLabel></SP_LabelView>
+                    <SP_AestheticLine style={styles.shadow}/>
+                    <SP_LabelView style={styles.shadow}><SP_TextLabel maxi style={{fontSize: 18}}>PARTIE ID</SP_TextLabel></SP_LabelView>
                     <GameIdInput
+                        style={styles.shadow}
                         defaultValue={gameId}
                         onChangeText={setNewGameId}
                     ></GameIdInput>
                 </GameIdCtn>
 
                 <PlayerNameCtn>
-                    <SP_AestheticLine />
+                    <SP_AestheticLine style={styles.shadow} />
                     <InputPlayerName 
-                        style={{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }}
+                        style={[{backgroundColor: Colors.input, color: Colors.text, fontFamily: 'roboto-medium', fontSize: 20 }, styles.shadow]}
                         editable={editableName}
                         defaultValue={Props.userName}
                         onChangeText={Props.setMainUserName}
                         onBlur={Props.onSaveUserName}
                         >
                     </InputPlayerName>
-                    <SP_Button mini style={{width: 40}} onPress={toggleButtonEditableName}>
+                    <SP_Button mini style={[{width: 40}, styles.shadow]} onPress={toggleButtonEditableName}>
                         {editableName ? <EditLogo
                             source={require('../../../assets/icons/user-check.png')}
                             resizeMode="contain"
@@ -176,7 +173,7 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
                 <ModalErrorMessage  displayError={displayError}>{errorMessage}</ModalErrorMessage>
                 
                 <SP_Button text 
-                    style={{position: 'relative', bottom: 0}}
+                    style={[{position: 'relative', bottom: 0}, styles.shadow]}
                     primary onPress={() => joinAGame()}>
                     <SP_TextButton italic>REJOINDRE LA PARTIE</SP_TextButton>
                 </SP_Button>
@@ -184,11 +181,24 @@ const HomeModal: React.FC<Props> = ({...Props}) => {
 
         </Animated.View>
         </ViewModal>
-        {/* </ViewModal> */}
+
         <ViewCtn visible={Props.visible}>
         </ViewCtn>
         </>
     )
 }
+
+const styles = StyleSheet.create({
+    shadow:{
+        shadowColor: "#000",
+        shadowOffset: {
+	    width: 0,
+	    height: 2,
+        },
+        shadowOpacity: 0.82,
+        shadowRadius: 2,
+        elevation: 3
+    }
+});
 
 export default HomeModal;

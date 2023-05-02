@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
 import { useEffect, useState } from "react";
-import { Text, Image } from "react-native"
+import { Text, Image, StyleSheet } from "react-native"
 import { Colors, SP_Button, SP_TextButton, SP_InfoView, SP_LabelView, SP_AestheticLine } from "../../styles_general";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { MainUserState } from "../../reducers/mainUser/reducer";
@@ -11,12 +11,15 @@ import { API_URL} from "../../services/WebSocket";
 import { socket, createNewSocket, ws_GenericResponse } from "../../services/WebSocket";
 import { data_players } from "../../models/types/data_players";
 import { LobbyState, setLobbyPlayer } from "../../reducers/lobby/reducer";
-import { GameState, setGameId, setPlayersGame } from "../../reducers/game/reducer";
+import { GameState, setGameId, setPlayersGame, setPlayerAtStart } from "../../reducers/game/reducer";
 import { data_start } from "../../models/types/data_start";
+import { setPlayerAtStartAction } from "../../reducers/game/action";
+import { UserPlayer } from "../../models/UserPlayer";
 
 const Lobby: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const userPlayerArray: UserPlayer[] = [];
     const playerElement: any = [];
 
     const [launchButtonPressable, setLaunchButtonPressable] = useState(false);
@@ -36,12 +39,19 @@ const Lobby: React.FC = () => {
             }
         })
         if (playerReady == lobbyState.players.length) {
-            setLaunchButtonPressable(true)
+            setLaunchButtonPressable(true);
         }
         else {
-            setLaunchButtonPressable(false)
+            setLaunchButtonPressable(false);
         }
     }, [lobbyState])
+
+    // Create the array of all players who has join the lobby for the InGame page
+    const addPlayerToGameAtStart = () => {
+        lobbyState.players.forEach((player) => {
+            userPlayerArray.push(UserPlayer(player.name, false))
+        });
+    }
 
 
     // Parse the message to the right data everytime a message is return from the WebSocket
@@ -50,39 +60,17 @@ const Lobby: React.FC = () => {
             const objectResponse: ws_GenericResponse = JSON.parse(event.data);
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                dispatch(setLobbyPlayer(dataPlayer.data.players))
+                dispatch(setLobbyPlayer(dataPlayer.data.players));
             }
             if (objectResponse.type == "start") {
                 dispatch(setGameId(lobbyState.gameId));
-                dispatch(setPlayersGame(lobbyState.players))
+                dispatch(setPlayersGame(lobbyState.players));
+                addPlayerToGameAtStart();
+                dispatch(setPlayerAtStart(userPlayerArray))
                 navigate("/InGame");
             }
         }
     });
-
-    // Display each player name in the lobby and update their status when they're ready
-    lobbyState.players.forEach((player, index) => {
-        playerElement.push(
-            <PlayerStatusCtn key={index}>
-                <PlayerNameCtn>
-                    <SP_AestheticLine></SP_AestheticLine>
-                    <SP_InfoView transparent>
-                        {index === 0 ?
-                        <AdminPlayer
-                        source={require('../../../assets/icons/crown.png')}
-                        resizeMode="cover"
-                        /> : ''
-                        }   
-                        <Text style={{color: Colors.text, fontSize: 17, fontFamily: 'roboto-regular'}}>{index === 0 ? (player.name.length <= 19 ? player.name : (player.name.substring(0,15) + "...")) : player.name}</Text>
-                    </SP_InfoView>
-                </PlayerNameCtn>
-                <StatusButton isReady={player.status}>
-                    <StatusButtonText isReady={player.status}>{player.status ? 'PRÊT' : 'EN ATTENTE'}</StatusButtonText>
-                </StatusButton>
-            </PlayerStatusCtn>
-        );
-
-    })
 
     // Tell the API that to set the player status to ready
     const setStatusReady = () => {
@@ -101,6 +89,31 @@ const Lobby: React.FC = () => {
         socket.send(JSON.stringify(dataStart));
     }
 
+
+    // Display each player name in the lobby and update their status when they're ready
+    lobbyState.players.forEach((player, index) => {
+        playerElement.push(
+            <PlayerStatusCtn key={index}>
+                <PlayerNameCtn>
+                    <SP_AestheticLine></SP_AestheticLine>
+                    <SP_InfoView transparent>
+                        {index === 0 ?
+                        <AdminPlayer
+                        source={require('../../../assets/icons/crown.png')}
+                        resizeMode="cover"
+                        /> : ''
+                        } 
+                        <Text style={{color: Colors.text, fontSize: 17, fontFamily: 'roboto-regular'}}>{index === 0 ? 
+                            (player.name.length <= 18 ? player.name : (player.name.substring(0,16) + "...")) 
+                            : (player.name.length <= 21 ? player.name : (player.name.substring(0,20) + "..."))}</Text>
+                    </SP_InfoView>
+                </PlayerNameCtn>
+                <StatusButton isReady={player.status}>
+                    <StatusButtonText isReady={player.status}>{player.status ? 'PRÊT' : 'EN ATTENTE'}</StatusButtonText>
+                </StatusButton>
+            </PlayerStatusCtn>
+        );
+    })
 
     return (
         <>
@@ -155,12 +168,18 @@ const Lobby: React.FC = () => {
 
             {
                 lobbyState.players[0].name == mainUserState.MainUser[0].name ?
+                (lobbyState.players.length > 1 ?
                 <LobbyLaunchButton
                     isPressable={launchButtonPressable}
                     onPress={LaunchGame}
                     >
-                    <SP_TextButton italic>DEMARRER LA PARTIE</SP_TextButton>
-                </LobbyLaunchButton>
+                    <SP_TextButton italic style={styles.shadow}>DEMARRER LA PARTIE</SP_TextButton>
+                </LobbyLaunchButton> :
+                <LobbyLaunchButton
+                    isPressable={false}
+                    >
+                    <SP_TextButton italic style={styles.shadow}>DEMARRER LA PARTIE</SP_TextButton>
+                </LobbyLaunchButton>)
                 : ''
             }
         </LobbyMainCtn>
@@ -197,17 +216,23 @@ const Lobby: React.FC = () => {
             style={{bottom: '9%', left: '40%'}}
         />
 
-        <RoverImage
-            source={require('../../images/rover.png')}
-            resizeMode="contain"
-            style={{bottom: '11%', left: '20%'}}
-        />
-
-
         </LobbyWindow>
 
         </>
     )
 };
+
+const styles = StyleSheet.create({
+    shadow:{
+        shadowColor: "#000",
+        shadowOffset: {
+	    width: 0,
+	    height: 2,
+        },
+        shadowOpacity: 0.82,
+        shadowRadius: 2,
+        elevation: 3
+    }
+});
 
 export default Lobby

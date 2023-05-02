@@ -48,11 +48,14 @@ export const HeaderCtn = styled.View`
     border-top-right-radius: 4px;
 `;
 
-export const HeaderView = styled.View`
+interface HeaderViewProps {
+    playerLeave: string
+}
+export const HeaderView = styled.View<HeaderViewProps>`
     flex: 1;
     flex-direction: row;
-    justify-content: flex-start;
-    padding-left: 16px;
+    justify-content: ${props => props.playerLeave === "LastPlayer" ? "center" : "flex-start"};
+    padding-left: ${props => props.playerLeave === "LastPlayer" ? 0 : "16px"};
     align-items: center;
     background-color: ${Colors.secondary};
     border-top-left-radius: 4px;

@@ -25,7 +25,7 @@ export const ViewModal = styled.View<ViewModalProps>`
     position: absolute;
     width: 85%;
     align-self: center;
-    top: 30%;
+    top: 29%;
     z-index: ${props => props.visible ? 31 : -10};
     opacity: ${props => props.visible ? 1 : 0};
 `;

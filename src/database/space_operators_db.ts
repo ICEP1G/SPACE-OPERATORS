@@ -18,6 +18,7 @@ export const initializeDatabase = () => {
                 GameId VARCHAR(10) NOT NULL,
                 Rounds INTEGER NOT NULL,
                 GameCreationDate VARCHAR(10) NOT NULL,
+                GameCreationTime VARCHAR(10) NOT NULL,
                 PlayersNames VARCHAR(500) NOT NULL
                 )
         `);

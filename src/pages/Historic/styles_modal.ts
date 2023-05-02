@@ -7,9 +7,9 @@ export const ModalContent = styled.View`
     position: relative;
     width: 95%;
     height: 70%;
-    top: 10%;
-    left: 2%;
-    background: rgba(80, 82, 83, 0.8);
+    align-self: center;
+    top: 6%;
+    background: rgba(80, 82, 83, 1);
     border: 1px solid rgba(143, 166, 155, 0.8);
     border-radius: 4px;
 `;
@@ -43,6 +43,8 @@ export const ModalHeaderTitleText = styled.Text`
     margin : 0 0 0 5%;
 `;
 
+//--------------------------//
+
 export const PlayerListModal = styled.ScrollView`
     width: 110%;
     height: 42px;
@@ -74,13 +76,13 @@ export const GameIDModal = styled.View`
 export const GameIDModalText = styled.Text`
     color: ${Colors.text};
     font-family: 'roboto-regular';
-    font-size: 18px;
+    font-size: 17px;
 `;
 
 export const GameIDValueText = styled.Text`
     color: ${Colors.text};
-    font-family: 'roboto-bold';
-    font-size: 20px;
+    font-family: 'roboto-medium';
+    font-size: 21px;
     margin : 0 0 0 2%;
 `;
 
@@ -94,7 +96,7 @@ export const RoundModal = styled.View`
 export const RoundModalText = styled.Text`
     color: ${Colors.text};
     font-family: 'roboto-regular';
-    font-size: 18px;
+    font-size: 17px;
 `;
 
 export const GamePlayerNameModal = styled.View`
@@ -110,12 +112,12 @@ export const GamePlayerLogoModal = styled.View`
     align-items: center;
     background-color: ${Colors.secondary};
     width: 42px;
-    margin: 0px 4px 0px 2px;
+    margin: 0px 4px 0px 0px;
     border-radius: 2px;
 `;
 
 export const Line = styled.View`
-    width: 290px;
+    width: 314px;
     height: 1px;
     left: 5%;
     background: #7B7B7B;

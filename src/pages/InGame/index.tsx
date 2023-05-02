@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useNavigate } from "react-router-native"
-import { useState, useRef } from "react";
-import { Text, Image } from "react-native"
+import { useState, useEffect } from "react";
+import { Text, Image, StyleSheet } from "react-native"
 import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { socket, ws_GenericResponse } from "../../services/WebSocket";
-import { GameState, resetAllResultGame, resetOperationGame, setGameOperation, setGameShipIntegrity, setPlayersGame } from "../../reducers/game/reducer";
+import { GameState, resetAllGame, resetAllResultGame, resetOperationGame, setDateAndTimeGame, setGameOperation, setGameShipIntegrity, setPlayerAtStart, setPlayersGame } from "../../reducers/game/reducer";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { BackGroundGameImageCtn, GameInfoCtn, GamePlayerInfoFirstCtn, GamePlayerInfoCtn, GameStateCtn, GameStateInfo, InGameWindow, RoundCtn, GamePlayerInfo, GamePlayerInfoSecondCtn, GameCtn, ContentValidateCtn, ContentValidateInfo, ContentValidateText, ValidateButtonReady, GameParentContainer } from "./styles";
 import InGameModal from "./index_modal";
@@ -21,11 +21,12 @@ import { VerifyIfRoundIsSuccessful } from "../../services/GameService";
 import { Result } from "../../models/types/Result";
 import ShipIntegrity from "../../components/ShipIntegrity";
 import { data_players } from "../../models/types/data_players";
-import ShipVictoryAnimation from "../../components/ShipVictoryAnimation";
 import moment from "moment";
 import { createOldGame } from "../../databaseObjects/OldGamesDAO";
 import { OldGame } from "../../models/OldGame";
 import { data_destroyed } from "../../models/types/data_destroyed";
+import EndingGame from "../../components/EndingGame";
+import { UserPlayer } from "../../models/UserPlayer";
 
 const InGame: React.FC = () => {
     const navigate = useNavigate();
@@ -35,25 +36,42 @@ const InGame: React.FC = () => {
     const remainingTimeElement: any = [];
 
     const [modalVisible, setModalVisible] = useState(false);
-    // Allow to be passed to the children component to play an animation when the result is wrong
     const [roundFail, setRoundFail] = useState(false);
-    const [playerLeave, setPlayerLeave] = useState(false);
-    const [endScreenVisible, setEndScreenVisible] = useState(false);
-    const [gameVictory, setGameVictory] = useState(false);
+    const [playerLeave, setPlayerLeave] = useState('');
+    
+    const [endingGameDefeat, setEndingGameDefeat] = useState(false);
+    const [endingGameVictory, setEndingGameVictory] = useState(false);
 
     const gameState: GameState = 
         useAppSelector((state) => state.game);
 
+    // Add the date and time of the game when starting
+    useEffect(() => {
+        const dateAndTime: string[] = [];
+        dateAndTime.push(moment().format('DD-MM-YYYY'));
+        dateAndTime.push(moment().format('HH:mm'));
+        dispatch(setDateAndTimeGame(dateAndTime));
+    }, []);
+
+    // Check the list of the remaining players and tell the reducer which players left the game
+    useEffect(() => {
+        const playerList: UserPlayer[] = [...gameState.playersAtStart];
+
+        const updatedPlayerList = playerList.map(player => {
+            if (gameState.playersStatus.find((p) => p.name == player.name)) {
+                return {...player, hasLeave: false};
+            }
+            else { return {...player, hasLeave: true}; }
+        })
+        dispatch(setPlayerAtStart(updatedPlayerList));
+    }, [gameState.playersStatus]);
+
 
     // Save the game in the database (to be viewed in the history page)
     const saveGameInDatabase = (turn: number) => {
-        const date = moment().format('DD-MM-YYYY');
-        const playerList: string[] = [];
-        gameState.playersStatus.forEach(player => {
-            playerList.push(player.name);
-        });
-        createOldGame(OldGame(gameState.gameId, turn, date, JSON.stringify(playerList)));
+        createOldGame(OldGame(gameState.gameId, turn -1, gameState.dateStart, gameState.timeStart, JSON.stringify(gameState.playersAtStart)));
     }
+    
 
     // Handle socket response
     socket.onmessage = (event => {
@@ -75,20 +93,28 @@ const InGame: React.FC = () => {
             }
             if (objectResponse.type == "players") {
                 const dataPlayer: data_players = JSON.parse(event.data);
-                dispatch(setPlayersGame(dataPlayer.data.players));
-                setPlayerLeave(true);
-                setModalVisible(true);
+                // Display the modal if a player leave but doesn't if it's the end of the game
+                if (endingGameDefeat === false && endingGameVictory === false) {
+                    dispatch(setPlayersGame(dataPlayer.data.players));
+                    setModalVisible(true);
+                    if (dataPlayer.data.players.length < 2) {
+                        setPlayerLeave('LastPlayer');
+                    }
+                    else {
+                        setPlayerLeave('PlayerLeave');
+                    }
+                }
             }
             if (objectResponse.type == "destroyed") {
                 const dataDestroyed: data_destroyed = JSON.parse(event.data);
                 saveGameInDatabase(dataDestroyed.data.turns);
-                setGameVictory(false);
-                setEndScreenVisible(true);
+                setEndingGameDefeat(true);
+                dispatch(resetAllGame());
             }
             if (objectResponse.type == "victory") {
                 saveGameInDatabase(gameState.turn);
-                setGameVictory(true);
-                setEndScreenVisible(true);
+                setEndingGameVictory(true);
+                dispatch(resetAllGame());
             }
         }
     });
@@ -109,7 +135,6 @@ const InGame: React.FC = () => {
         dispatch(resetAllResultGame());
         socket.send(JSON.stringify(dataFinish));
     }
-
 
 
     // Display the component Role if there is an info about it
@@ -134,19 +159,22 @@ const InGame: React.FC = () => {
         <>
         <InGameWindow>
 
-            <ShipVictoryAnimation isVisible={endScreenVisible} isVictory={false}/>
-
-            <ShipCockpit roundFail={roundFail} />
+            <ShipCockpit 
+                roundFail={roundFail} 
+                endingGameDefeat={endingGameDefeat}
+                endingGameVictory={endingGameVictory}
+            />
 
             <InGameModal 
                 visible={modalVisible}
                 setModalVisible={setModalVisible}
                 playerLeaves={playerLeave}
                 setPlayerLeave={setPlayerLeave}
-                saveGameInDatabase={saveGameInDatabase}
             />
 
             <GameParentContainer>
+
+                <EndingGame isDefeat={endingGameDefeat} isVictory={endingGameVictory} />
 
                 <BackGroundGameImageCtn
                     source={require('../../images/InGame_Background_Dot.png')}

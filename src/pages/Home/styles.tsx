@@ -1,9 +1,16 @@
 import styled from "styled-components/native";
 
-export const BackgroundImageCtn = styled.Image`
+export const HomeWindow = styled.KeyboardAvoidingView`
     position: relative;
+    flex: 1;
+    flex-direction: column;
+`;
+
+
+export const BackgroundImageCtn = styled.Image`
+    position: absolute;
     width: 100%;
-    height: 110%;
+    height: 100%;
 `;
 
 export const ShipCtn = styled.View`
@@ -15,6 +22,7 @@ export const ShipCtn = styled.View`
     justify-content: center;
     align-items: center;
     z-index: 10;
+    top: -8%;
 `;
 
 export const AppLogo = styled.Image`
@@ -22,7 +30,7 @@ export const AppLogo = styled.Image`
     width: 85%;
     align-self: center;
     z-index: 20;
-    top: -1%;
+    top: -7%;
 `;
 
 export const IdCtnView = styled.View`
@@ -33,21 +41,21 @@ export const IdCtnView = styled.View`
     display: flex;
     flex-direction: row;
     align-self: center;
-    top: 20%;
+    top: 14%;
 `;
 
 
 //--------------------BOTTOM CONTAINER-----------------------//
 
 export const HomeMainCtn = styled.ScrollView`
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 100%;
     flex: 1;
     flex-direction: column;
     padding: 0 8% ;
     z-index: 20;
-    top: 19%;
+    bottom: -13%
 `;
 
 

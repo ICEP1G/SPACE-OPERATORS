@@ -1,13 +1,13 @@
 
 export interface UserPlayer {
-    id: string,
     name: string
+    hasLeave: boolean
 }
 
 export const UserPlayer = (
-    id: string,
-    name: string
+    name: string,
+    hasLeave: boolean
 ): UserPlayer => ({
-    id,
-    name
+    name,
+    hasLeave
 });
