@@ -18,7 +18,7 @@ export const GameParentContainer = styled.View`
 export const BackGroundGameImageCtn = styled.Image`
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 110%;
     z-index: 15;
 `;
 

@@ -950,15 +950,15 @@ const ShipCockpitBackground: React.FC<Props> = ({...Props}) => {
                     source={require("../../images/asteroid1.png")}
                     resizeMode="contain"
                 />
-                <Animated.Image style={[styles.AnimationElement, asteroid2Size, asteroid2Position.getLayout(), {transform: [{rotate}] }]}
+                <Animated.Image style={[styles.AnimationElement, asteroid2Size, asteroid2Position.getLayout()]}
                     source={require("../../images/asteroid2.png")}
                     resizeMode="contain"
                 />
-                <Animated.Image style={[styles.AnimationElement, asteroid3Size, asteroid3Position.getLayout(), {transform: [{rotate}] }]}
+                <Animated.Image style={[styles.AnimationElement, asteroid3Size, asteroid3Position.getLayout()]}
                     source={require("../../images/asteroid3.png")}
                     resizeMode="contain"
                 />
-                <Animated.Image style={[styles.AnimationElement, asteroid4Size, asteroid4Position.getLayout(), {transform: [{rotate}] }]}
+                <Animated.Image style={[styles.AnimationElement, asteroid4Size, asteroid4Position.getLayout()]}
                     source={require("../../images/asteroid2.png")}
                     resizeMode="contain"
                 />
