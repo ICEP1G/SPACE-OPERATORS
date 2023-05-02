@@ -54,8 +54,7 @@ const ShipIntegrity: React.FC = () => {
             alignItems: 'center',
             backgroundColor: gameState.shipIntegrity > 40 ? '#67BDBC' : Colors.primary
         }
-    })
-
+    });
 
     return (
         <>

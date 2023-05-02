@@ -74,14 +74,7 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
         <>
         <Animated.View style={[styles.AnimatedView, position.getLayout()]} >
             {(() => {
-                if (gameState.shipIntegrity <= 0) {
-                    return <Image style={styles.CockPitImage}
-                            source={require('../../images/InGame_Background_Cockpit_20.png')}
-                            resizeMode="cover"
-                            fadeDuration={0}
-                            />
-                }
-                else if (gameState.shipIntegrity <= 20) {
+                if (gameState.shipIntegrity <= 20) {
                     return <Image style={styles.CockPitImage}
                             source={require('../../images/InGame_Background_Cockpit_20.png')}
                             resizeMode="cover"
@@ -120,7 +113,6 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
     )
 }
 
-
 const styles = StyleSheet.create({
     AnimatedView: {
         position: "relative",
@@ -152,5 +144,4 @@ const styles = StyleSheet.create({
     }
 });
 
-
-export default ShipCockpit
+export default ShipCockpit;

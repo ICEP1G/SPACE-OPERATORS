@@ -10,6 +10,7 @@ const WaitingLoader: React.FC = () => {
     const [secondView] = useState(new Animated.Value(30));
     const [thirdView] = useState(new Animated.Value(30));
 
+    // Animate each rectangle to expand vertically
     useEffect(() => {
         Animated.loop(
             Animated.sequence([
@@ -45,7 +46,7 @@ const WaitingLoader: React.FC = () => {
                 })
             ])
         ).start();
-    })
+    });
 
     // Allow to define the height dynamically in the style of the component
     const animatedStyleOne = {height: firstView};
@@ -59,9 +60,8 @@ const WaitingLoader: React.FC = () => {
             marginHorizontal: 2.5,
             backgroundColor: Colors.uiborder
         }
-    })
+    });
     
-
     return (
         <>
         <WaitingLoaderCtn>
