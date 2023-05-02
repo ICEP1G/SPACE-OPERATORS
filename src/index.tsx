@@ -59,7 +59,6 @@ const App = () => {
       </SafeAreaView>
         :
         <SafeAreaViewIOS style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "relative", zIndex: 10, backgroundColor: 'black'}}>
-          <StatusBar />
           <NativeRouter>
           <Routes>
             <Route path="/" element={<Home/>} />

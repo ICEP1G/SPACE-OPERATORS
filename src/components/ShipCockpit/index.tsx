@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, Animated } from "react-native"
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import ShipCockpitBackground from "../ShipCockpitBackground";
 import { GameState } from "../../reducers/game/reducer";
 import { useAppSelector } from "../../store";
@@ -70,71 +70,50 @@ const ShipCockpit: React.FC<Props> = ({...Props}) => {
         Props.roundFail = false;
     }
 
-    // Animate the cockpit to feel it moving a little bit
-    React.useEffect(() => {
-        Animated.loop(
-            Animated.sequence([
-                Animated.timing(position, {
-                    toValue: { x: 1, y: -1 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(position, {
-                    toValue: { x: 1, y: 0 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(position, {
-                    toValue: { x: -1, y: -1 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-                Animated.timing(position, {
-                    toValue: { x: 0, y: 0 },
-                    duration: 1000,
-                    useNativeDriver: false,
-                }),
-            ])
-        ).start();
-    });
-
-
     return (
         <>
         <Animated.View style={[styles.AnimatedView, position.getLayout()]} >
-            {/* {(() => {
-                switch (gameState.shipIntegrity) {
-                    case 80:
-                        return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_80.png')}
-                                resizeMode="cover"
-                                />
-                    case 60:
-                        return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_60.png')}
-                                resizeMode="cover"
-                                />
-                    case 40:
-                        return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_40.png')}
-                                resizeMode="cover"
-                                />
-                    case 20:
-                        return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit_20.png')}
-                                resizeMode="cover"
-                                />
-                    default:
-                        return <Image style={styles.CockPitImage}
-                                source={require('../../images/InGame_Background_Cockpit.png')}
-                                resizeMode="cover"
-                                />
+            {(() => {
+                if (gameState.shipIntegrity <= 0) {
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_20.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
                 }
-            }) ()} */}
-            <Image style={styles.CockPitImage}
-                source={require('../../images/InGame_Background_Cockpit.png')}
-                resizeMode="cover"
-            />
+                else if (gameState.shipIntegrity <= 20) {
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_20.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                }
+                else if (gameState.shipIntegrity <= 40)
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_40.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                else if (gameState.shipIntegrity <= 60)
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_60.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                else if (gameState.shipIntegrity <= 80)
+                    return <Image style={styles.CockPitImage}
+                            source={require('../../images/InGame_Background_Cockpit_80.png')}
+                            resizeMode="cover"
+                            fadeDuration={0}
+                            />
+                else {
+                    return <Image style={styles.CockPitImage}
+                        source={require('../../images/InGame_Background_Cockpit.png')}
+                        resizeMode="cover"
+                        fadeDuration={0}
+                        />
+                }
+            }) ()}
             <ShipCockpitBackground endingGameDefeat={Props.endingGameDefeat} endingGameVictory={Props.endingGameVictory}  />
         </Animated.View>
         </>
@@ -149,6 +128,13 @@ const styles = StyleSheet.create({
         height: '22%',
         display: 'flex',
         zIndex: 12
+    },
+    AnimatedAlarmFading: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#ba2e0f',
+        zIndex: 16    
     },
     CockPitImage: {
         position: "absolute",

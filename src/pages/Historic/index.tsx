@@ -70,8 +70,8 @@ const Historic: React.FC = () => {
         }
         else {
             iconArrayElement.push(
-                <Image key={1} style={{width: 20, height: 20}}
-                    source={require('../../../assets/icons/poo_white.png')}
+                <Image key={1} style={{width: 22, height: 22}}
+                    source={require('../../../assets/icons/meteo.png')}
             />);
         }
         return iconArrayElement;
@@ -143,11 +143,11 @@ const Historic: React.FC = () => {
                     <HistoricContentCtn>
                         <ContentHeaderCtn>
                             <ContentHeaderText>HISTORIQUE DES PARTIES</ContentHeaderText>
-                            <Image
+                            {/* <Image
                                 style={{width: 24, position: 'relative', left: -1}}
                                 source={require('../../../assets/icons/meteo.png')}
                                 resizeMode="contain"
-                            />
+                            /> */}
                         </ContentHeaderCtn>
 
                         <ContentScrollViewCtn>

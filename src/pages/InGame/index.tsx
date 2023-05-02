@@ -69,7 +69,7 @@ const InGame: React.FC = () => {
 
     // Save the game in the database (to be viewed in the history page)
     const saveGameInDatabase = (turn: number) => {
-        createOldGame(OldGame(gameState.gameId, turn -1, gameState.dateStart, gameState.timeStart, JSON.stringify(gameState.playersAtStart)));
+        createOldGame(OldGame(gameState.gameId, turn, gameState.dateStart, gameState.timeStart, JSON.stringify(gameState.playersAtStart)));
     }
     
 

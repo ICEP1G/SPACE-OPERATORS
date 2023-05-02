@@ -78,7 +78,7 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
         ViewWindow: {
             position: 'relative',
             width: '100%',
-            height: '100%',
+            height: '110%',
             display: 'flex',
             padding: 32,
             zIndex: 30,
@@ -89,7 +89,7 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
             position: 'relative',
             display: 'flex',
             width: '100%',
-            height: '74%',
+            height: '66%',
             alignItems: 'center',
             backgroundColor: Colors.secondary,
             borderWidth: 1,

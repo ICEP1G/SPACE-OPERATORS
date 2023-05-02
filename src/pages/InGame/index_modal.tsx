@@ -26,7 +26,7 @@ const InGameModal: React.FC<Props> = ({...Props}) => {
 
     // Save the game but tell that the game was leaved
     const saveGameInDatabaseIfLeaving = (turn: number) => {
-        createOldGame(OldGame(gameState.gameId, turn -1, gameState.dateStart, gameState.timeStart, "leave"));
+        createOldGame(OldGame(gameState.gameId, turn, gameState.dateStart, gameState.timeStart, "leave"));
     }
 
     // save the game then leave it by navigating to the Home page and trigger a message to be displayed to others players
