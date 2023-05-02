@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-native"
 import { SP_Button, SP_TextButton } from "../../styles_general";
 import { ViewModal, HeaderCtn, HeaderView, HeaderText, HeaderButton, HeaderButtonIcon, ContentView, ViewCtn, ContentText } from "./styles_modal";
 import { socket, createNewSocket } from "../../services/WebSocket";
-import { GameState, resetAllGame } from "../../reducers/game/reducer";
+import { GameState, resetAllGame, resetShipIntegrity } from "../../reducers/game/reducer";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { createOldGame } from "../../databaseObjects/OldGamesDAO";
 import { OldGame } from "../../models/OldGame";
@@ -36,6 +36,7 @@ const InGameModal: React.FC<Props> = ({...Props}) => {
         saveGameInDatabaseIfLeaving(gameState.turn);
         Props.setModalVisible(false);
         dispatch(resetAllGame());
+        dispatch(resetShipIntegrity());
         navigate('/');
     };
 

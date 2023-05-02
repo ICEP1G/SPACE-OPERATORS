@@ -5,6 +5,8 @@ import { Colors, SP_Button, SP_TextButton } from "../../styles_general";
 import { useFonts } from "expo-font";
 import { useNavigate } from "react-router-native";
 import { createNewSocket, socket } from "../../services/WebSocket";
+import { GameState, resetShipIntegrity } from "../../reducers/game/reducer";
+import { useAppDispatch, useAppSelector } from "../../store";
 
 
 interface Props {
@@ -13,6 +15,10 @@ interface Props {
 }
 const EndingGame: React.FC<Props> = ({...Props}) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    const gameState: GameState =
+        useAppSelector((state) => state.game);
 
     const defeatArray: any = [];
     const victoryArray: any = [];
@@ -147,8 +153,8 @@ const EndingGame: React.FC<Props> = ({...Props}) => {
     if (Props.isDefeat || Props.isVictory) {
         buttonsArray.push(
             <View key={3} style={styles.ButtonCtn}>
-                <SP_Button primary onPress={() => [navigate('/'), socket.close(), createNewSocket()]}><SP_TextButton>MENU PRINCIPALE</SP_TextButton></SP_Button>
-                <SP_Button onPress={() => [navigate('/Historic'), socket.close(), createNewSocket()]}><SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton></SP_Button>
+                <SP_Button primary onPress={() => [navigate('/'), dispatch(resetShipIntegrity()), socket.close(), createNewSocket()]}><SP_TextButton>MENU PRINCIPALE</SP_TextButton></SP_Button>
+                <SP_Button onPress={() => [navigate('/Historic'), dispatch(resetShipIntegrity()), socket.close(), createNewSocket()]}><SP_TextButton>HISTORIQUE DES PARTIES</SP_TextButton></SP_Button>
             </View>
         );
     }

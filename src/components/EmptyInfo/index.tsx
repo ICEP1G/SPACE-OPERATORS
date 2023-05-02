@@ -7,7 +7,6 @@ import { LineView, TextEmpty } from "./styles";
 
 const EmptyInfo: React.FC = () => {
 
-
     return (
         <>
         <View style={styles.style}>
@@ -29,4 +28,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default EmptyInfo
+export default EmptyInfo;
