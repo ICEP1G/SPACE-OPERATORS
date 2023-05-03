@@ -20,12 +20,18 @@
     "android": {
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/space_operator_logo_apk.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.icep1g.SPACEOPERATORS"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ac60b217-bd0b-450d-bfc1-1e8b7697dbe2"
+      }
     }
   }
 }
