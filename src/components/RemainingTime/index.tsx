@@ -12,10 +12,10 @@ interface Props {
 
 const RemainingTime: React.FC<Props> = ({...Props}) => {
     const [timing, setTiming] = useState(0);
-
+    
     const gameState: GameState = 
         useAppSelector((state) => state.game);
-
+    
     // Allow the loading bar to decrease each 100 milliseconde
     useEffect(() => {
         const roundDuration = Props.duration * 1000;

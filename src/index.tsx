@@ -47,7 +47,7 @@ const App = () => {
     <Provider store={store}>
       {Platform.OS === 'android' ?
         <SafeAreaView style={{width: phoneScreen.width, height: phoneScreen.height, flex: 1, flexDirection: "column", position: "relative", zIndex: 10, backgroundColor: 'black'}}>
-          <StatusBar />
+          <StatusBar barStyle={"light-content"} backgroundColor={'black'}/>
           <NativeRouter>
           <Routes>
             <Route path="/" element={<Home/>} />
